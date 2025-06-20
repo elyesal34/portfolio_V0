@@ -11,9 +11,16 @@ const CV = () => {
       competences: ["Développement d'applications", "Bases de données", "Gestion de projet", "Cybersécurité"]
     },
     {
+      diplome: "BTS MCO",
+      etablissement: "Lycée Albert Camus",
+      periode: "2020 - 2022",
+      description: "Management Commercial Opérationnel",
+      competences: ["Vente et relation client", "Animation de l'offre commerciale", "Gestion opérationnelle", "Management d'équipe"]
+    },
+    {
       diplome: "Baccalauréat STI2D",
       etablissement: "Lycée Technique",
-      periode: "2019 - 2022",
+      periode: "2020",
       description: "Sciences et Technologies de l'Industrie et du Développement Durable",
       competences: ["Mathématiques", "Physique appliquée", "Systèmes d'information", "Innovation technologique"]
     }
