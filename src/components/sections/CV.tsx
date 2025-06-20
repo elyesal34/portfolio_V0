@@ -1,4 +1,3 @@
-import React from 'react';
 import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from 'lucide-react';
 
 const CV = () => {
