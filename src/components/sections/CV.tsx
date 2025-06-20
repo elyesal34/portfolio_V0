@@ -59,7 +59,7 @@ const CV = () => {
     },
     {
       categorie: "Bases de données",
-      items: ["MySQL", "PostgreSQL", "MongoDB", "Redis"]
+      items: ["MySQL", "PostgreSQL", "MongoDB"]
     },
     {
       categorie: "Outils & Technologies",
