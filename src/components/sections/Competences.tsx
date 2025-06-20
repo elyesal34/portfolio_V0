@@ -1,4 +1,3 @@
-import React from 'react';
 import { Code, Database, Globe, Smartphone, Shield, Users, Wrench, BookOpen } from 'lucide-react';
 
 const Competences = () => {

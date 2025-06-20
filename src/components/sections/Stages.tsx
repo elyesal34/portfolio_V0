@@ -1,4 +1,3 @@
-import React from 'react';
 import { Calendar, MapPin, Building, Users, Target, Award } from 'lucide-react';
 
 const Stages = () => {

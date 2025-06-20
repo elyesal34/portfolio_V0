@@ -1,4 +1,3 @@
-import React from 'react';
 import { Code2, Database, Globe, Smartphone, Shield, Users } from 'lucide-react';
 
 const AteliersPro = () => {

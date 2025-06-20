@@ -1,4 +1,3 @@
-import React from 'react';
 import { Github, ExternalLink, Code, Database, Smartphone, Globe, Award, Calendar } from 'lucide-react';
 
 const Productions = () => {

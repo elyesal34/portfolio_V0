@@ -1,4 +1,3 @@
-import React from 'react';
 import { BookOpen, TrendingUp, Lightbulb, ExternalLink, Calendar, Tag } from 'lucide-react';
 
 const Veilles = () => {

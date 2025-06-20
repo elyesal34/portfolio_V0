@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from './components/Navbar';
 import Accueil from './components/sections/Accueil';
 import CV from './components/sections/CV';

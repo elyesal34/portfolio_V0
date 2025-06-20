@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowDown, Code, Database, Smartphone } from 'lucide-react';
 
 const Accueil = () => {
