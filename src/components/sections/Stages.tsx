@@ -1,0 +1,173 @@
+import React from 'react';
+import { Calendar, MapPin, Building, Users, Target, Award } from 'lucide-react';
+
+const Stages = () => {
+  const stages = [
+    {
+      entreprise: "TechSolutions SARL",
+      poste: "Développeur Web Junior",
+      duree: "6 semaines",
+      periode: "Mai - Juin 2023",
+      lieu: "Paris, France",
+      description: "Stage de première année axé sur le développement web et la découverte du monde professionnel.",
+      missions: [
+        "Développement d'un site vitrine avec PHP et MySQL",
+        "Maintenance et mise à jour de sites existants",
+        "Participation aux réunions d'équipe",
+        "Documentation des procédures de développement"
+      ],
+      competences: ["PHP", "MySQL", "HTML/CSS", "JavaScript", "Git"],
+      resultats: [
+        "Site web fonctionnel livré en production",
+        "Amélioration des performances de 30%",
+        "Documentation complète rédigée"
+      ]
+    },
+    {
+      entreprise: "InnovaTech",
+      poste: "Développeur Full-Stack",
+      duree: "8 semaines",
+      periode: "Avril - Juin 2024",
+      lieu: "Lyon, France",
+      description: "Stage de deuxième année avec des responsabilités accrues sur des projets d'envergure.",
+      missions: [
+        "Développement d'une application web complète avec React et Node.js",
+        "Conception et implémentation d'une API REST",
+        "Tests unitaires et intégration continue",
+        "Formation des utilisateurs finaux"
+      ],
+      competences: ["React", "Node.js", "MongoDB", "Docker", "Jest", "CI/CD"],
+      resultats: [
+        "Application déployée avec succès",
+        "Réduction du temps de traitement de 50%",
+        "Formation de 15 utilisateurs"
+      ]
+    }
+  ];
+
+  return (
+    <section id="stages" className="min-h-screen pt-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Stages en Entreprise</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Les stages constituent une partie essentielle de la formation BTS SIO, 
+            permettant de mettre en pratique les compétences acquises et de découvrir 
+            le monde professionnel.
+          </p>
+        </div>
+
+        <div className="space-y-12">
+          {stages.map((stage, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">{stage.poste}</h3>
+                    <div className="flex items-center space-x-4 text-blue-100">
+                      <div className="flex items-center">
+                        <Building className="w-4 h-4 mr-1" />
+                        <span>{stage.entreprise}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        <span>{stage.periode}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        <span>{stage.lieu}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4 md:mt-0">
+                    <span className="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm font-medium">
+                      {stage.duree}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <p className="text-gray-600 mb-6">{stage.description}</p>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div>
+                    <h4 className="flex items-center text-lg font-semibold text-gray-800 mb-3">
+                      <Target className="w-5 h-5 mr-2 text-blue-500" />
+                      Missions principales
+                    </h4>
+                    <ul className="space-y-2">
+                      {stage.missions.map((mission, missionIndex) => (
+                        <li key={missionIndex} className="flex items-start">
+                          <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-gray-600">{mission}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="flex items-center text-lg font-semibold text-gray-800 mb-3">
+                      <Users className="w-5 h-5 mr-2 text-green-500" />
+                      Compétences utilisées
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {stage.competences.map((competence, compIndex) => (
+                        <span key={compIndex} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                          {competence}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="flex items-center text-lg font-semibold text-gray-800 mb-3">
+                      <Award className="w-5 h-5 mr-2 text-purple-500" />
+                      Résultats obtenus
+                    </h4>
+                    <ul className="space-y-2">
+                      {stage.resultats.map((resultat, resultIndex) => (
+                        <li key={resultIndex} className="flex items-start">
+                          <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-gray-600">{resultat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 bg-white rounded-xl p-8 shadow-lg">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Bilan des stages</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Apports professionnels</h4>
+              <ul className="space-y-2 text-gray-600">
+                <li>• Découverte du monde de l'entreprise</li>
+                <li>• Application concrète des compétences techniques</li>
+                <li>• Développement de l'autonomie</li>
+                <li>• Amélioration des compétences relationnelles</li>
+                <li>• Compréhension des enjeux métier</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Compétences développées</h4>
+              <ul className="space-y-2 text-gray-600">
+                <li>• Gestion de projet en environnement professionnel</li>
+                <li>• Communication avec les clients et utilisateurs</li>
+                <li>• Respect des délais et contraintes</li>
+                <li>• Travail en équipe pluridisciplinaire</li>
+                <li>• Veille technologique et adaptation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Stages;
