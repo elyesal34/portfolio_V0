@@ -17,19 +17,19 @@ const Accueil = () => {
           <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                Étudiant en
+                Allani Elyes
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  BTS SIO
+                  BTS SIO SLAM
                 </span>
               </h1>
               <div className="text-2xl md:text-3xl font-semibold text-blue-300">
-                Option SLAM
+                Développeur Full-Stack
               </div>
             </div>
             
             <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-2xl">
-              Passionné par le développement logiciel et la création d'applications innovantes. 
-              Spécialisé dans les solutions web et mobiles modernes.
+              Étudiant passionné par le développement logiciel et la création d'applications innovantes. 
+              Spécialisé dans les solutions web et mobiles modernes avec React, PHP et Node.js.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -68,7 +68,7 @@ const Accueil = () => {
             <div className="relative">
               <img
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
-                alt="Developer workspace"
+                alt="Allani Elyes - Développeur BTS SIO SLAM workspace"
                 className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500"
               />
               

@@ -94,7 +94,7 @@ const CV = () => {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Curriculum Vitae</h2>
           <p className="text-xl text-gray-600">
-            Étudiant en BTS SIO option SLAM, passionné par le développement logiciel
+            Allani Elyes - Étudiant en BTS SIO option SLAM, passionné par le développement logiciel
           </p>
         </div>
         
@@ -103,15 +103,15 @@ const CV = () => {
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-8 text-white">
             <div className="flex flex-col md:flex-row items-center md:items-start">
               <div className="md:w-32 md:h-32 w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-6">
-                <span className="text-2xl font-bold">JS</span>
+                <span className="text-2xl font-bold">AE</span>
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-3xl font-bold mb-2">John Smith</h3>
-                <p className="text-xl text-blue-100 mb-4">Étudiant BTS SIO - Développeur Full-Stack</p>
+                <h3 className="text-3xl font-bold mb-2">Allani Elyes</h3>
+                <p className="text-xl text-blue-100 mb-4">Étudiant BTS SIO SLAM - Développeur Full-Stack</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-100">
                   <div className="flex items-center justify-center md:justify-start">
                     <Mail className="w-4 h-4 mr-2" />
-                    <span>john.smith@email.com</span>
+                    <span>allanielyes34@gmail.com</span>
                   </div>
                   <div className="flex items-center justify-center md:justify-start">
                     <Phone className="w-4 h-4 mr-2" />
