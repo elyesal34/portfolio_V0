@@ -85,7 +85,7 @@ const CV = () => {
   const langues = [
     { langue: "Français", niveau: "Natif" },
     { langue: "Anglais", niveau: "B2 - Intermédiaire avancé" },
-    { langue: "Espagnol", niveau: "A2 - Élémentaire" }
+    { langue: "Allemand", niveau: "A1 - Notions" }
   ];
 
   return (
