@@ -287,12 +287,13 @@ const CV = () => {
         {/* Bouton de téléchargement */}
         <div className="text-center mt-8">
           <a
-            href="/cv-elyes-allani.pdf"
-            download
-            className="inline-flex items-center space-x-2 bg-blue-500 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-lg"
+             href="/cv-elyes-allani.pdf"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="inline-flex items-center space-x-2 bg-blue-500 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-lg"
           >
             <FileText className="w-5 h-5" />
-            <span>Télécharger le CV (PDF)</span>
+            <span>Voir le CV (PDF)</span>
           </a>
         </div>
       </div>
