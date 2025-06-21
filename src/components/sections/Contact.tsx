@@ -78,8 +78,8 @@ const Contact = () => {
     {
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
-      value: "linkedin.com/in/votre-profil",
-      link: "https://linkedin.com/in/votre-profil"
+      value: "linkedin.com/in/elyes-allani-034607174/",
+      link: "https://www.linkedin.com/in/elyes-allani-034607174/"
     },
     {
       icon: <Github className="w-5 h-5" />,
