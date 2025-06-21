@@ -21,6 +21,31 @@ const Contact = () => {
     });
   };
 
+  // Types for EmailJS template parameters
+  /**
+   * Parameters for the admin email template.
+   * Keys must match the variables defined in your EmailJS template.
+   */
+  type AdminTemplateParams = {
+    from_name: string;
+    from_email: string;
+    subject: string;
+    message: string;
+    to_email: string;
+  };
+
+  /**
+   * Parameters for the user confirmation email template.
+   * Keys must match the variables defined in your EmailJS template.
+   */
+  type UserTemplateParams = {
+    to_name: string;
+    to_email: string;
+    subject: string;
+    message: string;
+    admin_email: string;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -28,7 +53,7 @@ const Contact = () => {
 
     try {
       // Template pour l'email à l'administrateur (vous)
-      const adminTemplateParams = {
+      const adminTemplateParams: AdminTemplateParams = {
         from_name: formData.nom,
         from_email: formData.email,
         subject: formData.sujet,
@@ -37,7 +62,7 @@ const Contact = () => {
       };
 
       // Template pour l'email de confirmation à l'utilisateur
-      const userTemplateParams = {
+      const userTemplateParams: UserTemplateParams = {
         to_name: formData.nom,
         to_email: formData.email,
         subject: formData.sujet,
@@ -48,17 +73,16 @@ const Contact = () => {
       // Envoi de l'email à l'administrateur
       await emailjs.send(
         'service_ec775jm', // Service ID
-        'template_user_copy', // Template ID pour l'admin
+        'template_user_copy', // Template ID pour l'email à l'administrateur
         adminTemplateParams,
         'C8UPNrlfpOfee-ItS' // Public Key
       );
 
       // Envoi de l'email de confirmation à l'utilisateur
       await emailjs.send(
-        'service_ec775jm', // Même service ID
-        'template_z9suhch', // Template ID pour la copie utilisateur (à créer)
+        'service_ec775jm', // Service ID
+        'template_z9suhch', // Template ID pour l'email de confirmation à l'utilisateur
         userTemplateParams,
-        'C8UPNrlfpOfee-ItS' // Public Key
       );
 
       setStatus('success');
@@ -83,8 +107,8 @@ const Contact = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Téléphone",
-      value: "06 XX XX XX XX",
-      link: "tel:+33XXXXXXXXX"
+      value: "06 XX XX XX XX", // Placeholder number
+      link: "#" // Placeholder link, update with real number e.g. "tel:+336XXXXXXXX" when available
     },
     {
       icon: <MapPin className="w-5 h-5" />,
@@ -101,8 +125,8 @@ const Contact = () => {
     {
       icon: <Github className="w-5 h-5" />,
       label: "GitHub",
-      value: "github.com/votre-username",
-      link: "https://github.com/votre-username"
+      value: "github.com/elyes-allani",
+      link: "https://github.com/elyes-allani"
     }
   ];
 
@@ -173,29 +197,6 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Instructions de configuration mises à jour */}
-            <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
-              <h4 className="text-lg font-bold text-blue-900 mb-3">Configuration EmailJS requise</h4>
-              <p className="text-blue-800 text-sm mb-3">
-                Pour que le formulaire fonctionne avec la copie utilisateur, vous devez :
-              </p>
-              <ol className="list-decimal list-inside text-blue-800 text-sm space-y-1">
-                <li>Créer un compte sur <a href="https://emailjs.com" target="_blank" rel="noopener noreferrer" className="underline">emailjs.com</a></li>
-                <li>Créer un service email (Gmail, Outlook, etc.)</li>
-                <li>Créer deux templates :</li>
-                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                  <li><strong>template_4vr2upi</strong> : pour recevoir les messages</li>
-                  <li><strong>template_user_copy</strong> : pour la copie utilisateur</li>
-                </ul>
-                <li>Remplacer les IDs dans le code</li>
-              </ol>
-              <div className="mt-3 p-3 bg-blue-100 rounded-lg">
-                <p className="text-blue-900 text-sm font-medium">Template de copie utilisateur suggéré :</p>
-                <p className="text-blue-800 text-xs mt-1">
-                  {"Bonjour {{to_name}}, merci pour votre message concernant '{{subject}}'. Voici une copie de votre message : {{message}}. Je vous répondrai rapidement à cette adresse email."}
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* Formulaire de contact */}
@@ -341,7 +342,7 @@ const Contact = () => {
                 Envoyer un email
               </a>
               <a
-                href="https://linkedin.com/in/votre-profil"
+                href="https://www.linkedin.com/in/elyes-allani-034607174/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors"
