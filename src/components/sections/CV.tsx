@@ -27,41 +27,38 @@ const CV = () => {
 
   const experiences = [
     {
-      poste: "Développeur Full-Stack",
-      entreprise: "InnovaTech",
-      periode: "Avril - Juin 2024",
+      poste: "Stagiaire Developpeur informatique",
+      entreprise: "Coach Internet",
+      periode: "Janvier - Février 2025",
+      type: "Stage",
+      missions: [
+        "Utilisation de l'API Google Maps pour intégrer des fonctionnalités de géolocalisation",
+        "Web scraping pour extraire des données de sites web",
+        "Développement d'une application web de gestion de données"
+      ],
+      technologies: ["JavaScript", "API Google Maps", "Web Scraping", "Python", "Apify"]
+    },
+    {
+      poste: "Stagiaire Developpeur informatique",
+      entreprise: "CYRIAQUE MAZERES",
+      periode: "Mai - Juin 2024",
       type: "Stage",
       missions: [
         "Développement d'une application web complète avec React et Node.js",
-        "Conception et implémentation d'une API REST",
-        "Tests unitaires et intégration continue",
-        "Formation des utilisateurs finaux"
+        "Tests unitaires et intégration continue"
       ],
-      technologies: ["React", "Node.js", "MongoDB", "Docker", "Jest"]
-    },
-    {
-      poste: "Développeur Web Junior",
-      entreprise: "TechSolutions SARL",
-      periode: "Mai - Juin 2023",
-      type: "Stage",
-      missions: [
-        "Développement d'un site vitrine avec PHP et MySQL",
-        "Maintenance et mise à jour de sites existants",
-        "Participation aux réunions d'équipe",
-        "Documentation des procédures de développement"
-      ],
-      technologies: ["PHP", "MySQL", "HTML/CSS", "JavaScript", "Git"]
+      technologies: ["React", "Node.js", "Html", "CSS", "JavaScript", "Git"]
     }
   ];
 
   const competencesTechniques = [
     {
       categorie: "Langages",
-      items: ["Java", "PHP", "JavaScript/TypeScript", "Python", "C#", "SQL"]
+      items: ["Java", "PHP", "JavaScript/TypeScript", "Python", "React", "SQL"]
     },
     {
       categorie: "Frameworks & Bibliothèques",
-      items: ["React", "Laravel", "Node.js", "Express", "Vue.js", "Bootstrap"]
+      items: ["React", "Laravel", "Node.js", "Bootstrap", "Tailwind CSS", "Angular", "AndroidStudio"]
     },
     {
       categorie: "Bases de données",
@@ -73,7 +70,7 @@ const CV = () => {
     }
   ];
 
-  const certifications = [
+  /*const certifications = [
     {
       nom: "Oracle Certified Associate Java",
       organisme: "Oracle",
@@ -86,7 +83,7 @@ const CV = () => {
       date: "2024",
       statut: "Prévu"
     }
-  ];
+  ];*/
 
   const langues = [
     { langue: "Français", niveau: "Natif" },
@@ -237,27 +234,32 @@ const CV = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-              {/* Certifications */}
-              <div>
-                <h4 className="text-xl font-bold text-gray-900 mb-4">Certifications</h4>
-                <div className="space-y-3">
-                  {certifications.map((cert, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div>
-                        <div className="font-medium text-gray-900">{cert.nom}</div>
-                        <div className="text-sm text-gray-600">{cert.organisme} - {cert.date}</div>
-                      </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        cert.statut === 'Obtenue' ? 'bg-green-100 text-green-800' :
-                        cert.statut === 'En cours' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-blue-100 text-blue-800'
-                      }`}>
-                        {cert.statut}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              {/* Certifications (commenté pour l'instant) */}
+
+              {/*
+  <div>
+    <h4 className="text-xl font-bold text-gray-900 mb-4">Certifications</h4>
+    <div className="space-y-3">
+    
+      {certifications.map((cert, index) => (
+        <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <div>
+            <div className="font-medium text-gray-900">{cert.nom}</div>
+            <div className="text-sm text-gray-600">{cert.organisme} - {cert.date}</div>
+          </div>
+          <span className={`px-2 py-1 rounded text-xs font-medium ${
+            cert.statut === 'Obtenue' ? 'bg-green-100 text-green-800' :
+            cert.statut === 'En cours' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-blue-100 text-blue-800'
+          }`}>
+            {cert.statut}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+*/}
+
 
               {/* Langues */}
               <div>
