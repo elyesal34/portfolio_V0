@@ -286,7 +286,8 @@ const CV = () => {
         {/* Bouton de téléchargement */}
         <div className="text-center mt-8">
           <a
-            href="#"
+            href="/cv-elyes-allani.pdf"
+            download
             className="inline-flex items-center space-x-2 bg-blue-500 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-lg"
           >
             <FileText className="w-5 h-5" />
