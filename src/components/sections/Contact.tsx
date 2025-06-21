@@ -108,13 +108,13 @@ const Contact = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Téléphone",
-      value: "06 XX XX XX XX", // Placeholder number
+      value: "06 52 80 97 98", // Placeholder number
       link: "#" // Placeholder link, update with real number e.g. "tel:+336XXXXXXXX" when available
     },
     {
       icon: <MapPin className="w-5 h-5" />,
       label: "Localisation",
-      value: "France",
+      value: "Montpellier, France",
       link: "#"
     },
     {
