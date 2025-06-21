@@ -48,7 +48,7 @@ const Contact = () => {
       // Envoi de l'email à l'administrateur
       await emailjs.send(
         'service_ec775jm', // Service ID
-        'template_4vr2upi', // Template ID pour l'admin
+        'template_user_copy', // Template ID pour l'admin
         adminTemplateParams,
         'C8UPNrlfpOfee-ItS' // Public Key
       );
