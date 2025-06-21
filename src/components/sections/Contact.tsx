@@ -27,8 +27,8 @@ const Contact = () => {
     setStatus('idle');
 
     try {
-      // Configuration EmailJS
-      const templateParams = {
+      // Template pour l'email à l'administrateur (vous)
+      const adminTemplateParams = {
         from_name: formData.nom,
         from_email: formData.email,
         subject: formData.sujet,
@@ -36,16 +36,33 @@ const Contact = () => {
         to_email: 'allanielyes34@gmail.com'
       };
 
-      // Envoi de l'email via EmailJS
+      // Template pour l'email de confirmation à l'utilisateur
+      const userTemplateParams = {
+        to_name: formData.nom,
+        to_email: formData.email,
+        subject: formData.sujet,
+        message: formData.message,
+        admin_email: 'allanielyes34@gmail.com'
+      };
+
+      // Envoi de l'email à l'administrateur
       await emailjs.send(
-        'service_ec775jm', // Service ID (à configurer)
-        'template_4vr2upi', // Template ID (à configurer)
-        templateParams,
-        'C8UPNrlfpOfee-ItS' // Public Key (à configurer)
+        'service_ec775jm', // Service ID
+        'template_4vr2upi', // Template ID pour l'admin
+        adminTemplateParams,
+        'C8UPNrlfpOfee-ItS' // Public Key
+      );
+
+      // Envoi de l'email de confirmation à l'utilisateur
+      await emailjs.send(
+        'service_ec775jm', // Même service ID
+        'template_user_copy', // Template ID pour la copie utilisateur (à créer)
+        userTemplateParams,
+        'C8UPNrlfpOfee-ItS' // Public Key
       );
 
       setStatus('success');
-      setStatusMessage('Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.');
+      setStatusMessage('Message envoyé avec succès ! Vous avez reçu une copie de votre message par email. Je vous répondrai dans les plus brefs délais.');
       setFormData({ nom: '', email: '', sujet: '', message: '' });
     } catch (error) {
       console.error('Erreur lors de l\'envoi:', error);
@@ -156,18 +173,30 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Instructions de configuration */}
+            {/* Instructions de configuration mises à jour */}
             <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
               <h4 className="text-lg font-bold text-blue-900 mb-3">Configuration EmailJS requise</h4>
               <p className="text-blue-800 text-sm mb-3">
-                Pour que le formulaire fonctionne, vous devez configurer EmailJS :
+                Pour que le formulaire fonctionne avec la copie utilisateur, vous devez :
               </p>
               <ol className="list-decimal list-inside text-blue-800 text-sm space-y-1">
                 <li>Créer un compte sur <a href="https://emailjs.com" target="_blank" rel="noopener noreferrer" className="underline">emailjs.com</a></li>
                 <li>Créer un service email (Gmail, Outlook, etc.)</li>
-                <li>Créer un template d'email</li>
+                <li>Créer deux templates :</li>
+                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                  <li><strong>template_4vr2upi</strong> : pour recevoir les messages</li>
+                  <li><strong>template_user_copy</strong> : pour la copie utilisateur</li>
+                </ul>
                 <li>Remplacer les IDs dans le code</li>
               </ol>
+              <div className="mt-3 p-3 bg-blue-100 rounded-lg">
+                <p className="text-blue-900 text-sm font-medium">Template de copie utilisateur suggéré :</p>
+                <p className="text-blue-800 text-xs mt-1">
+                  "Bonjour {{to_name}}, merci pour votre message concernant '{{subject}}'. 
+                  Voici une copie de votre message : {{message}}. 
+                  Je vous répondrai rapidement à cette adresse email."
+                </p>
+              </div>
             </div>
           </div>
 
@@ -266,6 +295,14 @@ const Contact = () => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="Décrivez votre demande, vos besoins ou toute information que vous souhaitez partager..."
                 />
+              </div>
+
+              {/* Nouvelle section d'information sur la copie */}
+              <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-center text-blue-800 text-sm">
+                  <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span>Vous recevrez une copie de votre message par email pour vos archives.</span>
+                </div>
               </div>
 
               <button
