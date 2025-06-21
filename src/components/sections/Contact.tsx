@@ -56,7 +56,7 @@ const Contact = () => {
       // Envoi de l'email de confirmation à l'utilisateur
       await emailjs.send(
         'service_ec775jm', // Même service ID
-        'template_user_copy', // Template ID pour la copie utilisateur (à créer)
+        'template_z9suhch', // Template ID pour la copie utilisateur (à créer)
         userTemplateParams,
         'C8UPNrlfpOfee-ItS' // Public Key
       );
