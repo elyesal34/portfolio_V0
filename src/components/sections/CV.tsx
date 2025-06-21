@@ -29,27 +29,28 @@ const CV = () => {
   // Expériences professionnelles
   const experiences = [
     {
-      poste: "Stagiaire Developpeur informatique",
-      entreprise: "Coach Internet",
-      periode: "Janvier - Février 2025",
-      type: "Stage",
+      poste: "Manutentionnaire BTP",
+      entreprise: "Brault",
+      periode: "Juillet 2022",
+      type: "Interim",
       missions: [
-        "Utilisation de l'API Google Maps pour intégrer des fonctionnalités de géolocalisation",
-        "Web scraping pour extraire des données de sites web",
-        "Développement d'une application web de gestion de données"
+        "Manoeauvre sur les chantiers de construction",
+        "Aide à la préparation des matériaux et outils",
+        "Respect des normes de sécurité sur les chantiers"
       ],
-      technologies: ["JavaScript", "API Google Maps", "Web Scraping", "Python", "Apify"]
+      technologies: []
     },
     {
-      poste: "Stagiaire Developpeur informatique",
-      entreprise: "CYRIAQUE MAZERES",
-      periode: "Mai - Juin 2024",
-      type: "Stage",
+      poste: "Employé Grandes Surfaces",
+      entreprise: "Intermarché",
+      periode: "Juin 2022",
+      type: "Emploi saisonnier",
       missions: [
-        "Développement d'une application web complète avec React et Node.js",
-        "Tests unitaires et intégration continue"
+        "Réception et mise en rayon des produits",
+        "Gestion des stocks et inventaires",
+        "Accueil et conseil client"
       ],
-      technologies: ["React", "Node.js", "Html", "CSS", "JavaScript", "Git"]
+      technologies: []
     }
   ];
 
@@ -124,11 +125,11 @@ const CV = () => {
                   </div>
                   <div className="flex items-center justify-center md:justify-start">
                     <Phone className="w-4 h-4 mr-2" />
-                    <span>06 XX XX XX XX</span>
+                    <span>06 52 80 97 98</span>
                   </div>
                   <div className="flex items-center justify-center md:justify-start">
                     <MapPin className="w-4 h-4 mr-2" />
-                    <span>France</span>
+                    <span>Montpellier, France</span>
                   </div>
                 </div>
               </div>
