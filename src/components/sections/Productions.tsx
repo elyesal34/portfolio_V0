@@ -207,6 +207,7 @@ const Productions = () => {
         </div>
 
         {/* Autres réalisations */}
+        {/*
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Autres Réalisations</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -225,6 +226,10 @@ const Productions = () => {
             ))}
           </div>
         </div>
+        */}
+
+        {/* Récompenses et distinctions */}
+
         {/* Statistiques */}
         {/*
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
