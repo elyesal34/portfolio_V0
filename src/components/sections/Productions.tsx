@@ -142,6 +142,7 @@ const Productions = () => {
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Projets Développés</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
             {projets.map((projet, index) => (
               <div key={index} className="bg-gray-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 {projet.article && (
@@ -150,6 +151,7 @@ const Productions = () => {
                     <p className="text-gray-700 text-sm">{projet.article.contenu}</p>
                   </div>
                 )}
+
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center">
