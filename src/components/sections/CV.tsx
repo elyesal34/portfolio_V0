@@ -1,6 +1,7 @@
 import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from 'lucide-react';
 
 const CV = () => {
+  // Formations
   const formations = [
     {
       diplome: "BTS SIO option SLAM",
@@ -25,6 +26,7 @@ const CV = () => {
     }
   ];
 
+  // Expériences professionnelles
   const experiences = [
     {
       poste: "Stagiaire Developpeur informatique",
@@ -51,6 +53,7 @@ const CV = () => {
     }
   ];
 
+  // Compétences techniques regroupées par catégories
   const competencesTechniques = [
     {
       categorie: "Langages",
@@ -70,6 +73,7 @@ const CV = () => {
     }
   ];
 
+  // Certifications (commentées pour l'instant)
   /*const certifications = [
     {
       nom: "Oracle Certified Associate Java",
@@ -85,6 +89,7 @@ const CV = () => {
     }
   ];*/
 
+  // Langues
   const langues = [
     { langue: "Français", niveau: "Natif" },
     { langue: "Anglais", niveau: "B2 - Intermédiaire avancé" },
@@ -92,6 +97,7 @@ const CV = () => {
   ];
 
   return (
+    
     <section id="cv" className="min-h-screen pt-16 bg-gray-100">
       <div className="max-w-6xl mx-auto px-4 py-20">
         <div className="text-center mb-12">
