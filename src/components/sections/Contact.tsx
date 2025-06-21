@@ -85,7 +85,7 @@ const Contact = () => {
         userTemplateParams,
         'C8UPNrlfpOfee-ItS' // Public Key
       );
-
+// Si l'envoi des deux emails réussit, on peut considérer que le message a été envoyé avec succès
       setStatus('success');
       setStatusMessage('Message envoyé avec succès ! Vous avez reçu une copie de votre message par email. Je vous répondrai dans les plus brefs délais.');
       setFormData({ nom: '', email: '', sujet: '', message: '' });
