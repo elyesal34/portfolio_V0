@@ -3,24 +3,28 @@ import { Github, ExternalLink, Code, Database, Smartphone, Globe, Award, Calenda
 const Productions = () => {
   const projets = [
     {
-      titre: "Application de Gestion de Bibliothèque",
-      type: "Application Web",
-      icon: <Globe className="w-6 h-6" />,
-      description: "Système complet de gestion de bibliothèque avec interface administrateur et utilisateur, gestion des emprunts et réservations.",
-      technologies: ["PHP", "Laravel", "MySQL", "Bootstrap", "JavaScript"],
-      fonctionnalites: [
-        "Gestion des livres et auteurs",
-        "Système d'emprunt et de réservation",
-        "Interface administrateur",
-        "Recherche avancée",
-        "Génération de rapports"
-      ],
-      duree: "3 mois",
-      contexte: "Projet d'atelier professionnel",
-      statut: "Terminé",
-      github: "#",
-      demo: "#"
-    },
+  titre: "GestionVisiteur_bd_distante",
+  type: "Application Web",
+  icon: <Globe className="w-6 h-6" />,
+  description: "Application web permettant la gestion des visiteurs avec une base de données distante. Authentification, ajout, modification et suppression de visiteurs.",
+  technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
+  fonctionnalites: [
+    "Connexion sécurisée",
+    "Ajout/modification/suppression de visiteurs",
+    "Recherche de visiteurs",
+    "Gestion distante de la base de données",
+    "Interface utilisateur responsive"
+  ],
+  duree: "2 mois",
+  contexte: "Projet d'atelier professionnel",
+  statut: "Terminé",
+  github: "https://github.com/elyesal34/GestionVisiteur_bd_distante",
+  demo: "#", // Mets ici le lien de démo si tu en as un
+  article: {
+  titre: "Gestion des visiteurs avec base distante : retour d'expérience",
+  contenu: `Ce projet m'a permis de mettre en œuvre une application CRUD complète en local. J'ai appris à sécuriser l'accès, à optimiser les requêtes SQL et à concevoir une interface utilisateur claire. Ce projet a été l'occasion de travailler en autonomie sur toutes les étapes, du MCD à la mise en production.`
+}
+},
     {
       titre: "API REST E-commerce",
       type: "Backend API",
@@ -80,6 +84,8 @@ const Productions = () => {
     }
   ];
 
+  {/* Réalisations et contributions */}
+  {/*
   const realisations = [
     {
       titre: "Participation au Hackathon Regional",
@@ -100,6 +106,7 @@ const Productions = () => {
       prix: "Meilleure présentation étudiante"
     }
   ];
+  */}
 
   const getStatutColor = (statut: string) => {
     switch (statut) {
@@ -137,6 +144,12 @@ const Productions = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {projets.map((projet, index) => (
               <div key={index} className="bg-gray-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {projet.article && (
+                  <div className="mt-4 p-4 bg-blue-50 rounded">
+                    <h5 className="font-bold mb-2">{projet.article.titre}</h5>
+                    <p className="text-gray-700 text-sm">{projet.article.contenu}</p>
+                  </div>
+                )}
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center">
