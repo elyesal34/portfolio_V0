@@ -73,7 +73,7 @@ const Contact = () => {
       // Envoi de l'email à l'administrateur
       await emailjs.send(
         'service_ec775jm', // Service ID
-        'template_user_copy', // Template ID pour l'email à l'administrateur
+        'template_4vr2upi', // Template ID pour l'email à l'administrateur
         adminTemplateParams,
         'C8UPNrlfpOfee-ItS' // Public Key
       );
@@ -81,7 +81,7 @@ const Contact = () => {
       // Envoi de l'email de confirmation à l'utilisateur
       await emailjs.send(
         'service_ec775jm', // Service ID
-        'template_z9suhch', // Template ID pour l'email de confirmation à l'utilisateur
+        'template_user_copy', // Template ID pour l'email de confirmation à l'utilisateur
         userTemplateParams,
       );
 
