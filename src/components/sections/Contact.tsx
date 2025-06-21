@@ -192,9 +192,7 @@ const Contact = () => {
               <div className="mt-3 p-3 bg-blue-100 rounded-lg">
                 <p className="text-blue-900 text-sm font-medium">Template de copie utilisateur suggéré :</p>
                 <p className="text-blue-800 text-xs mt-1">
-                  "Bonjour {{to_name}}, merci pour votre message concernant '{{subject}}'. 
-                  Voici une copie de votre message : {{message}}. 
-                  Je vous répondrai rapidement à cette adresse email."
+                  {"Bonjour {{to_name}}, merci pour votre message concernant '{{subject}}'. Voici une copie de votre message : {{message}}. Je vous répondrai rapidement à cette adresse email."}
                 </p>
               </div>
             </div>
