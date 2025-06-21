@@ -83,6 +83,7 @@ const Contact = () => {
         'service_ec775jm', // Service ID
         'template_user_copy', // Template ID pour l'email de confirmation à l'utilisateur
         userTemplateParams,
+        'C8UPNrlfpOfee-ItS' // Public Key
       );
 
       setStatus('success');
