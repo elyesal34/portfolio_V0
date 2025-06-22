@@ -1,4 +1,4 @@
-import { Github, ExternalLink, Code, Database, Smartphone, Globe, Award, Calendar } from 'lucide-react';
+import { Github, ExternalLink, Code, Database, Smartphone, Globe } from 'lucide-react';
 
 const Productions = () => {
   const projets = [
