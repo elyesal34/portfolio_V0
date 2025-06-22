@@ -118,10 +118,10 @@ const Contact = () => {
       link: "mailto:allanielyes34@gmail.com"
     },
     {
-      icon: <Phone className="w-5 h-5" />,
-      label: "Téléphone",
-      value: "06 52 80 97 98", // Placeholder number
-      link: "+33652809798" // Placeholder link, update with real number e.g. "tel:+336XXXXXXXX" when available
+  icon: <Phone className="w-5 h-5" />,
+  label: "Téléphone",
+  value: "06 52 80 97 98",
+  link: "/elyes-allani.vcf" // Lien vers la vCard
     },
     {
       icon: <MapPin className="w-5 h-5" />,
@@ -173,11 +173,12 @@ const Contact = () => {
                   <div className="text-blue-500 mr-4">{coord.icon}</div>
                   <div>
                     <div className="font-medium text-gray-800">{coord.label}</div>
-                    <a 
+                    <a
                       href={coord.link}
+                      download
                       className="text-gray-600 hover:text-blue-500 transition-colors"
-                      target={coord.link.startsWith('http') ? '_blank' : '_self'}
-                      rel={coord.link.startsWith('http') ? 'noopener noreferrer' : ''}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       {coord.value}
                     </a>
