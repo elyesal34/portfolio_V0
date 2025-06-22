@@ -17,9 +17,7 @@ const Contact = () => {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null); // ReCAPTCHA token
 
   // Fonction pour gérer les changements dans les champs du formulaire
-  // Cette fonction met à jour l'état du formulaire en fonction des entrées de l'utilisateur
-  // Elle prend un événement de changement comme argument et met à jour l'état `formData`
- 
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
