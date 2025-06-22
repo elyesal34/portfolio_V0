@@ -3,8 +3,6 @@ import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, Check
 import emailjs from '@emailjs/browser';
 import ReCAPTCHA from "react-google-recaptcha";
 
-const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-
 const Contact = () => {
   const [formData, setFormData] = useState({
     nom: '',
@@ -16,7 +14,13 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null); // ReCAPTCHA token
 
+  // Fonction pour gérer les changements dans les champs du formulaire
+  // Cette fonction met à jour l'état du formulaire en fonction des entrées de l'utilisateur
+  // Elle prend un événement de changement comme argument et met à jour l'état `formData`
+  // avec la valeur du champ modifié, en utilisant le nom du champ comme clé
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
