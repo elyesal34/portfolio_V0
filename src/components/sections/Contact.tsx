@@ -175,12 +175,11 @@ const Contact = () => {
                     <div className="font-medium text-gray-800">{coord.label}</div>
                     <a
                       href={coord.link}
-                      download
                       className="text-gray-600 hover:text-blue-500 transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      
+
                       {coord.value}
                     </a>
                   </div>
