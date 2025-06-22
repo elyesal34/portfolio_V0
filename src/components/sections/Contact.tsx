@@ -180,6 +180,7 @@ const Contact = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
+                      
                       {coord.value}
                     </a>
                   </div>
