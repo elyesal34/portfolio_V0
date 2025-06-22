@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import ReCAPTCHA from "react-google-recaptcha";
+
+const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -50,6 +53,14 @@ const Contact = () => {
     e.preventDefault();
     setIsLoading(true);
     setStatus('idle');
+
+    // Vérification du reCAPTCHA
+  if (!recaptchaToken) {
+    setStatus('error');
+    setStatusMessage('Veuillez valider le reCAPTCHA.');
+    setIsLoading(false);
+    return;
+  }
 
     try {
       // Template pour l'email à l'administrateur (vous)
@@ -109,7 +120,7 @@ const Contact = () => {
       icon: <Phone className="w-5 h-5" />,
       label: "Téléphone",
       value: "06 52 80 97 98", // Placeholder number
-      link: "#" // Placeholder link, update with real number e.g. "tel:+336XXXXXXXX" when available
+      link: "+33652809798" // Placeholder link, update with real number e.g. "tel:+336XXXXXXXX" when available
     },
     {
       icon: <MapPin className="w-5 h-5" />,
@@ -304,6 +315,13 @@ const Contact = () => {
                   <span>Vous recevrez une copie de votre message par email pour vos archives.</span>
                 </div>
               </div>
+
+              {/* ReCAPTCHA */}
+              <ReCAPTCHA
+                sitekey="6LcHfmkrAAAAAEmyM6dmIM9iQq0a18vRmp6DviN4"
+                onChange={token => setRecaptchaToken(token)}
+                className="mb-6"
+              />
 
               <button
                 type="submit"
