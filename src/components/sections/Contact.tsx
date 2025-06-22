@@ -121,7 +121,7 @@ const Contact = () => {
   icon: <Phone className="w-5 h-5" />,
   label: "Téléphone",
   value: "06 52 80 97 98",
-  link: "/elyes-allani.vcf" // Lien vers la vCard
+  link: "tel:+33652809798" // Lien d'appel direct
     },
     {
       icon: <MapPin className="w-5 h-5" />,
@@ -176,8 +176,6 @@ const Contact = () => {
                     <a
                       href={coord.link}
                       className="text-gray-600 hover:text-blue-500 transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       {coord.value}
                     </a>
