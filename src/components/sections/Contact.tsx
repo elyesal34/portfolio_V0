@@ -127,7 +127,7 @@ const Contact = () => {
       icon: <MapPin className="w-5 h-5" />,
       label: "Localisation",
       value: "Montpellier, France",
-      link: "#"
+      link: "https://www.google.com/maps/place/Montpellier"
     },
     {
       icon: <Linkedin className="w-5 h-5" />,
