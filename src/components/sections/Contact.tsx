@@ -183,7 +183,7 @@ const Contact = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Emploi (après diplôme)</span>
                   <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                    Septembre 2024
+                    Septembre 2025
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

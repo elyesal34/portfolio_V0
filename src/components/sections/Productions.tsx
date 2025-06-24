@@ -7,7 +7,7 @@ const Productions = () => {
   type: "Application Web",
   icon: <Globe className="w-6 h-6" />,
   description: "Application web permettant la gestion des visiteurs avec une base de données distante. Authentification, ajout, modification et suppression de visiteurs.",
-  technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
+  technologies: ["PHP", "MySQL", "Androiid Studio", "Java"],
   fonctionnalites: [
     "Connexion sécurisée",
     "Ajout/modification/suppression de visiteurs",
@@ -22,7 +22,7 @@ const Productions = () => {
   demo: "#", // Mets ici le lien de démo si tu en as un
   article: {
   titre: "Gestion des visiteurs avec base distante : retour d'expérience",
-  contenu: `Ce projet m'a permis de mettre en œuvre une application CRUD complète en local. J'ai appris à sécuriser l'accès, à optimiser les requêtes SQL et à concevoir une interface utilisateur claire. Ce projet a été l'occasion de travailler en autonomie sur toutes les étapes, du MCD à la mise en production.`
+  contenu: `Ce projet m'a permis de mettre en œuvre une application CRUD complète en distant. J'ai appris à sécuriser l'accès, à optimiser les requêtes SQL et à concevoir une interface utilisateur claire. Ce projet a été l'occasion de travailler en autonomie sur toutes les étapes, du MCD à la mise en production.`
 }
 },
     {
