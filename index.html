@@ -6,31 +6,46 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Preconnect pour améliorer les performances -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://api.emailjs.com" />
+    <link rel="preconnect" href="https://www.google.com" />
+    
+    <!-- DNS Prefetch pour les domaines externes -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="//www.google-analytics.com" />
+    
     <!-- SEO Meta Tags -->
     <title>Allani Elyes - Portfolio BTS SIO SLAM | Développeur Full-Stack</title>
     <meta name="description" content="Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js. Découvrez mes projets, stages et compétences techniques." />
     <meta name="keywords" content="Allani Elyes, BTS SIO, SLAM, développeur, full-stack, React, PHP, Node.js, portfolio, stage, alternance, emploi" />
     <meta name="author" content="Allani Elyes" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://elyes-allani.netlify.app" />
     
     <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
     <meta property="og:title" content="Allani Elyes - Portfolio BTS SIO SLAM | Développeur Full-Stack" />
     <meta property="og:description" content="Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js." />
     <meta property="og:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" />
+    <meta property="og:image:alt" content="Espace de travail de développeur avec ordinateur et code" />
     <meta property="og:url" content="https://elyes-allani.netlify.app" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Portfolio Allani Elyes" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Allani Elyes - Portfolio BTS SIO SLAM" />
     <meta name="twitter:description" content="Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack." />
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" />
+    <meta name="twitter:image:alt" content="Espace de travail de développeur avec ordinateur et code" />
     
     <!-- Additional SEO -->
     <meta name="theme-color" content="#3B82F6" />
     <meta name="msapplication-TileColor" content="#3B82F6" />
+    <meta name="format-detection" content="telephone=no" />
     
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -42,6 +57,12 @@
       "description": "Étudiant en BTS SIO option SLAM, spécialisé dans le développement d'applications web et mobiles",
       "url": "https://elyes-allani.netlify.app",
       "email": "allanielyes34@gmail.com",
+      "telephone": "+33652809798",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Montpellier",
+        "addressCountry": "FR"
+      },
       "knowsAbout": ["JavaScript", "React", "PHP", "Node.js", "MySQL", "MongoDB", "Python", "Java"],
       "alumniOf": {
         "@type": "EducationalOrganization",
@@ -51,12 +72,24 @@
         "@type": "EducationalOccupationalCredential",
         "name": "BTS SIO option SLAM",
         "description": "Services Informatiques aux Organisations - Solutions Logicielles et Applications Métiers"
-      }
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/elyes-allani-034607174/",
+        "https://github.com/elyes-allani"
+      ]
     }
     </script>
+    
+    <!-- Accessibility improvements -->
+    <meta name="color-scheme" content="light" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded">
+      Aller au contenu principal
+    </a>
   </body>
 </html>

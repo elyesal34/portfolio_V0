@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <main>
+      <main id="main-content" role="main">
         <Accueil />
         <CV />
         <AteliersPro />

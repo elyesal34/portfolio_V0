@@ -1,0 +1,21 @@
+{
+  "name": "Portfolio Allani Elyes - BTS SIO SLAM",
+  "short_name": "Portfolio Elyes",
+  "description": "Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "education", "technology"],
+  "lang": "fr",
+  "dir": "ltr"
+}

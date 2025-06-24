@@ -14,10 +14,8 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null); // ReCAPTCHA token
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
-  // Fonction pour gérer les changements dans les champs du formulaire
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -25,11 +23,6 @@ const Contact = () => {
     });
   };
 
-  // Types for EmailJS template parameters
-  /**
-   * Parameters for the admin email template.
-   * Keys must match the variables defined in your EmailJS template.
-   */
   type AdminTemplateParams = {
     from_name: string;
     from_email: string;
@@ -38,10 +31,6 @@ const Contact = () => {
     to_email: string;
   };
 
-  /**
-   * Parameters for the user confirmation email template.
-   * Keys must match the variables defined in your EmailJS template.
-   */
   type UserTemplateParams = {
     to_name: string;
     to_email: string;
@@ -55,16 +44,14 @@ const Contact = () => {
     setIsLoading(true);
     setStatus('idle');
 
-    // Vérification du reCAPTCHA
-  if (!recaptchaToken) {
-    setStatus('error');
-    setStatusMessage('Veuillez valider le reCAPTCHA.');
-    setIsLoading(false);
-    return;
-  }
+    if (!recaptchaToken) {
+      setStatus('error');
+      setStatusMessage('Veuillez valider le reCAPTCHA.');
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // Template pour l'email à l'administrateur (vous)
       const adminTemplateParams: AdminTemplateParams = {
         from_name: formData.nom,
         from_email: formData.email,
@@ -73,7 +60,6 @@ const Contact = () => {
         to_email: 'allanielyes34@gmail.com'
       };
 
-      // Template pour l'email de confirmation à l'utilisateur
       const userTemplateParams: UserTemplateParams = {
         to_name: formData.nom,
         to_email: formData.email,
@@ -82,25 +68,24 @@ const Contact = () => {
         admin_email: 'allanielyes34@gmail.com'
       };
 
-      // Envoi de l'email à l'administrateur
       await emailjs.send(
-        'service_ec775jm', // Service ID
-        'template_4vr2upi', // Template ID pour l'email à l'administrateur
+        'service_ec775jm',
+        'template_4vr2upi',
         adminTemplateParams,
-        'C8UPNrlfpOfee-ItS' // Public Key
+        'C8UPNrlfpOfee-ItS'
       );
 
-      // Envoi de l'email de confirmation à l'utilisateur
       await emailjs.send(
-        'service_ec775jm', // Service ID
-        'template_user_copy', // Template ID pour l'email de confirmation à l'utilisateur
+        'service_ec775jm',
+        'template_user_copy',
         userTemplateParams,
-        'C8UPNrlfpOfee-ItS' // Public Key
+        'C8UPNrlfpOfee-ItS'
       );
-// Si l'envoi des deux emails réussit, on peut considérer que le message a été envoyé avec succès
+
       setStatus('success');
       setStatusMessage('Message envoyé avec succès ! Vous avez reçu une copie de votre message par email. Je vous répondrai dans les plus brefs délais.');
       setFormData({ nom: '', email: '', sujet: '', message: '' });
+      setRecaptchaToken(null);
     } catch (error) {
       console.error('Erreur lors de l\'envoi:', error);
       setStatus('error');
@@ -112,31 +97,31 @@ const Contact = () => {
 
   const coordonnees = [
     {
-      icon: <Mail className="w-5 h-5" />,
+      icon: <Mail className="w-5 h-5" aria-hidden="true" />,
       label: "Email",
       value: "allanielyes34@gmail.com",
       link: "mailto:allanielyes34@gmail.com"
     },
     {
-  icon: <Phone className="w-5 h-5" />,
-  label: "Téléphone",
-  value: "06 52 80 97 98",
-  link: "tel:+33652809798" // Lien d'appel direct
+      icon: <Phone className="w-5 h-5" aria-hidden="true" />,
+      label: "Téléphone",
+      value: "06 52 80 97 98",
+      link: "tel:+33652809798"
     },
     {
-      icon: <MapPin className="w-5 h-5" />,
+      icon: <MapPin className="w-5 h-5" aria-hidden="true" />,
       label: "Localisation",
       value: "Montpellier, France",
       link: "https://www.google.com/maps/place/Montpellier"
     },
     {
-      icon: <Linkedin className="w-5 h-5" />,
+      icon: <Linkedin className="w-5 h-5" aria-hidden="true" />,
       label: "LinkedIn",
       value: "linkedin.com/in/elyes-allani-034607174/",
       link: "https://www.linkedin.com/in/elyes-allani-034607174/"
     },
     {
-      icon: <Github className="w-5 h-5" />,
+      icon: <Github className="w-5 h-5" aria-hidden="true" />,
       label: "GitHub",
       value: "github.com/elyes-allani",
       link: "https://github.com/elyes-allani"
@@ -163,7 +148,6 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Informations de contact */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-8">Mes coordonnées</h3>
             
@@ -175,7 +159,10 @@ const Contact = () => {
                     <div className="font-medium text-gray-800">{coord.label}</div>
                     <a
                       href={coord.link}
-                      className="text-gray-600 hover:text-blue-500 transition-colors"
+                      className="text-gray-600 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                      target={coord.link.startsWith('http') ? '_blank' : undefined}
+                      rel={coord.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      aria-label={`${coord.label}: ${coord.value}`}
                     >
                       {coord.value}
                     </a>
@@ -207,25 +194,22 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-
           </div>
 
-          {/* Formulaire de contact */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-8">Envoyez-moi un message</h3>
             
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6">
-              {/* Message de statut */}
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6" noValidate>
               {status !== 'idle' && (
                 <div className={`mb-6 p-4 rounded-lg flex items-center ${
                   status === 'success' 
                     ? 'bg-green-50 border border-green-200 text-green-800' 
                     : 'bg-red-50 border border-red-200 text-red-800'
-                }`}>
+                }`} role="alert">
                   {status === 'success' ? (
-                    <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" aria-hidden="true" />
                   ) : (
-                    <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                    <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" aria-hidden="true" />
                   )}
                   <span className="text-sm">{statusMessage}</span>
                 </div>
@@ -234,7 +218,7 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="nom" className="block text-sm font-medium text-gray-700 mb-2">
-                    <User className="w-4 h-4 inline mr-1" />
+                    <User className="w-4 h-4 inline mr-1" aria-hidden="true" />
                     Nom complet *
                   </label>
                   <input
@@ -247,12 +231,13 @@ const Contact = () => {
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="Votre nom complet"
+                    aria-describedby="nom-error"
                   />
                 </div>
                 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    <Mail className="w-4 h-4 inline mr-1" />
+                    <Mail className="w-4 h-4 inline mr-1" aria-hidden="true" />
                     Email *
                   </label>
                   <input
@@ -265,6 +250,7 @@ const Contact = () => {
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="votre.email@example.com"
+                    aria-describedby="email-error"
                   />
                 </div>
               </div>
@@ -281,6 +267,7 @@ const Contact = () => {
                   required
                   disabled={isLoading}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  aria-describedby="sujet-error"
                 >
                   <option value="">Sélectionnez un sujet</option>
                   {sujets.map((sujet, index) => (
@@ -291,7 +278,7 @@ const Contact = () => {
 
               <div className="mb-6">
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  <MessageSquare className="w-4 h-4 inline mr-1" />
+                  <MessageSquare className="w-4 h-4 inline mr-1" aria-hidden="true" />
                   Message *
                 </label>
                 <textarea
@@ -304,37 +291,39 @@ const Contact = () => {
                   rows={6}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="Décrivez votre demande, vos besoins ou toute information que vous souhaitez partager..."
+                  aria-describedby="message-error"
                 />
               </div>
 
-              {/* Nouvelle section d'information sur la copie */}
               <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="flex items-center text-blue-800 text-sm">
-                  <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <Mail className="w-4 h-4 mr-2 flex-shrink-0" aria-hidden="true" />
                   <span>Vous recevrez une copie de votre message par email pour vos archives.</span>
                 </div>
               </div>
 
-              {/* ReCAPTCHA */}
-              <ReCAPTCHA
-                sitekey="6LcHfmkrAAAAAEmyM6dmIM9iQq0a18vRmp6DviN4"
-                onChange={token => setRecaptchaToken(token)}
-                className="mb-6"
-              />
+              <div className="mb-6">
+                <ReCAPTCHA
+                  sitekey="6LcHfmkrAAAAAEmyM6dmIM9iQq0a18vRmp6DviN4"
+                  onChange={token => setRecaptchaToken(token)}
+                  aria-label="Vérification reCAPTCHA"
+                />
+              </div>
 
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-medium flex items-center justify-center disabled:bg-blue-300 disabled:cursor-not-allowed"
+                disabled={isLoading || !recaptchaToken}
+                className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-medium flex items-center justify-center disabled:bg-blue-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-describedby="submit-status"
               >
                 {isLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" aria-hidden="true"></div>
                     Envoi en cours...
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4 mr-2" />
+                    <Send className="w-4 h-4 mr-2" aria-hidden="true" />
                     Envoyer le message
                   </>
                 )}
@@ -343,7 +332,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Call to action */}
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Prêt à collaborer ?</h3>
@@ -355,7 +343,8 @@ const Contact = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:allanielyes34@gmail.com"
-                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="Envoyer un email à Allani Elyes"
               >
                 Envoyer un email
               </a>
@@ -363,7 +352,8 @@ const Contact = () => {
                 href="https://www.linkedin.com/in/elyes-allani-034607174/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors"
+                className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="Voir le profil LinkedIn d'Allani Elyes (ouvre dans un nouvel onglet)"
               >
                 Voir mon LinkedIn
               </a>
