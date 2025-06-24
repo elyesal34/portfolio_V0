@@ -3,21 +3,25 @@
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self'  https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://api.emailjs.com; style-src 'self'  https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.emailjs.com https://www.google-analytics.com https://vitals.vercel-analytics.com; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
-  Cross-Origin-Embedder-Policy: unsafe-none
+  # The Permissions-Policy disables many features. If you add new browser APIs or third-party integrations, remember to update this header accordingly.
+  # NOTE: Allowing 'data:' and 'blob:' in img-src is necessary for some React image handling,
+  # but increases XSS risk if user content is not sanitized. Ensure all user content is sanitized.
+  # IMPORTANT: This file does not set a Content-Security-Policy (CSP) header. Define your CSP elsewhere (e.g., in your server config)
+  # to mitigate XSS risks, especially if you allow 'data:' or 'blob:' in img-src.
+  # but increases XSS risk if user content is not sanitized. Ensure all user content is sanitized.
+  # NOTE: If you add more third-party services, update connect-src below to include their endpoints.
+  Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Opener-Policy: same-origin-allow-popups
-  Cross-Origin-Resource-Policy: cross-origin
+  Cross-Origin-Resource-Policy: same-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   
   # Performance Headers
-  Cache-Control: public, max-age=31536000, immutable
+  # Removed global Cache-Control to avoid aggressive caching of dynamic files
 
 # Specific rules for different file types
 /*.js
+/*.js
   Cache-Control: public, max-age=31536000, immutable
-  Content-Type: application/javascript; charset=utf-8
-
 /*.css
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: text/css; charset=utf-8
@@ -64,9 +68,9 @@
 
 # HTML files should not be cached as aggressively
 /*.html
-  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: private, max-age=300, stale-while-revalidate=600, must-revalidate
   Content-Type: text/html; charset=utf-8
-
 # API responses
 /api/*
   Cache-Control: no-cache, no-store, must-revalidate
@@ -74,6 +78,9 @@
   Expires: 0
 
 # Manifest and service worker
+# The manifest is cached for 1 day (max-age=86400) to allow for efficient updates,
+# while the service worker (sw.js) is not cached to ensure clients always receive the latest version.
+# Adjust these values if your PWA update strategy changes.
 /manifest.json
   Cache-Control: public, max-age=86400
   Content-Type: application/manifest+json
