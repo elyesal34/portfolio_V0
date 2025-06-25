@@ -28,16 +28,40 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
+      },
+      mangle: {
+        safari10: true
       }
-    }
+    },
+    // CSS optimization
+    cssCodeSplit: true,
+    cssMinify: true,
+    // Asset optimization
+    assetsInlineLimit: 4096,
+    // Target modern browsers for better optimization
+    target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88']
   },
   // Enable compression
   server: {
-    compress: true
+    compress: true,
+    headers: {
+      'Cache-Control': 'public, max-age=31536000'
+    }
   },
   // PWA configuration
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+  },
+  // Preload optimization
+  experimental: {
+    renderBuiltUrl(filename, { hostType }) {
+      if (hostType === 'js') {
+        return { js: `/${filename}` };
+      } else {
+        return { relative: true };
+      }
+    }
   }
 });

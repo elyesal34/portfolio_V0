@@ -23,7 +23,7 @@ const Productions = () => {
       statut: "Terminé",
       github: "https://github.com/elyesal34/GestionVisiteur_bd_distante",
       demo: "#",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80&fm=webp",
       featured: true,
       date: "2024"
     },
@@ -45,7 +45,7 @@ const Productions = () => {
       statut: "En cours",
       github: "#",
       demo: "#",
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80&fm=webp",
       featured: false,
       date: "2024"
     },
@@ -67,7 +67,7 @@ const Productions = () => {
       statut: "Terminé",
       github: "#",
       demo: "#",
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80&fm=webp",
       featured: true,
       date: "2023"
     },
@@ -89,7 +89,7 @@ const Productions = () => {
       statut: "En cours",
       github: "#",
       demo: "#",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80&fm=webp",
       featured: false,
       date: "2024"
     }
@@ -136,7 +136,7 @@ const Productions = () => {
         {/* Filtres */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           <div className="flex items-center space-x-2 text-gray-600 mb-4">
-            <Filter className="w-5 h-5" />
+            <Filter className="w-5 h-5" aria-hidden="true" />
             <span className="font-medium">Filtrer par type :</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -149,6 +149,7 @@ const Productions = () => {
                     ? 'bg-blue-600 text-white shadow-lg transform scale-105'
                     : 'bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 border border-gray-200'
                 }`}
+                aria-label={`Filtrer les projets par ${filter}`}
               >
                 {filter}
               </button>
@@ -159,7 +160,7 @@ const Productions = () => {
         {/* Projets */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {filteredProjets.map((projet, index) => (
-            <div 
+            <article 
               key={index} 
               className={`group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${
                 projet.featured ? 'ring-2 ring-blue-500 ring-opacity-50' : ''
@@ -172,16 +173,19 @@ const Productions = () => {
                   alt={`Aperçu du projet ${projet.titre}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   loading="lazy"
+                  width="800"
+                  height="400"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 {projet.featured && (
                   <div className="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1">
-                    <Star className="w-4 h-4" />
+                    <Star className="w-4 h-4" aria-hidden="true" />
                     <span>Projet phare</span>
                   </div>
                 )}
                 <div className="absolute bottom-4 right-4 flex items-center space-x-2 text-white text-sm">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="w-4 h-4" aria-hidden="true" />
                   <span>{projet.date}</span>
                 </div>
               </div>
@@ -191,9 +195,9 @@ const Productions = () => {
                   <div className="flex items-center space-x-3">
                     <div className="text-blue-500">{projet.icon}</div>
                     <div>
-                      <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
                         {projet.titre}
-                      </h4>
+                      </h3>
                       <div className="flex items-center text-sm text-gray-500 space-x-1">
                         {getTypeIcon(projet.type)}
                         <span>{projet.type}</span>
@@ -208,10 +212,10 @@ const Productions = () => {
                 <p className="text-gray-600 mb-4 leading-relaxed">{projet.description}</p>
 
                 <div className="mb-4">
-                  <h5 className="font-semibold text-gray-800 mb-2 flex items-center space-x-1">
-                    <Code className="w-4 h-4" />
+                  <h4 className="font-semibold text-gray-800 mb-2 flex items-center space-x-1">
+                    <Code className="w-4 h-4" aria-hidden="true" />
                     <span>Technologies utilisées :</span>
-                  </h5>
+                  </h4>
                   <div className="flex flex-wrap gap-2">
                     {projet.technologies.map((tech, techIndex) => (
                       <span 
@@ -225,11 +229,11 @@ const Productions = () => {
                 </div>
 
                 <div className="mb-6">
-                  <h5 className="font-semibold text-gray-800 mb-2">Fonctionnalités principales :</h5>
+                  <h4 className="font-semibold text-gray-800 mb-2">Fonctionnalités principales :</h4>
                   <ul className="space-y-1">
                     {projet.fonctionnalites.slice(0, 3).map((fonc, foncIndex) => (
                       <li key={foncIndex} className="flex items-start space-x-2 text-gray-600 text-sm">
-                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" aria-hidden="true"></span>
                         <span>{fonc}</span>
                       </li>
                     ))}
@@ -243,7 +247,7 @@ const Productions = () => {
 
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
                   <div className="flex items-center space-x-1">
-                    <User className="w-4 h-4" />
+                    <User className="w-4 h-4" aria-hidden="true" />
                     <span>Durée: {projet.duree}</span>
                   </div>
                   <span>Contexte: {projet.contexte}</span>
@@ -255,8 +259,9 @@ const Productions = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors space-x-2 flex-1 justify-center"
+                    aria-label={`Voir le code source du projet ${projet.titre} sur GitHub`}
                   >
-                    <Github className="w-4 h-4" />
+                    <Github className="w-4 h-4" aria-hidden="true" />
                     <span>Code</span>
                   </a>
                   <a
@@ -264,13 +269,14 @@ const Productions = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors space-x-2 flex-1 justify-center"
+                    aria-label={`Voir la démonstration du projet ${projet.titre}`}
                   >
-                    <ExternalLink className="w-4 h-4" />
+                    <ExternalLink className="w-4 h-4" aria-hidden="true" />
                     <span>Démo</span>
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 

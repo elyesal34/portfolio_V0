@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="3KCu5cbGDmR-r2S-T9-hxGnuCx62Ovv3e52bWSUnB58" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
     <!-- Preconnect pour améliorer les performances -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,6 +18,11 @@
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
     <link rel="dns-prefetch" href="//github.com" />
     <link rel="dns-prefetch" href="//linkedin.com" />
+    
+    <!-- Resource Hints pour optimiser le chargement -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
+    <link rel="prefetch" href="/cv-elyes-allani.pdf" />
     
     <!-- SEO Meta Tags -->
     <title>Elyes Allani - Portfolio BTS SIO SLAM | Développeur Full-Stack</title>
@@ -49,7 +54,7 @@
     <meta name="msapplication-TileColor" content="#3B82F6" />
     <meta name="format-detection" content="telephone=no" />
     
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured Data (JSON-LD) avec Rich Snippets améliorés -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -63,33 +68,89 @@
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Montpellier",
+        "addressRegion": "Occitanie",
         "addressCountry": "FR"
       },
-      "knowsAbout": ["JavaScript", "React", "PHP", "Node.js", "MySQL", "MongoDB", "Python", "Java"],
+      "knowsAbout": [
+        "JavaScript", "React", "PHP", "Node.js", "MySQL", "MongoDB", 
+        "Python", "Java", "TypeScript", "Laravel", "Docker", "Git"
+      ],
       "alumniOf": {
         "@type": "EducationalOrganization",
-        "name": "Lycée Saint-John Perse"
+        "name": "Lycée Saint-John Perse",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Montpellier",
+          "addressCountry": "FR"
+        }
       },
       "hasCredential": {
         "@type": "EducationalOccupationalCredential",
         "name": "BTS SIO option SLAM",
-        "description": "Services Informatiques aux Organisations - Solutions Logicielles et Applications Métiers"
+        "description": "Services Informatiques aux Organisations - Solutions Logicielles et Applications Métiers",
+        "credentialCategory": "degree"
       },
       "sameAs": [
         "https://www.linkedin.com/in/elyes-allani-034607174/",
         "https://github.com/elyesal34"
-      ]
+      ],
+      "worksFor": {
+        "@type": "EducationalOrganization",
+        "name": "Lycée Saint-John Perse"
+      },
+      "seeks": {
+        "@type": "JobPosting",
+        "title": "Stage de fin d'études - Développeur Full-Stack",
+        "description": "Recherche un stage de 8 semaines en développement web/mobile"
+      }
     }
     </script>
     
     <!-- Accessibility improvements -->
     <meta name="color-scheme" content="light dark" />
     
-    <!-- Performance hints -->
-    <link rel="preload" href="/src/main.tsx" as="script" />
-    <link rel="prefetch" href="/cv-elyes-allani.pdf" />
+    <!-- Critical CSS inlined pour améliorer les performances -->
+    <style>
+      /* Critical CSS pour éviter le FOUC */
+      body { 
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+      }
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1f2937, #3b82f6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        color: white;
+      }
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255,255,255,0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <!-- Loading screen pour améliorer la perception de performance -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-spinner"></div>
+    </div>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
@@ -98,17 +159,54 @@
       Aller au contenu principal
     </a>
     
-    <!-- Service Worker Registration -->
+    <!-- Service Worker Registration avec gestion d'erreurs améliorée -->
     <script>
+      // Masquer l'écran de chargement une fois le DOM chargé
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 500);
+          }
+        }, 1000);
+      });
+
+      // Service Worker avec gestion d'erreurs
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
               console.log('SW registered: ', registration);
+              // Vérifier les mises à jour
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // Nouvelle version disponible
+                    if (confirm('Une nouvelle version est disponible. Voulez-vous actualiser ?')) {
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
             })
             .catch((registrationError) => {
               console.log('SW registration failed: ', registrationError);
             });
+        });
+      }
+
+      // Performance monitoring
+      if ('performance' in window) {
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+          }, 0);
         });
       }
     </script>
