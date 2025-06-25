@@ -16,29 +16,31 @@
     <!-- DNS Prefetch pour les domaines externes -->
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
+    <link rel="dns-prefetch" href="//github.com" />
+    <link rel="dns-prefetch" href="//linkedin.com" />
     
     <!-- SEO Meta Tags -->
-    <title>Allani Elyes - Portfolio BTS SIO SLAM | Développeur Full-Stack</title>
-    <meta name="description" content="Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js. Découvrez mes projets, stages et compétences techniques." />
-    <meta name="keywords" content="Allani Elyes, BTS SIO, SLAM, développeur, full-stack, React, PHP, Node.js, portfolio, stage, alternance, emploi" />
-    <meta name="author" content="Allani Elyes" />
+    <title>Elyes Allani - Portfolio BTS SIO SLAM | Développeur Full-Stack</title>
+    <meta name="description" content="Portfolio d'Elyes Allani, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js. Découvrez mes projets, stages et compétences techniques." />
+    <meta name="keywords" content="Elyes Allani, BTS SIO, SLAM, développeur, full-stack, React, PHP, Node.js, portfolio, stage, alternance, emploi, Montpellier" />
+    <meta name="author" content="Elyes Allani" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://elyes-allani.netlify.app" />
     
     <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
-    <meta property="og:title" content="Allani Elyes - Portfolio BTS SIO SLAM | Développeur Full-Stack" />
-    <meta property="og:description" content="Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js." />
+    <meta property="og:title" content="Elyes Allani - Portfolio BTS SIO SLAM | Développeur Full-Stack" />
+    <meta property="og:description" content="Portfolio d'Elyes Allani, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js." />
     <meta property="og:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" />
     <meta property="og:image:alt" content="Espace de travail de développeur avec ordinateur et code" />
     <meta property="og:url" content="https://elyes-allani.netlify.app" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:site_name" content="Portfolio Allani Elyes" />
+    <meta property="og:site_name" content="Portfolio Elyes Allani" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Allani Elyes - Portfolio BTS SIO SLAM" />
-    <meta name="twitter:description" content="Portfolio d'Allani Elyes, étudiant en BTS SIO option SLAM. Développeur Full-Stack." />
+    <meta name="twitter:title" content="Elyes Allani - Portfolio BTS SIO SLAM" />
+    <meta name="twitter:description" content="Portfolio d'Elyes Allani, étudiant en BTS SIO option SLAM. Développeur Full-Stack." />
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" />
     <meta name="twitter:image:alt" content="Espace de travail de développeur avec ordinateur et code" />
     
@@ -52,7 +54,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Allani Elyes",
+      "name": "Elyes Allani",
       "jobTitle": "Étudiant BTS SIO SLAM - Développeur Full-Stack",
       "description": "Étudiant en BTS SIO option SLAM, spécialisé dans le développement d'applications web et mobiles",
       "url": "https://elyes-allani.netlify.app",
@@ -81,15 +83,34 @@
     </script>
     
     <!-- Accessibility improvements -->
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
+    
+    <!-- Performance hints -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="prefetch" href="/cv-elyes-allani.pdf" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50">
       Aller au contenu principal
     </a>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

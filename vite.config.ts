@@ -22,10 +22,22 @@ export default defineConfig({
     // Enable source maps for better debugging
     sourcemap: true,
     // Optimize chunk size
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    // Minify for production
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
   },
   // Enable compression
   server: {
     compress: true
+  },
+  // PWA configuration
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   }
 });
