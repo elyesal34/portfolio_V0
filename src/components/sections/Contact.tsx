@@ -127,8 +127,8 @@ const Contact = () => {
     {
       icon: <Github className="w-5 h-5" aria-hidden="true" />,
       label: "GitHub",
-      value: "github.com/elyes-allani",
-      link: "https://github.com/elyes-allani",
+      value: "github.com/elyesal34",
+      link: "https://github.com/elyesal34",
       color: "text-gray-700"
     }
   ];
