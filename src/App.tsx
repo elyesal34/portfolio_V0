@@ -8,9 +8,24 @@ import Competences from './components/sections/Competences';
 import Productions from './components/sections/Productions';
 import Contact from './components/sections/Contact';
 import MentionsLegales from './components/sections/MentionsLegales';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const hash = location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100); // délai pour que le DOM soit prêt
+    }
+  }, [location]);
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">

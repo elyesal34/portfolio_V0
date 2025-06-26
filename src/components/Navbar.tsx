@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,21 +21,28 @@ const Navbar = () => {
   }, []);
 
   const menuItems = [
-    { title: 'Accueil', icon: <Home size={18} />, href: '#accueil' },
-    { title: 'CV', icon: <FileText size={18} />, href: '#cv' },
-    { title: 'Ateliers Pro', icon: <Code2 size={18} />, href: '#ateliers' },
-    { title: 'Stages', icon: <Briefcase size={18} />, href: '#stages' },
-    { title: 'Veilles', icon: <BookOpen size={18} />, href: '#veilles' },
-    { title: 'Compétences', icon: <Brain size={18} />, href: '#competences' },
-    { title: 'Productions', icon: <GraduationCap size={18} />, href: '#productions' },
-    { title: 'Contact', icon: <Mail size={18} />, href: '#contact' },
+    { title: 'Accueil', icon: <Home size={18} />, hash: '#accueil' },
+    { title: 'CV', icon: <FileText size={18} />, hash: '#cv' },
+    { title: 'Ateliers Pro', icon: <Code2 size={18} />, hash: '#ateliers' },
+    { title: 'Stages', icon: <Briefcase size={18} />, hash: '#stages' },
+    { title: 'Veilles', icon: <BookOpen size={18} />, hash: '#veilles' },
+    { title: 'Compétences', icon: <Brain size={18} />, hash: '#competences' },
+    { title: 'Productions', icon: <GraduationCap size={18} />, hash: '#productions' },
+    { title: 'Contact', icon: <Mail size={18} />, hash: '#contact' },
   ];
 
-  const handleMenuClick = (href: string) => {
+  const handleMenuClick = (hash: string) => {
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname === '/') {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Si l'élément n'est pas encore monté (rare), on change le hash pour forcer le scroll après render
+        window.location.hash = hash;
+      }
+    } else {
+      navigate('/' + hash);
     }
   };
 
@@ -69,7 +79,7 @@ const Navbar = () => {
               {menuItems.map((item) => (
                 <button
                   key={item.title}
-                  onClick={() => handleMenuClick(item.href)}
+                  onClick={() => handleMenuClick(item.hash)}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
@@ -108,7 +118,7 @@ const Navbar = () => {
               {menuItems.map((item) => (
                 <button
                   key={item.title}
-                  onClick={() => handleMenuClick(item.href)}
+                  onClick={() => handleMenuClick(item.hash)}
                   className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
                   role="menuitem"
                   aria-label={`Aller à la section ${item.title}`}
