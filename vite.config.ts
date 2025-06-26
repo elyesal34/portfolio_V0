@@ -55,13 +55,13 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
   // Preload optimization
-  experimental: {
-    renderBuiltUrl(filename, { hostType }) {
-      if (hostType === 'js') {
-        return { js: `/${filename}` };
-      } else {
-        return { relative: true };
-      }
-    }
-  }
+  // experimental: {
+  //   renderBuiltUrl(filename, { hostType }) {
+  //     if (hostType === 'js') {
+  //       return { js: `/${filename}` };
+  //     } else {
+  //       return { relative: true };
+  //     }
+  //   }
+  // }
 });
