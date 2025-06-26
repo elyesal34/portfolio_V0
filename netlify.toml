@@ -27,14 +27,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "application/javascript; charset=utf-8"
-    Content-Encoding = "br"
+    Content-Encoding = "br, gzip"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "text/css; charset=utf-8"
-    Content-Encoding = "br"
+    Content-Encoding = "br, gzip"
 
 [[headers]]
   for = "/*.woff2"

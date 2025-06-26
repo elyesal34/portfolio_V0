@@ -188,6 +188,7 @@ const Contact = () => {
                   target={coord.link.startsWith('http') ? '_blank' : undefined}
                   rel={coord.link.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="group flex items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+                  aria-label={`Lien ${coord.label}${coord.label === 'LinkedIn' ? ' (nouvel onglet)' : coord.label === 'GitHub' ? ' (nouvel onglet)' : ''}`}
                 >
                   <div className={`${coord.color} mr-4 group-hover:scale-110 transition-transform`}>
                     {coord.icon}

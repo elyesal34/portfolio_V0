@@ -158,13 +158,14 @@ const Productions = () => {
         </div>
 
         {/* Projets */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-16 px-2 sm:px-0">
           {filteredProjets.map((projet, index) => (
             <article 
               key={index} 
-              className={`group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${
+              className={`group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 focus-within:ring-4 focus-within:ring-blue-300 active:scale-95 ${
                 projet.featured ? 'ring-2 ring-blue-500 ring-opacity-50' : ''
               }`}
+              tabIndex={0}
             >
               {/* Image du projet */}
               <div className="relative overflow-hidden h-48">
