@@ -19,7 +19,6 @@
     Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     Cross-Origin-Resource-Policy = "cross-origin"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Feature-Policy = "camera 'none'; microphone 'none'; geolocation 'none'"
 
 # Performance optimizations avec compression Brotli
 [[headers]]

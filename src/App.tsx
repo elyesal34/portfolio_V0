@@ -11,9 +11,8 @@ import MentionsLegales from './components/sections/MentionsLegales';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-function App() {
+function ScrollToHash() {
   const location = useLocation();
-
   useEffect(() => {
     if (location.pathname === '/' && location.hash) {
       const hash = location.hash;
@@ -22,10 +21,13 @@ function App() {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100); // délai pour que le DOM soit prêt
+      }, 100);
     }
   }, [location]);
+  return null;
+}
 
+function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
@@ -34,6 +36,7 @@ function App() {
           Aller au contenu principal
         </a>
         <Navbar />
+        <ScrollToHash />
         <main id="main-content" role="main">
           <Routes>
             <Route path="/" element={
