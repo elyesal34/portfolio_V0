@@ -1,5 +1,3 @@
-import React from 'react';
-
 const MentionsLegales = () => (
   <section className="min-h-screen flex items-center justify-center bg-gray-50 py-16 px-2" aria-labelledby="mentions-legales-title">
     <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8 md:p-12">
