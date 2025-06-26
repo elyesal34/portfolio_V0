@@ -160,17 +160,17 @@ const CV = () => {
                 </h4>
                 <div className="space-y-6">
                   {formations.map((formation, index) => (
-                    <div key={index} className="border-l-4 border-green-500 pl-4">
+                    <div key={index} className="border-l-4 border-green-500 pl-4 bg-gray-800 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <Calendar className="w-4 h-4 mr-2 text-gray-500" />
-                        <span className="text-sm text-gray-500">{formation.periode}</span>
+                        <Calendar className="w-4 h-4 mr-2 text-gray-300" />
+                        <span className="text-sm text-gray-200">{formation.periode}</span>
                       </div>
-                      <h5 className="font-bold text-gray-900">{formation.diplome}</h5>
-                      <p className="text-gray-600 mb-2">{formation.etablissement}</p>
-                      <p className="text-gray-700 text-sm mb-2">{formation.description}</p>
+                      <h5 className="font-bold text-white">{formation.diplome}</h5>
+                      <p className="text-gray-200 mb-2">{formation.etablissement}</p>
+                      <p className="text-gray-300 text-sm mb-2">{formation.description}</p>
                       <div className="flex flex-wrap gap-1">
                         {formation.competences.map((comp, compIndex) => (
-                          <span key={compIndex} className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                          <span key={compIndex} className="bg-white text-green-900 px-2 py-1 rounded text-xs border border-green-200">
                             {comp}
                           </span>
                         ))}
