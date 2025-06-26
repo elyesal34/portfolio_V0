@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ReCAPTCHA from "react-google-recaptcha";
+// import { Link } from 'react-router-dom'; // Suppression de l'import inutile ou problématique
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -400,6 +401,11 @@ const Contact = () => {
               </a>
             </div>
           </div>
+        </div>
+
+        {/* CTA Final */}
+        <div className="text-center mt-12 text-sm text-gray-500">
+          <Link to="/mentions-legales" className="underline hover:text-blue-600">Mentions légales</Link>
         </div>
       </div>
     </section>

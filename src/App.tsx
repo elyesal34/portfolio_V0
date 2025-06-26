@@ -7,22 +7,33 @@ import Veilles from './components/sections/Veilles';
 import Competences from './components/sections/Competences';
 import Productions from './components/sections/Productions';
 import Contact from './components/sections/Contact';
+import MentionsLegales from './components/sections/MentionsLegales';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
-      <main id="main-content" role="main">
-        <Accueil />
-        <CV />
-        <AteliersPro />
-        <Stages />
-        <Veilles />
-        <Competences />
-        <Productions />
-        <Contact />
-      </main>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-100">
+        <Navbar />
+        <main id="main-content" role="main">
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Accueil />
+                <CV />
+                <AteliersPro />
+                <Stages />
+                <Veilles />
+                <Competences />
+                <Productions />
+                <Contact />
+              </>
+            } />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 
