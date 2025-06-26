@@ -38,7 +38,7 @@ const Accueil = () => {
             <div className="space-y-6">
               <div className="animate-fade-in">
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="block text-white drop-shadow-lg" style={{textShadow: '0 2px 12px rgba(0,0,0,0.5)'}}>Elyes Allani</span>
+                  <span className="block text-white" style={{textShadow: '0 4px 24px rgba(0,0,0,0.85)', opacity: 1}}>Elyes Allani</span>
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 animate-gradient">
                     BTS SIO SLAM
                   </span>
