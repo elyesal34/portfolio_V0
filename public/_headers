@@ -22,11 +22,9 @@
 /*.js
 /*.js
   Cache-Control: public, max-age=31536000, immutable
-  Content-Encoding: gzip
 /*.css
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: text/css; charset=utf-8
-  Content-Encoding: gzip
 /*.woff2
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: font/woff2
