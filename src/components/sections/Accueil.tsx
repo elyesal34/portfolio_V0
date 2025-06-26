@@ -34,11 +34,11 @@ const Accueil = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]">
-          <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+          <div className="lg:w-1/2 space-y-8 text-center lg:text-left break-words max-w-full">
             <div className="space-y-6">
               <div className="animate-fade-in">
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  Elyes Allani
+                  <span className="block text-white drop-shadow-lg" style={{textShadow: '0 2px 12px rgba(0,0,0,0.5)'}}>Elyes Allani</span>
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 animate-gradient">
                     BTS SIO SLAM
                   </span>
