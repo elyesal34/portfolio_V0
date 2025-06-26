@@ -165,13 +165,11 @@
 # Plugin Lighthouse avec délai pour éviter l'erreur "unknown"
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
-  [plugins.inputs]
-    wait = 30000 # attend 30 secondes avant d'exécuter Lighthouse
-    [plugins.inputs.thresholds]
-      performance = 0.85
-      accessibility = 0.95
-      best-practices = 0.95
-      seo = 0.95
+  [plugins.inputs.thresholds]
+    accessibility = 0.95
+    best-practices = 0.95
+    performance = 0.85
+    seo = 0.95
 
 [[plugins]]
   package = "netlify-plugin-submit-sitemap"
