@@ -1,6 +1,6 @@
-const CACHE_NAME = 'portfolio-elyes-v2';
-const STATIC_CACHE = 'static-v2';
-const DYNAMIC_CACHE = 'dynamic-v2';
+const CACHE_NAME = 'portfolio-elyes-v3';
+const STATIC_CACHE = 'static-v3';
+const DYNAMIC_CACHE = 'dynamic-v3';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -9,25 +9,6 @@ const STATIC_ASSETS = [
   '/vite.svg',
   '/offline.html'
 ];
-
-// Assets to cache on first request
-const CACHE_STRATEGIES = {
-  images: {
-    strategy: 'cacheFirst',
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    maxEntries: 50
-  },
-  api: {
-    strategy: 'networkFirst',
-    maxAge: 5 * 60 * 1000, // 5 minutes
-    maxEntries: 20
-  },
-  pages: {
-    strategy: 'staleWhileRevalidate',
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    maxEntries: 10
-  }
-};
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
@@ -69,6 +50,13 @@ self.addEventListener('fetch', (event) => {
 
   // Skip chrome-extension and other non-http requests
   if (!url.protocol.startsWith('http')) return;
+
+  // Skip external domains that might cause CSP issues
+  if (url.hostname !== self.location.hostname && 
+      !url.hostname.includes('fonts.googleapis.com') &&
+      !url.hostname.includes('fonts.gstatic.com')) {
+    return;
+  }
 
   // Handle different types of requests
   if (url.pathname.match(/\.(jpg|jpeg|png|gif|webp|svg|ico)$/i)) {

@@ -43,25 +43,15 @@ export default defineConfig({
     // Target modern browsers for better optimization
     target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88']
   },
-  // Enable compression
+  // La propriété 'compress' n'est pas supportée par la configuration du serveur Vite.
+  // Pour activer la compression, utilisez un middleware ou un proxy externe.
   server: {
-    compress: true,
     headers: {
       'Cache-Control': 'public, max-age=31536000'
     }
   },
   // PWA configuration
   define: {
-    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
-  },
-  // Preload optimization
-  // experimental: {
-  //   renderBuiltUrl(filename, { hostType }) {
-  //     if (hostType === 'js') {
-  //       return { js: `/${filename}` };
-  //     } else {
-  //       return { relative: true };
-  //     }
-  //   }
-  // }
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
+  }
 });

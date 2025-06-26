@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://api.emailjs.com" />
     <link rel="preconnect" href="https://www.google.com" />
+    <link rel="preconnect" href="https://www.recaptcha.net" />
     
     <!-- DNS Prefetch pour les domaines externes -->
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
@@ -184,14 +185,16 @@
               // Vérifier les mises à jour
               registration.addEventListener('updatefound', () => {
                 const newWorker = registration.installing;
-                newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // Nouvelle version disponible
-                    if (confirm('Une nouvelle version est disponible. Voulez-vous actualiser ?')) {
-                      window.location.reload();
+                if (newWorker) {
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      // Nouvelle version disponible
+                      if (confirm('Une nouvelle version est disponible. Voulez-vous actualiser ?')) {
+                        window.location.reload();
+                      }
                     }
-                  }
-                });
+                  });
+                }
               });
             })
             .catch((registrationError) => {
@@ -205,7 +208,9 @@
         window.addEventListener('load', () => {
           setTimeout(() => {
             const perfData = performance.getEntriesByType('navigation')[0];
-            console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+            if (perfData) {
+              console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+            }
           }, 0);
         });
       }
