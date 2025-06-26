@@ -3,28 +3,24 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  # The Permissions-Policy disables many features. If you add new browser APIs or third-party integrations, remember to update this header accordingly.
-  # NOTE: Allowing 'data:' and 'blob:' in img-src is necessary for some React image handling,
-  # but increases XSS risk if user content is not sanitized. Ensure all user content is sanitized.
-  # IMPORTANT: This file does not set a Content-Security-Policy (CSP) header. Define your CSP elsewhere (e.g., in your server config)
-  # to mitigate XSS risks, especially if you allow 'data:' or 'blob:' in img-src.
-  # but increases XSS risk if user content is not sanitized. Ensure all user content is sanitized.
-  # NOTE: If you add more third-party services, update connect-src below to include their endpoints.
+  # Permissions-Policy: désactive de nombreuses API, adapte si besoin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=()
+  # Exemple de CSP stricte (décommente et adapte si besoin)
+  # Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' blob: data:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests; block-all-mixed-content;
   Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Opener-Policy: same-origin-allow-popups
   Cross-Origin-Resource-Policy: same-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  
-  # Performance Headers
-  # Removed global Cache-Control to avoid aggressive caching of dynamic files
 
-# Specific rules for different file types
-/*.js
+# Performance Headers pour les assets statiques
 /*.js
   Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/javascript; charset=utf-8
+
 /*.css
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: text/css; charset=utf-8
+
 /*.woff2
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: font/woff2
@@ -65,24 +61,23 @@
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: image/avif
 
-# HTML files should not be cached as aggressively
-/*.html
+# HTML files: cache courte pour permettre les updates rapides
 /*.html
   Cache-Control: private, max-age=300, stale-while-revalidate=600, must-revalidate
   Content-Type: text/html; charset=utf-8
-# API responses
+
+# API responses: jamais en cache
 /api/*
   Cache-Control: no-cache, no-store, must-revalidate
   Pragma: no-cache
   Expires: 0
 
-# Manifest and service worker
-# The manifest is cached for 1 day (max-age=86400) to allow for efficient updates,
-# while the service worker (sw.js) is not cached to ensure clients always receive the latest version.
-# Adjust these values if your PWA update strategy changes.
+# Manifest: cache 1 jour
 /manifest.json
   Cache-Control: public, max-age=86400
   Content-Type: application/manifest+json
 
+# Service worker: jamais en cache
 /sw.js
   Cache-Control: no-cache, no-store, must-revalidate
+  Content-Type: application/javascript; charset=utf-8
