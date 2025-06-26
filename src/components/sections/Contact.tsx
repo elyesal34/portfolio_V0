@@ -412,6 +412,11 @@ const Contact = () => {
           <Link to="/mentions-legales" className="underline hover:text-blue-600">Mentions légales</Link>
         </div>
       </div>
+      {/* Footer Mentions légales */}
+      <footer className="mt-16 text-center text-gray-600 text-sm">
+        <span>&copy; 2025 Allani Elyes &nbsp;—&nbsp;</span>
+        <Link to="/mentions-legales" className="underline font-medium hover:text-blue-600">Mentions légales</Link>
+      </footer>
     </section>
   );
 };
