@@ -14,6 +14,10 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
+        {/* Skip to main content pour l'accessibilité */}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200">
+          Aller au contenu principal
+        </a>
         <Navbar />
         <main id="main-content" role="main">
           <Routes>

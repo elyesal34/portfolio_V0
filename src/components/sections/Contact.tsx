@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom'; // Suppression de l'import inutile ou problématique
 
 const Contact = () => {
@@ -243,19 +244,15 @@ const Contact = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Envoyez-moi un message</h3>
             
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6" noValidate>
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6" noValidate aria-live="polite">
               {status !== 'idle' && (
                 <div className={`mb-6 p-4 rounded-lg flex items-start ${
                   status === 'success' 
                     ? 'bg-green-50 border border-green-200 text-green-800' 
                     : 'bg-red-50 border border-red-200 text-red-800'
-                }`} role="alert">
-                  {status === 'success' ? (
-                    <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  ) : (
-                    <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  )}
-                  <span className="text-sm">{statusMessage}</span>
+                }`} role="alert" aria-live="assertive">
+                  {status === 'success' ? <CheckCircle className="w-5 h-5 mr-2 mt-1" /> : <AlertCircle className="w-5 h-5 mr-2 mt-1" />}
+                  <span>{statusMessage}</span>
                 </div>
               )}
 
@@ -272,6 +269,8 @@ const Contact = () => {
                     value={formData.nom}
                     onChange={handleChange}
                     required
+                    autoComplete="name"
+                    aria-invalid={status === 'error' && !formData.nom ? 'true' : 'false'}
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="Votre nom complet"
@@ -290,6 +289,8 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    autoComplete="email"
+                    aria-invalid={status === 'error' && !formData.email ? 'true' : 'false'}
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="votre.email@example.com"
@@ -307,6 +308,7 @@ const Contact = () => {
                   value={formData.sujet}
                   onChange={handleChange}
                   required
+                  aria-invalid={status === 'error' && !formData.sujet ? 'true' : 'false'}
                   disabled={isLoading}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
@@ -328,6 +330,8 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  aria-invalid={status === 'error' && !formData.message ? 'true' : 'false'}
+                  autoComplete="off"
                   disabled={isLoading}
                   rows={6}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
