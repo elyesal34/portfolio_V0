@@ -20,7 +20,7 @@ export default defineConfig({
       }
     },
     // Enable source maps for better debugging
-    sourcemap: true,
+    sourcemap: false,
     // Optimize chunk size
     chunkSizeWarningLimit: 1000,
     // Minify for production
