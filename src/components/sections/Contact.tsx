@@ -274,7 +274,7 @@ const Contact = () => {
                     aria-invalid={status === 'error' && !formData.nom ? 'true' : 'false'}
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
-                    placeholder="ELYES ALLANI"
+                    placeholder="Votre nom"
                   />
                 </div>
                 
@@ -294,7 +294,7 @@ const Contact = () => {
                     aria-invalid={status === 'error' && !formData.email ? 'true' : 'false'}
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
-                    placeholder="allanielyes34@gmail.com"
+                    placeholder="Votre email"
                   />
                 </div>
               </div>
