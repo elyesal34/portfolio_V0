@@ -24,8 +24,8 @@ const Accueil = () => {
 
   return (
     <section id="accueil" className="min-h-screen pt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
-      {/* Éléments décoratifs de fond */}
-      <div className="absolute inset-0 opacity-10">
+      {/* Éléments décoratifs de fond - chargés après */}
+      <div className="absolute inset-0 opacity-10" aria-hidden="true">
         <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
         <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -36,25 +36,29 @@ const Accueil = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]">
           <div className="lg:w-1/2 space-y-8 text-center lg:text-left break-words max-w-full">
             <div className="space-y-6">
-              <div className="animate-fade-in">
+              {/* Titre principal - rendu immédiat sans animation */}
+              <div>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
                   <span className="block text-white drop-shadow-lg">Elyes Allani</span>
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 animate-gradient">
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                     BTS SIO SLAM
                   </span>
                 </h1>
               </div>
-              <div className="text-xl md:text-2xl lg:text-3xl font-semibold text-blue-200 animate-fade-in drop-shadow-md" style={{ animationDelay: '0.2s' }}>
+              {/* Sous-titre - rendu immédiat */}
+              <div className="text-xl md:text-2xl lg:text-3xl font-semibold text-blue-200 drop-shadow-md">
                 Développeur Full-Stack
               </div>
             </div>
             
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-2xl animate-fade-in drop-shadow-sm" style={{ animationDelay: '0.4s' }}>
+            {/* Texte LCP - RENDU IMMÉDIAT SANS DÉLAI */}
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
               Étudiant passionné par le développement logiciel et la création d'applications innovantes. 
               Spécialisé dans les solutions web et mobiles modernes avec React, PHP et Node.js.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            {/* Boutons - rendu immédiat */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button
                 onClick={scrollToContact}
                 className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
@@ -81,8 +85,8 @@ const Accueil = () => {
               </button>
             </div>
 
-            {/* Statistiques rapides */}
-            <div className="grid grid-cols-3 gap-6 pt-8 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+            {/* Statistiques rapides - rendu immédiat */}
+            <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-blue-300 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
                 <div className="text-gray-200 text-sm md:text-base">Projets</div>
@@ -98,7 +102,8 @@ const Accueil = () => {
             </div>
           </div>
 
-          <div className="lg:w-1/2 mt-12 lg:mt-0 relative animate-fade-in" style={{ animationDelay: '1s' }}>
+          {/* Image - chargée en lazy loading après le contenu principal */}
+          <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
             <div className="relative">
               <img
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80&fm=webp"
@@ -110,7 +115,7 @@ const Accueil = () => {
                 decoding="async"
               />
               
-              {/* Icônes flottantes */}
+              {/* Icônes flottantes - chargées après */}
               <div className="absolute -top-6 -left-6 bg-blue-500 p-4 rounded-full shadow-lg animate-bounce" role="presentation">
                 <Code className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
               </div>

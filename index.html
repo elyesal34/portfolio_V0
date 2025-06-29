@@ -120,15 +120,54 @@
     <!-- Accessibility improvements -->
     <meta name="color-scheme" content="light dark" />
     
-    <!-- Critical CSS inlined pour éviter le FOUC -->
+    <!-- Critical CSS inlined pour éviter le FOUC et optimiser LCP -->
     <style>
-      /* Critical CSS pour éviter le FOUC */
+      /* Critical CSS pour éviter le FOUC et optimiser LCP */
       body { 
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f3f4f6;
+        /* Optimisation critique pour LCP */
+        font-display: swap;
+        text-rendering: optimizeSpeed;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
+      
+      /* Optimisation critique du contenu above-the-fold */
+      #accueil {
+        background: linear-gradient(135deg, #1f2937, #1e3a8a, #581c87);
+        color: white;
+        min-height: 100vh;
+        padding-top: 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* Optimisation du texte LCP */
+      .lcp-text {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        color: #e5e7eb;
+        max-width: 42rem;
+        margin: 0 auto;
+      }
+      
+      @media (min-width: 768px) {
+        .lcp-text {
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+        }
+      }
+      
+      @media (min-width: 1024px) {
+        .lcp-text {
+          font-size: 1.5rem;
+          line-height: 2rem;
+        }
+      }
+      
       .loading-screen {
         position: fixed;
         top: 0;
@@ -154,10 +193,16 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+      
+      /* Optimisation critique pour éviter le layout shift */
+      .critical-content {
+        contain: layout style paint;
+        content-visibility: visible;
+      }
     </style>
   </head>
   <body>
-    <!-- Loading screen pour améliorer la perception de performance -->
+    <!-- Loading screen optimisé pour améliorer la perception de performance -->
     <div id="loading-screen" class="loading-screen">
       <div class="loading-spinner"></div>
     </div>
@@ -170,20 +215,20 @@
       Aller au contenu principal
     </a>
     
-    <!-- Service Worker Registration avec gestion d'erreurs améliorée -->
+    <!-- Service Worker Registration optimisé -->
     <script>
-      // Masquer l'écran de chargement une fois le DOM chargé
+      // Masquer l'écran de chargement plus rapidement pour améliorer LCP
       document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
           const loadingScreen = document.getElementById('loading-screen');
           if (loadingScreen) {
             loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.5s ease';
+            loadingScreen.style.transition = 'opacity 0.3s ease';
             setTimeout(() => {
               loadingScreen.remove();
-            }, 500);
+            }, 300);
           }
-        }, 1000);
+        }, 500); // Réduit de 1000ms à 500ms
       });
 
       // Service Worker avec gestion d'erreurs
@@ -213,7 +258,7 @@
         });
       }
 
-      // Performance monitoring
+      // Performance monitoring optimisé
       if ('performance' in window) {
         window.addEventListener('load', () => {
           setTimeout(() => {
