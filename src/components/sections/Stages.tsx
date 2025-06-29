@@ -79,8 +79,8 @@ const Stages = () => {
                     </div>
                   </div>
                   <div className="lg:ml-6">
-                    <div className="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full border border-white border-opacity-30">
-                      <span className="text-white font-bold text-lg">{stage.duree}</span>
+                    <div className="bg-white px-6 py-3 rounded-full shadow-lg border-2 border-white">
+                      <span className="text-gray-900 font-bold text-lg">{stage.duree}</span>
                     </div>
                   </div>
                 </div>
