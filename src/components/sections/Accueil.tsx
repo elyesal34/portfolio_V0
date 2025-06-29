@@ -24,12 +24,6 @@ const Accueil = () => {
 
   return (
     <section id="accueil" className="min-h-screen pt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
-      {/* Éléments décoratifs de fond - Optimisés et réduits */}
-      <div className="absolute inset-0 opacity-5" aria-hidden="true">
-        <div className="absolute top-20 left-10 w-16 h-16 border border-white rounded-full"></div>
-        <div className="absolute bottom-20 right-40 w-20 h-20 border border-purple-400 rounded-full"></div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]">
           <div className="lg:w-1/2 space-y-8 text-center lg:text-left break-words max-w-full">
@@ -98,29 +92,19 @@ const Accueil = () => {
 
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative animate-fade-in" style={{ animationDelay: '1s' }}>
             <div className="relative">
-              {/* Image optimisée pour LCP avec taille réduite */}
-              <picture>
-                <source 
-                  srcSet="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=60&fm=webp" 
-                  type="image/webp"
-                  media="(max-width: 768px)"
-                />
-                <source 
-                  srcSet="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=70&fm=webp" 
-                  type="image/webp"
-                  media="(min-width: 769px)"
-                />
+              {/* Container avec aspect-ratio fixe pour éviter CLS */}
+              <div className="hero-image-container">
                 <img
-                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=70&fm=webp"
+                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=75&fm=webp"
                   alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
-                  className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
+                  className="hero-image"
                   loading="eager"
                   width="600"
                   height="450"
                   decoding="async"
                   fetchpriority="high"
                 />
-              </picture>
+              </div>
               
               {/* Icônes flottantes - Réduites pour les performances */}
               <div className="absolute -top-4 -left-4 bg-blue-500 p-3 rounded-full shadow-lg" role="presentation">
