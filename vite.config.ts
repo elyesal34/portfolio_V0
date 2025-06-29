@@ -30,7 +30,7 @@ export default defineConfig({
     sourcemap: false,
     // Chunk size ultra-réduit
     chunkSizeWarningLimit: 200,
-    // Minification ultra-agressive
+    // Minification ultra-agressive SANS cascade
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -48,8 +48,15 @@ export default defineConfig({
         loops: true,
         if_return: true,
         join_vars: true,
-        cascade: true,
-        side_effects: false
+        // SUPPRESSION de l'option cascade non supportée
+        side_effects: false,
+        sequences: true,
+        properties: true,
+        keep_fargs: false,
+        keep_fnames: false,
+        hoist_funs: true,
+        hoist_vars: false,
+        inline: true
       },
       mangle: {
         safari10: true,
@@ -60,22 +67,25 @@ export default defineConfig({
       },
       format: {
         comments: false,
-        ascii_only: true
+        ascii_only: true,
+        beautify: false,
+        braces: false,
+        semicolons: false
       }
     },
     // CSS ultra-optimisé
     cssCodeSplit: true,
     cssMinify: 'esbuild',
     // Assets ultra-optimisés
-    assetsInlineLimit: 512, // Réduit encore plus
+    assetsInlineLimit: 512,
     // Target moderne pour meilleure optimisation
     target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88'],
-    // Désactiver le module preload
-    modulePreload: false,
+    // Optimisations module
+    modulePreload: {
+      polyfill: false
+    },
     // Optimisations supplémentaires
-    reportCompressedSize: false,
-    // Réduire la taille des polyfills
-    polyfillModulePreload: false
+    reportCompressedSize: false
   },
   server: {
     headers: {
