@@ -167,7 +167,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="min-h-screen pt-16 bg-gray-50">
+    <section id="contact" className="min-h-screen pt-16 bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Contact</h2>
@@ -178,6 +178,7 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Section Mes coordonnées */}
           <div className="space-y-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Mes coordonnées</h3>
             
@@ -188,7 +189,7 @@ const Contact = () => {
                   href={coord.link}
                   target={coord.link.startsWith('http') ? '_blank' : undefined}
                   rel={coord.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="group flex items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+                  className="group flex items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
                   aria-label={`Lien ${coord.label}${coord.label === 'LinkedIn' ? ' (nouvel onglet)' : coord.label === 'GitHub' ? ' (nouvel onglet)' : ''}`}
                 >
                   <div className={`${coord.color} mr-4 group-hover:scale-110 transition-transform`}>
@@ -205,7 +206,7 @@ const Contact = () => {
             </div>
 
             {/* Disponibilité */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Calendar className="w-5 h-5 text-blue-500" />
                 <span>Disponibilité</span>
@@ -240,10 +241,11 @@ const Contact = () => {
             </div>
           </div>
 
+          {/* Section Formulaire */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Envoyez-moi un message</h3>
             
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6" noValidate aria-live="polite">
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100" noValidate aria-live="polite">
               {status !== 'idle' && (
                 <div className={`mb-6 p-4 rounded-lg flex items-start ${
                   status === 'success' 
@@ -271,8 +273,8 @@ const Contact = () => {
                     autoComplete="name"
                     aria-invalid={status === 'error' && !formData.nom ? 'true' : 'false'}
                     disabled={isLoading}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    placeholder="Votre nom complet"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
+                    placeholder="ELYES ALLANI"
                   />
                 </div>
                 
@@ -291,8 +293,8 @@ const Contact = () => {
                     autoComplete="email"
                     aria-invalid={status === 'error' && !formData.email ? 'true' : 'false'}
                     disabled={isLoading}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    placeholder="votre.email@example.com"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
+                    placeholder="allanielyes34@gmail.com"
                   />
                 </div>
               </div>
@@ -309,7 +311,7 @@ const Contact = () => {
                   required
                   aria-invalid={status === 'error' && !formData.sujet ? 'true' : 'false'}
                   disabled={isLoading}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900"
                 >
                   <option value="">Sélectionnez un sujet</option>
                   {sujets.map((sujet, index) => (
@@ -333,7 +335,7 @@ const Contact = () => {
                   autoComplete="off"
                   disabled={isLoading}
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
                   placeholder="Décrivez votre demande, vos besoins ou toute information que vous souhaitez partager..."
                 />
               </div>
@@ -356,16 +358,16 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isLoading || !recaptchaToken}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center disabled:bg-blue-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 space-x-2"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium flex items-center justify-center disabled:from-blue-300 disabled:to-blue-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 {isLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" aria-hidden="true"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" aria-hidden="true"></div>
                     <span>Envoi en cours...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4" aria-hidden="true" />
+                    <Send className="w-5 h-5" aria-hidden="true" />
                     <span>Envoyer le message</span>
                   </>
                 )}
@@ -376,7 +378,7 @@ const Contact = () => {
 
         {/* CTA Final */}
         <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white shadow-xl">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">Prêt à collaborer ?</h3>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto text-lg">
               Je suis toujours intéressé par de nouveaux défis et opportunités. 
@@ -386,7 +388,7 @@ const Contact = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:allanielyes34@gmail.com"
-                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white inline-flex items-center justify-center space-x-2"
+                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white inline-flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 aria-label="Envoyer un email à Allani Elyes"
               >
                 <Mail className="w-5 h-5" />
@@ -396,7 +398,7 @@ const Contact = () => {
                 href="https://www.linkedin.com/in/elyes-allani-034607174/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-white inline-flex items-center justify-center space-x-2"
+                className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-white inline-flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 aria-label="Voir le profil LinkedIn d'Allani Elyes (ouvre dans un nouvel onglet)"
               >
                 <Linkedin className="w-5 h-5" />
