@@ -9,7 +9,7 @@ export default defineConfig({
     include: ['react', 'react-dom']
   },
   build: {
-    // Optimizations ultra-agressives pour PageSpeed
+    // Optimizations pour PageSpeed
     rollupOptions: {
       output: {
         manualChunks: {
@@ -26,11 +26,11 @@ export default defineConfig({
         assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
-    // Désactiver les source maps
+    // Désactiver les source maps en production
     sourcemap: false,
-    // Chunk size ultra-réduit
-    chunkSizeWarningLimit: 200,
-    // Minification ultra-agressive SANS cascade
+    // Chunk size optimisé
+    chunkSizeWarningLimit: 500,
+    // Minification optimisée
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -39,7 +39,7 @@ export default defineConfig({
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
         unused: true,
         dead_code: true,
-        passes: 3,
+        passes: 2,
         reduce_vars: true,
         collapse_vars: true,
         conditionals: true,
@@ -48,7 +48,6 @@ export default defineConfig({
         loops: true,
         if_return: true,
         join_vars: true,
-        // SUPPRESSION de l'option cascade non supportée
         side_effects: false,
         sequences: true,
         properties: true,
@@ -60,24 +59,19 @@ export default defineConfig({
       },
       mangle: {
         safari10: true,
-        toplevel: true,
-        properties: {
-          regex: /^_/
-        }
+        toplevel: true
       },
       format: {
         comments: false,
         ascii_only: true,
-        beautify: false,
-        braces: false,
-        semicolons: false
+        beautify: false
       }
     },
-    // CSS ultra-optimisé
+    // CSS optimisé
     cssCodeSplit: true,
     cssMinify: 'esbuild',
-    // Assets ultra-optimisés
-    assetsInlineLimit: 512,
+    // Assets optimisés
+    assetsInlineLimit: 4096,
     // Target moderne pour meilleure optimisation
     target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88'],
     // Optimisations module
@@ -103,22 +97,7 @@ export default defineConfig({
   },
   // Optimisations CSS
   css: {
-    devSourcemap: false,
-    postcss: {
-      plugins: [
-        {
-          postcssPlugin: 'remove-unused',
-          Once(root) {
-            // Supprimer les règles CSS inutilisées
-            root.walkRules(rule => {
-              if (rule.selector.includes('unused-')) {
-                rule.remove();
-              }
-            });
-          }
-        }
-      ]
-    }
+    devSourcemap: false
   },
   // Optimisations de performance
   define: {
