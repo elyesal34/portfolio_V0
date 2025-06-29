@@ -17,7 +17,7 @@ const Productions = () => {
       statut: "Terminé",
       github: "https://github.com/elyesal34/GestionVisiteur_bd_distante",
       demo: "#",
-      image: "/image copy.png", // Utilisation de votre vraie image
+      image: "/image copy.png",
       featured: true,
       date: "2024",
       article: {
@@ -31,7 +31,7 @@ const Productions = () => {
             "Assurer la sécurité des données",
             "Développer une version mobile Android"
           ],
-          image: "/image copy copy.png" // Utilisation de votre deuxième image
+          image: "/image copy copy.png"
         },
         technologies: {
           titre: "Stack technique utilisée",
