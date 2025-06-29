@@ -15,36 +15,40 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           icons: ['lucide-react'],
           email: ['@emailjs/browser'],
-          recaptcha: ['react-google-recaptcha']
+          recaptcha: ['react-google-recaptcha'],
+          router: ['react-router-dom']
         }
       }
     },
     // Enable source maps for better debugging
     sourcemap: false,
     // Optimize chunk size
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500,
     // Minify for production
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        unused: true,
+        dead_code: true
       },
       mangle: {
         safari10: true
+      },
+      format: {
+        comments: false
       }
     },
     // CSS optimization
     cssCodeSplit: true,
     cssMinify: true,
     // Asset optimization
-    assetsInlineLimit: 4096,
+    assetsInlineLimit: 2048,
     // Target modern browsers for better optimization
     target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88']
   },
-  // La propriété 'compress' n'est pas supportée par la configuration du serveur Vite.
-  // Pour activer la compression, utilisez un middleware ou un proxy externe.
   server: {
     headers: {
       'Cache-Control': 'public, max-age=31536000'

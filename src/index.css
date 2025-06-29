@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Animations personnalisées */
+/* Animations personnalisées - Optimisées */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -161,7 +161,7 @@ a:focus {
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Optimisé */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -190,7 +190,7 @@ a:focus {
   color: white;
 }
 
-/* Loading states */
+/* Loading states - Optimisé */
 .loading {
   position: relative;
   overflow: hidden;
@@ -205,6 +205,7 @@ a:focus {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   animation: loading 1.5s infinite;
+  will-change: transform;
 }
 
 @keyframes loading {
@@ -216,9 +217,10 @@ a:focus {
   }
 }
 
-/* Hover effects */
+/* Hover effects - Optimisé */
 .hover-lift {
   transition: transform 0.2s ease-in-out;
+  will-change: transform;
 }
 
 .hover-lift:hover {
@@ -240,9 +242,10 @@ a:focus {
   background-clip: text;
 }
 
-/* Card hover effects */
+/* Card hover effects - Optimisé */
 .card-hover {
   transition: all 0.3s ease;
+  will-change: transform, box-shadow;
 }
 
 .card-hover:hover {
@@ -250,11 +253,12 @@ a:focus {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Button animations */
+/* Button animations - Optimisé */
 .btn-animate {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  will-change: transform;
 }
 
 .btn-animate::before {
@@ -266,6 +270,7 @@ a:focus {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s;
+  will-change: left;
 }
 
 .btn-animate:hover::before {
@@ -297,6 +302,7 @@ body {
   background-color: #f8fafc;
   color: #1e293b;
   line-height: 1.6;
+  font-display: swap;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -304,6 +310,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #0f172a;
   font-weight: 700;
   line-height: 1.2;
+  font-display: swap;
 }
 
 /* Text contrast improvements */
@@ -377,6 +384,7 @@ button, .btn, .btn-animate, a[role="button"] {
   transition: box-shadow 0.2s, background 0.2s, color 0.2s, transform 0.2s;
   box-shadow: 0 2px 8px rgba(59,130,246,0.08);
   font-weight: 600;
+  will-change: transform, background-color;
 }
 
 button:hover, .btn:hover, .btn-animate:hover, a[role="button"]:hover {
@@ -407,4 +415,56 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
 
 .border-gray-300 {
   border-color: #cbd5e1 !important;
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Lazy loading support */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Critical CSS inlined */
+.critical-text {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+}
+
+/* Reduce layout shift */
+.aspect-ratio-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+  
+  .animate-gradient {
+    animation: gradient 3s ease infinite;
+  }
+}
+
+/* GPU acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
 }
