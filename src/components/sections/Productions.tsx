@@ -1,4 +1,4 @@
-import { Github, ExternalLink, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap } from 'lucide-react';
+import { Github, ExternalLink, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 
 const Productions = () => {
