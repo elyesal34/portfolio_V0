@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Animations personnalisées - Optimisées */
+/* Animations personnalisées - Ultra optimisées */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -25,17 +25,20 @@
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-}
+/* Optimisations pour les animations */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
 
-.animate-gradient {
-  background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
-  background-size: 400% 400%;
-  animation: gradient 3s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  .animate-gradient {
+    background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+    background-size: 400% 400%;
+    animation: gradient 3s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 /* Accessibility improvements */
@@ -163,7 +166,7 @@ a:focus {
 
 /* Custom scrollbar - Optimisé */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -172,7 +175,7 @@ a:focus {
 
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -190,7 +193,7 @@ a:focus {
   color: white;
 }
 
-/* Loading states - Optimisé */
+/* Loading states - Ultra optimisé */
 .loading {
   position: relative;
   overflow: hidden;
@@ -204,7 +207,7 @@ a:focus {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  animation: loading 1.5s infinite;
+  animation: loading 1s infinite;
   will-change: transform;
 }
 
@@ -217,14 +220,14 @@ a:focus {
   }
 }
 
-/* Hover effects - Optimisé */
+/* Hover effects - Ultra optimisé */
 .hover-lift {
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.15s ease-in-out;
   will-change: transform;
 }
 
 .hover-lift:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* Glass morphism effect */
@@ -242,22 +245,22 @@ a:focus {
   background-clip: text;
 }
 
-/* Card hover effects - Optimisé */
+/* Card hover effects - Ultra optimisé */
 .card-hover {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   will-change: transform, box-shadow;
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-/* Button animations - Optimisé */
+/* Button animations - Ultra optimisé */
 .btn-animate {
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   will-change: transform;
 }
 
@@ -269,7 +272,7 @@ a:focus {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+  transition: left 0.3s;
   will-change: left;
 }
 
@@ -298,15 +301,15 @@ select:focus {
 
 /* Typography improvements */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #f8fafc;
   color: #1e293b;
-  line-height: 1.6;
+  line-height: 1.5;
   font-display: swap;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: #0f172a;
   font-weight: 700;
   line-height: 1.2;
@@ -379,10 +382,10 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Button improvements */
+/* Button improvements - Ultra optimisé */
 button, .btn, .btn-animate, a[role="button"] {
-  transition: box-shadow 0.2s, background 0.2s, color 0.2s, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+  transition: box-shadow 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+  box-shadow: 0 1px 3px rgba(59,130,246,0.08);
   font-weight: 600;
   will-change: transform, background-color;
 }
@@ -390,8 +393,8 @@ button, .btn, .btn-animate, a[role="button"] {
 button:hover, .btn:hover, .btn-animate:hover, a[role="button"]:hover {
   background: #2563eb;
   color: #fff;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 16px rgba(59,130,246,0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59,130,246,0.15);
 }
 
 button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
@@ -430,7 +433,7 @@ img {
 /* Lazy loading support */
 img[loading="lazy"] {
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
 }
 
 img[loading="lazy"].loaded {
@@ -452,19 +455,25 @@ img[loading="lazy"].loaded {
   aspect-ratio: 4 / 3;
 }
 
-/* Optimize animations */
-@media (prefers-reduced-motion: no-preference) {
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out forwards;
-  }
-  
-  .animate-gradient {
-    animation: gradient 3s ease infinite;
-  }
-}
-
 /* GPU acceleration for smooth animations */
 .gpu-accelerated {
   transform: translateZ(0);
   will-change: transform;
+}
+
+/* Ultra optimisations pour réduire le thread principal */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
 }

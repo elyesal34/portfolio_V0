@@ -6,9 +6,10 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
+    include: ['react', 'react-dom']
   },
   build: {
-    // Optimizations for better performance
+    // Optimizations for better performance - ULTRA OPTIMISÉ
     rollupOptions: {
       output: {
         manualChunks: {
@@ -20,11 +21,11 @@ export default defineConfig({
         }
       }
     },
-    // Enable source maps for better debugging
+    // Disable source maps for production
     sourcemap: false,
-    // Optimize chunk size
-    chunkSizeWarningLimit: 500,
-    // Minify for production
+    // Optimize chunk size - Plus agressif
+    chunkSizeWarningLimit: 300,
+    // Minify for production - Plus agressif
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -32,22 +33,30 @@ export default defineConfig({
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
         unused: true,
-        dead_code: true
+        dead_code: true,
+        passes: 2,
+        reduce_vars: true,
+        collapse_vars: true
       },
       mangle: {
-        safari10: true
+        safari10: true,
+        toplevel: true
       },
       format: {
         comments: false
       }
     },
-    // CSS optimization
+    // CSS optimization - Plus agressif
     cssCodeSplit: true,
-    cssMinify: true,
-    // Asset optimization
-    assetsInlineLimit: 2048,
+    cssMinify: 'esbuild',
+    // Asset optimization - Plus agressif
+    assetsInlineLimit: 1024,
     // Target modern browsers for better optimization
-    target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88']
+    target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88'],
+    // Réduire la taille des modules
+    modulePreload: {
+      polyfill: false
+    }
   },
   server: {
     headers: {
@@ -57,5 +66,10 @@ export default defineConfig({
   // PWA configuration
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
+  },
+  // Optimisations supplémentaires
+  esbuild: {
+    drop: ['console', 'debugger'],
+    legalComments: 'none'
   }
 });
