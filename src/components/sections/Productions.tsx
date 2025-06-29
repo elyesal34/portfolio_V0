@@ -17,7 +17,7 @@ const Productions = () => {
       statut: "Terminé",
       github: "https://github.com/elyesal34/GestionVisiteur_bd_distante",
       demo: "#",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80&fm=webp",
+      image: "/image copy.png", // Utilisation de votre vraie image
       featured: true,
       date: "2024",
       article: {
@@ -31,7 +31,7 @@ const Productions = () => {
             "Assurer la sécurité des données",
             "Développer une version mobile Android"
           ],
-          image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80&fm=webp"
+          image: "/image copy copy.png" // Utilisation de votre deuxième image
         },
         technologies: {
           titre: "Stack technique utilisée",
@@ -41,19 +41,19 @@ const Productions = () => {
               nom: "Frontend Web",
               techs: ["HTML5", "CSS3", "JavaScript ES6+", "Bootstrap"],
               description: "Interface utilisateur responsive et moderne",
-              image: "https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy.png"
             },
             {
               nom: "Backend",
               techs: ["PHP 8", "MySQL", "Apache"],
               description: "Serveur robuste avec API REST sécurisée",
-              image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy copy.png"
             },
             {
               nom: "Mobile",
               techs: ["Android Studio", "Java", "SQLite"],
               description: "Application mobile native Android",
-              image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy.png"
             }
           ]
         },
@@ -70,7 +70,7 @@ const Productions = () => {
                 "Gestion des sessions PHP",
                 "Protection contre les attaques par force brute"
               ],
-              image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy.png"
             },
             {
               nom: "Gestion des visiteurs",
@@ -81,7 +81,7 @@ const Productions = () => {
                 "Système de recherche et filtrage",
                 "Export des données en CSV/PDF"
               ],
-              image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy copy.png"
             },
             {
               nom: "Base de données distante",
@@ -92,7 +92,7 @@ const Productions = () => {
                 "Optimisation des requêtes SQL",
                 "Mise en place des sauvegardes automatiques"
               ],
-              image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy.png"
             },
             {
               nom: "Interface responsive",
@@ -103,7 +103,7 @@ const Productions = () => {
                 "Optimisation des performances",
                 "Tests sur différents navigateurs"
               ],
-              image: "https://images.unsplash.com/photo-1559028006-448665bd7c7f?auto=format&fit=crop&w=800&q=80&fm=webp"
+              image: "/image copy copy.png"
             }
           ]
         },
@@ -123,7 +123,7 @@ const Productions = () => {
             "Sécurisation des applications web",
             "Méthodologie de développement agile"
           ],
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80&fm=webp"
+          image: "/image copy.png"
         }
       }
     },
