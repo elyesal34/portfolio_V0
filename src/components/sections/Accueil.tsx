@@ -1,4 +1,5 @@
 import { ArrowDown, Code, Database, Smartphone, Download, Mail, ExternalLink } from 'lucide-react';
+import { useEffect } from 'react';
 
 const Accueil = () => {
   const scrollToContact = () => {
@@ -21,6 +22,11 @@ const Accueil = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    const lcpText = document.getElementById('lcp-text');
+    if (lcpText) lcpText.style.display = 'none';
+  }, []);
 
   return (
     <section id="accueil" className="min-h-screen pt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">

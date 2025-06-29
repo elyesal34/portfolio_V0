@@ -28,6 +28,11 @@ function ScrollToHash() {
 }
 
 function App() {
+  useEffect(() => {
+    const lcpText = document.getElementById('lcp-text');
+    if (lcpText) lcpText.style.display = 'none';
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
