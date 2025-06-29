@@ -1,32 +1,39 @@
 <!doctype html>
 <html lang="fr">
   <head>
-    <!-- Google tag (gtag.js) - Optimisé -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-MJLQKQWB5R', {
-        page_title: 'Portfolio Elyes Allani',
-        page_location: 'https://elyes-allani.netlify.app'
-      });
-    </script>
-    
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJLQKQWB5R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MJLQKQWB5R');
+</script>
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="3KCu5cbGDmR-r2S-T9-hxGnuCx62Ovv3e52bWSUnB58" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
-    <!-- Preconnect optimisé - Seulement les essentiels -->
+    <!-- Preconnect pour améliorer les performances -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://api.emailjs.com" />
+    <link rel="preconnect" href="https://www.google.com" />
+    <link rel="preconnect" href="https://www.recaptcha.net" />
     
-    <!-- DNS Prefetch réduit -->
+    <!-- DNS Prefetch pour les domaines externes -->
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="//www.google-analytics.com" />
+    <link rel="dns-prefetch" href="//github.com" />
+    <link rel="dns-prefetch" href="//linkedin.com" />
     
-    <!-- Resource Hints ultra-optimisés -->
-    <link rel="modulepreload" href="/src/main.tsx" />
+    <!-- Resource Hints pour optimiser le chargement -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
     <link rel="preload" href="/src/index.css" as="style" />
+    <link rel="prefetch" href="/cv-elyes-allani.pdf" />
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80&fm=webp" />
     
     <!-- SEO Meta Tags -->
     <title>Elyes Allani - Portfolio BTS SIO SLAM | Développeur Full-Stack</title>
@@ -36,7 +43,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://elyes-allani.netlify.app" />
     
-    <!-- Open Graph Meta Tags -->
+    <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
     <meta property="og:title" content="Elyes Allani - Portfolio BTS SIO SLAM | Développeur Full-Stack" />
     <meta property="og:description" content="Portfolio d'Elyes Allani, étudiant en BTS SIO option SLAM. Développeur Full-Stack spécialisé en React, PHP, Node.js." />
     <meta property="og:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" />
@@ -58,7 +65,7 @@
     <meta name="msapplication-TileColor" content="#3B82F6" />
     <meta name="format-detection" content="telephone=no" />
     
-    <!-- Structured Data optimisé -->
+    <!-- Structured Data (JSON-LD) avec Rich Snippets améliorés -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -75,7 +82,10 @@
         "addressRegion": "Occitanie",
         "addressCountry": "FR"
       },
-      "knowsAbout": ["JavaScript", "React", "PHP", "Node.js", "MySQL", "MongoDB", "Python", "Java", "TypeScript", "Laravel", "Docker", "Git"],
+      "knowsAbout": [
+        "JavaScript", "React", "PHP", "Node.js", "MySQL", "MongoDB", 
+        "Python", "Java", "TypeScript", "Laravel", "Docker", "Git"
+      ],
       "alumniOf": {
         "@type": "EducationalOrganization",
         "name": "Lycée Saint-John Perse",
@@ -91,10 +101,18 @@
         "description": "Services Informatiques aux Organisations - Solutions Logicielles et Applications Métiers",
         "credentialCategory": "degree"
       },
-      "sameAs": ["https://www.linkedin.com/in/elyes-allani-034607174/", "https://github.com/elyesal34"],
+      "sameAs": [
+        "https://www.linkedin.com/in/elyes-allani-034607174/",
+        "https://github.com/elyesal34"
+      ],
       "worksFor": {
         "@type": "EducationalOrganization",
         "name": "Lycée Saint-John Perse"
+      },
+      "seeks": {
+        "@type": "JobPosting",
+        "title": "Stage de fin d'études - Développeur Full-Stack",
+        "description": "Recherche un stage de 8 semaines en développement web/mobile"
       }
     }
     </script>
@@ -102,247 +120,110 @@
     <!-- Accessibility improvements -->
     <meta name="color-scheme" content="light dark" />
     
-    <!-- Critical CSS ultra-optimisé pour LCP et CLS -->
+    <!-- Critical CSS inlined pour améliorer les performances -->
     <style>
-      /* Critical CSS pour éviter le FOUC et améliorer LCP */
-      * {
-        box-sizing: border-box;
+      /* Critical CSS pour éviter le FOUC */
+      body { 
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         margin: 0;
         padding: 0;
-      }
-      
-      body { 
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background-color: #f3f4f6;
-        font-display: swap;
-        line-height: 1.5;
-        color: #1e293b;
       }
-      
-      /* Navigation critique - Taille fixe pour éviter CLS */
-      nav {
+      .loading-screen {
         position: fixed;
         top: 0;
         left: 0;
-        right: 0;
-        z-index: 50;
-        height: 64px;
-        background: #1f2937;
-        display: flex;
-        align-items: center;
-        padding: 0 1rem;
-        contain: layout style paint;
-      }
-      
-      /* Hero section critique pour LCP - Dimensions fixes */
-      #accueil {
-        min-height: 100vh;
-        padding-top: 64px;
-        background: linear-gradient(135deg, #1f2937 0%, #3b82f6 50%, #8b5cf6 100%);
-        color: white;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1f2937, #3b82f6);
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        contain: layout style paint;
-      }
-      
-      .hero-container {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 1rem;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        align-items: center;
-        width: 100%;
-      }
-      
-      @media (min-width: 1024px) {
-        .hero-container {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-      
-      .hero-title {
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: 700;
-        line-height: 1.1;
-        margin-bottom: 1rem;
+        z-index: 9999;
         color: white;
-        contain: layout style;
       }
-      
-      .hero-subtitle {
-        font-size: clamp(1.25rem, 3vw, 2rem);
-        font-weight: 600;
-        color: #93c5fd;
-        margin-bottom: 1rem;
-        contain: layout style;
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255,255,255,0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
       }
-      
-      .hero-description {
-        font-size: clamp(1rem, 2vw, 1.25rem);
-        color: #e5e7eb;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-        contain: layout style;
-      }
-      
-      /* Image hero avec dimensions fixes pour éviter CLS */
-      .hero-image-container {
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-        aspect-ratio: 4/3;
-        margin: 0 auto;
-      }
-      
-      .hero-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 1rem;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        transform: rotate(3deg);
-        transition: transform 0.3s ease;
-        contain: layout style paint;
-      }
-      
-      .hero-image:hover {
-        transform: rotate(0deg);
-      }
-      
-      /* Boutons critiques */
-      .btn-primary {
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        color: white;
-        padding: 0.75rem 2rem;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        transition: transform 0.2s ease;
-        border: none;
-        cursor: pointer;
-        contain: layout style;
-      }
-      
-      .btn-primary:hover {
-        transform: translateY(-2px);
-      }
-      
-      /* Sections avec contain pour optimiser le rendu */
-      section {
-        contain: layout style;
-      }
-      
-      /* Optimisations pour réduire le CLS */
-      img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-      }
-      
-      /* Préchargement des polices critiques */
-      @font-face {
-        font-family: 'System';
-        src: local('system-ui'), local('-apple-system'), local('BlinkMacSystemFont');
-        font-display: swap;
-      }
-      
-      /* Masquer le loading screen par défaut */
-      .loading-screen {
-        display: none;
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
     </style>
   </head>
   <body>
+    <!-- Loading screen pour améliorer la perception de performance -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-spinner"></div>
+    </div>
+    
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
     
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50">
       Aller au contenu principal
     </a>
     
-    <!-- Script ultra-optimisé -->
+    <!-- Service Worker Registration avec gestion d'erreurs améliorée -->
     <script>
-      // Performance optimizations
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-          // Lazy load Google Analytics après le chargement initial
-          if (!document.querySelector('script[src*="googletagmanager"]')) {
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MJLQKQWB5R';
-            document.head.appendChild(script);
+      // Masquer l'écran de chargement une fois le DOM chargé
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 500);
           }
-        });
-      }
+        }, 1000);
+      });
 
-      // Service Worker optimisé
+      // Service Worker avec gestion d'erreurs
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          requestIdleCallback(() => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
-          });
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+              // Vérifier les mises à jour
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (newWorker) {
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      // Nouvelle version disponible
+                      if (confirm('Une nouvelle version est disponible. Voulez-vous actualiser ?')) {
+                        window.location.reload();
+                      }
+                    }
+                  });
+                }
+              });
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
         });
       }
 
-      // Lazy loading des images ultra-optimisé
-      if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const img = entry.target;
-              if (img.dataset.src) {
-                img.src = img.dataset.src;
-                img.classList.add('loaded');
-                imageObserver.unobserve(img);
-              }
+      // Performance monitoring
+      if ('performance' in window) {
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            if (perfData) {
+              console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
             }
-          });
-        }, {
-          rootMargin: '50px 0px',
-          threshold: 0.01
+          }, 0);
         });
-
-        // Observer les images lazy après le DOM
-        document.addEventListener('DOMContentLoaded', () => {
-          requestIdleCallback(() => {
-            const lazyImages = document.querySelectorAll('img[data-src]');
-            lazyImages.forEach(img => imageObserver.observe(img));
-          });
-        });
-      }
-
-      // Précharger les ressources critiques
-      const preloadCriticalResources = () => {
-        const criticalResources = [
-          '/cv-elyes-allani.pdf'
-        ];
-        
-        criticalResources.forEach(resource => {
-          const link = document.createElement('link');
-          link.rel = 'prefetch';
-          link.href = resource;
-          document.head.appendChild(link);
-        });
-      };
-
-      // Exécuter après le chargement initial
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          requestIdleCallback(preloadCriticalResources);
-        });
-      } else {
-        requestIdleCallback(preloadCriticalResources);
       }
     </script>
-    
-    <!-- Module principal optimisé -->
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

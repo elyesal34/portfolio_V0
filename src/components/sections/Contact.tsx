@@ -3,7 +3,6 @@ import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, Check
 import emailjs from '@emailjs/browser';
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from 'react-router-dom';
-// import { Link } from 'react-router-dom'; // Suppression de l'import inutile ou problématique
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -244,7 +243,7 @@ const Contact = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Envoyez-moi un message</h3>
             
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6 border border-gray-200" noValidate aria-live="polite">
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6" noValidate aria-live="polite">
               {status !== 'idle' && (
                 <div className={`mb-6 p-4 rounded-lg flex items-start ${
                   status === 'success' 
@@ -258,7 +257,7 @@ const Contact = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="nom" className="block text-sm font-semibold text-gray-800 mb-2">
+                  <label htmlFor="nom" className="block text-sm font-medium text-gray-700 mb-2">
                     <User className="w-4 h-4 inline mr-1" aria-hidden="true" />
                     Nom complet *
                   </label>
@@ -272,13 +271,13 @@ const Contact = () => {
                     autoComplete="name"
                     aria-invalid={status === 'error' && !formData.nom ? 'true' : 'false'}
                     disabled={isLoading}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-white text-gray-900 placeholder-gray-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="Votre nom complet"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-800 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     <Mail className="w-4 h-4 inline mr-1" aria-hidden="true" />
                     Email *
                   </label>
@@ -292,14 +291,14 @@ const Contact = () => {
                     autoComplete="email"
                     aria-invalid={status === 'error' && !formData.email ? 'true' : 'false'}
                     disabled={isLoading}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-white text-gray-900 placeholder-gray-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="votre.email@example.com"
                   />
                 </div>
               </div>
 
               <div className="mb-6">
-                <label htmlFor="sujet" className="block text-sm font-semibold text-gray-800 mb-2">
+                <label htmlFor="sujet" className="block text-sm font-medium text-gray-700 mb-2">
                   Sujet *
                 </label>
                 <select
@@ -310,17 +309,17 @@ const Contact = () => {
                   required
                   aria-invalid={status === 'error' && !formData.sujet ? 'true' : 'false'}
                   disabled={isLoading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-white text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
-                  <option value="" className="text-gray-500">Sélectionnez un sujet</option>
+                  <option value="">Sélectionnez un sujet</option>
                   {sujets.map((sujet, index) => (
-                    <option key={index} value={sujet} className="text-gray-900">{sujet}</option>
+                    <option key={index} value={sujet}>{sujet}</option>
                   ))}
                 </select>
               </div>
 
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-800 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                   <MessageSquare className="w-4 h-4 inline mr-1" aria-hidden="true" />
                   Message *
                 </label>
@@ -334,7 +333,7 @@ const Contact = () => {
                   autoComplete="off"
                   disabled={isLoading}
                   rows={6}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed bg-white text-gray-900 placeholder-gray-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="Décrivez votre demande, vos besoins ou toute information que vous souhaitez partager..."
                 />
               </div>
@@ -357,7 +356,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isLoading || !recaptchaToken}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 focus:bg-blue-800 transition-colors font-semibold flex items-center justify-center disabled:bg-blue-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 space-x-2 shadow-lg"
+                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center disabled:bg-blue-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 space-x-2"
               >
                 {isLoading ? (
                   <>
@@ -407,12 +406,12 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* CTA Final */}
+        {/* Footer Mentions légales */}
         <div className="text-center mt-12 text-sm text-gray-500">
           <Link to="/mentions-legales" className="underline hover:text-blue-600">Mentions légales</Link>
         </div>
       </div>
-      {/* Footer Mentions légales */}
+      
       <footer className="mt-16 text-center text-gray-600 text-sm">
         <span>&copy; 2025 Allani Elyes &nbsp;—&nbsp;</span>
         <Link to="/mentions-legales" className="underline font-medium hover:text-blue-600">Mentions légales</Link>
