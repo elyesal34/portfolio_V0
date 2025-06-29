@@ -1,5 +1,6 @@
 import { Github, ExternalLink, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
 import { useState } from 'react';
+import ProjectCard from '../ProjectCard/ProjectCard';
 
 const Productions = () => {
   const [activeFilter, setActiveFilter] = useState('Tous');
@@ -716,6 +717,11 @@ const Productions = () => {
 
         {/* Projets */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-16 px-2 sm:px-0">
+          {/* Projet Node.js PHP → Node.js */}
+          <div className="lg:col-span-2">
+            <ProjectCard />
+          </div>
+          
           {filteredProjets.map((projet, index) => (
             <article 
               key={index} 

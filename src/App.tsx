@@ -10,6 +10,7 @@ import Contact from './components/sections/Contact';
 import MentionsLegales from './components/sections/MentionsLegales';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import ProjectCard from './components/ProjectCard/ProjectCard.tsx';
 
 function ScrollToHash() {
   const location = useLocation();
