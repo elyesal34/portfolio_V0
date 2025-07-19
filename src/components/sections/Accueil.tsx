@@ -99,11 +99,11 @@ const Accueil = () => {
               </div>
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-purple-300 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
-                <div className="text-black-200 text-sm md:text-base">Stages</div>
+                <div className="text-black text-sm md:text-base">Stages</div>
               </div>
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-green-300 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
-                <div className="text-black-200 text-sm md:text-base">Technologies</div>
+                <div className="text-black text-sm md:text-base">Technologies</div>
               </div>
             </div>
           </div>
