@@ -95,15 +95,15 @@ const Accueil = () => {
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-blue-300 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
-                <div className="text-gray-200 text-sm md:text-base">Projets</div>
+                <div className="text-black text-sm md:text-base">Projets</div>
               </div>
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-purple-300 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
-                <div className="text-gray-200 text-sm md:text-base">Stages</div>
+                <div className="text-black-200 text-sm md:text-base">Stages</div>
               </div>
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-green-300 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
-                <div className="text-gray-200 text-sm md:text-base">Technologies</div>
+                <div className="text-black-200 text-sm md:text-base">Technologies</div>
               </div>
             </div>
           </div>
