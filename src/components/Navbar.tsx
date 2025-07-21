@@ -33,17 +33,28 @@ const Navbar = () => {
 
   const handleMenuClick = (hash: string) => {
     setIsOpen(false);
-    if (location.pathname === '/') {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    
+    // Attendre que le menu mobile se ferme avant de naviguer
+    setTimeout(() => {
+      if (location.pathname === '/') {
+        const element = document.querySelector(hash);
+        if (element) {
+          // Calculer la position avec offset pour la navbar fixe
+          const navbarHeight = 64; // hauteur de la navbar
+          const elementPosition = element.offsetTop - navbarHeight;
+          
+          window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+          });
+        } else {
+          // Fallback si l'élément n'est pas trouvé
+          window.location.hash = hash;
+        }
       } else {
-        // Si l'élément n'est pas encore monté (rare), on change le hash pour forcer le scroll après render
-        window.location.hash = hash;
+        navigate('/' + hash);
       }
-    } else {
-      navigate('/' + hash);
-    }
+    }, isOpen ? 300 : 0); // Délai seulement si le menu mobile était ouvert
   };
 
   const scrollToTop = () => {

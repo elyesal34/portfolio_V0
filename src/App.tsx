@@ -20,9 +20,15 @@ function ScrollToHash() {
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          const navbarHeight = 64;
+          const elementPosition = element.offsetTop - navbarHeight;
+          
+          window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+          });
         }
-      }, 100);
+      }, 200);
     }
   }, [location]);
   return null;
