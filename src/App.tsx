@@ -15,14 +15,17 @@ import ProjectCard from './components/ProjectCard/ProjectCard.tsx';
 function ScrollToHash() {
   const location = useLocation();
   useEffect(() => {
+    console.log('🔄 ScrollToHash - pathname:', location.pathname, 'hash:', location.hash);
     if (location.pathname === '/' && location.hash) {
       const hash = location.hash;
       setTimeout(() => {
         const element = document.querySelector(hash);
+        console.log('📍 ScrollToHash - Élément trouvé:', element);
         if (element) {
           if (hash === '#contact') {
             // Pour Contact, offset spécial
             const elementPosition = element.offsetTop - 120;
+            console.log('💬 ScrollToHash Contact - Position:', elementPosition + 'px');
             window.scrollTo({
               top: Math.max(0, elementPosition),
               behavior: 'smooth'
@@ -31,6 +34,7 @@ function ScrollToHash() {
             // Pour les autres sections
             const navbarHeight = 80;
             const elementPosition = element.offsetTop - navbarHeight;
+            console.log('🔧 ScrollToHash Standard - Position:', elementPosition + 'px');
             window.scrollTo({
               top: Math.max(0, elementPosition),
               behavior: 'smooth'

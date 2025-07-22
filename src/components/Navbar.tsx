@@ -34,15 +34,24 @@ const Navbar = () => {
   const handleMenuClick = (hash: string) => {
     setIsOpen(false);
     
+    // 🔍 DEBUG: Log de navigation
+    console.log('🚀 Navigation vers:', hash);
+    
     // Attendre que le menu mobile se ferme avant de naviguer
     setTimeout(() => {
       if (location.pathname === '/') {
         const element = document.querySelector(hash);
+        console.log('📍 Élément trouvé:', element);
+        
         if (element) {
+          const elementTop = element.offsetTop;
+          console.log('📏 Position de l\'élément:', elementTop + 'px');
+          
           // Utiliser scrollIntoView avec offset personnalisé
           if (hash === '#contact') {
             // Pour Contact, scroll avec offset plus important
             const elementPosition = element.offsetTop - 120;
+            console.log('💬 Contact - Position calculée:', elementPosition + 'px');
             window.scrollTo({
               top: Math.max(0, elementPosition),
               behavior: 'smooth'
@@ -51,16 +60,25 @@ const Navbar = () => {
             // Pour les autres sections, offset standard
             const navbarHeight = 80;
             const elementPosition = element.offsetTop - navbarHeight;
+            console.log('🔧 Section standard - Position calculée:', elementPosition + 'px');
             window.scrollTo({
               top: Math.max(0, elementPosition),
               behavior: 'smooth'
             });
           }
+          
+          // Log de la position finale après scroll
+          setTimeout(() => {
+            console.log('📍 Position finale du scroll:', window.scrollY + 'px');
+            console.log('🎯 Élément visible dans viewport:', element.getBoundingClientRect().top);
+          }, 1000);
         } else {
+          console.log('❌ Élément non trouvé, fallback vers hash');
           // Fallback si l'élément n'est pas trouvé
           window.location.hash = hash;
         }
       } else {
+        console.log('🔄 Navigation vers page d\'accueil + hash');
         navigate('/' + hash);
       }
     }, isOpen ? 300 : 0); // Délai seulement si le menu mobile était ouvert
