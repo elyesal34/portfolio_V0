@@ -40,7 +40,7 @@ const Navbar = () => {
         const element = document.querySelector(hash);
         if (element) {
           // Calculer la position avec offset pour la navbar fixe
-          const navbarHeight = 64; // hauteur de la navbar
+          const navbarHeight = 80; // hauteur de la navbar ajustée
           const elementPosition = element.offsetTop - navbarHeight;
           
           window.scrollTo({

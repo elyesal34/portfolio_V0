@@ -20,7 +20,7 @@ function ScrollToHash() {
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
-          const navbarHeight = 64;
+          const navbarHeight = 80;
           const elementPosition = element.offsetTop - navbarHeight;
           
           window.scrollTo({
@@ -28,7 +28,7 @@ function ScrollToHash() {
             behavior: 'smooth'
           });
         }
-      }, 200);
+      }, 100);
     }
   }, [location]);
   return null;
