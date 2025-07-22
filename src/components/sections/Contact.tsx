@@ -167,7 +167,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="min-h-screen pt-24 bg-gradient-to-br from-gray-50 to-blue-50">
+    <section id="contact" className="min-h-screen pt-32 bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Contact</h2>
