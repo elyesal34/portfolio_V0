@@ -20,15 +20,24 @@ function ScrollToHash() {
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
-          const navbarHeight = 100;
-          const elementPosition = element.offsetTop - navbarHeight;
-          
-          window.scrollTo({
-            top: elementPosition,
-            behavior: 'smooth'
-          });
+          if (hash === '#contact') {
+            // Pour Contact, offset spécial
+            const elementPosition = element.offsetTop - 120;
+            window.scrollTo({
+              top: Math.max(0, elementPosition),
+              behavior: 'smooth'
+            });
+          } else {
+            // Pour les autres sections
+            const navbarHeight = 80;
+            const elementPosition = element.offsetTop - navbarHeight;
+            window.scrollTo({
+              top: Math.max(0, elementPosition),
+              behavior: 'smooth'
+            });
+          }
         }
-      }, 50);
+      }, 100);
     }
   }, [location]);
   return null;

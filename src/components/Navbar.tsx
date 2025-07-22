@@ -39,14 +39,23 @@ const Navbar = () => {
       if (location.pathname === '/') {
         const element = document.querySelector(hash);
         if (element) {
-          // Calculer la position avec offset pour la navbar fixe
-          const navbarHeight = 100; // hauteur de la navbar ajustée pour Contact
-          const elementPosition = element.offsetTop - navbarHeight;
-          
-          window.scrollTo({
-            top: elementPosition,
-            behavior: 'smooth'
-          });
+          // Utiliser scrollIntoView avec offset personnalisé
+          if (hash === '#contact') {
+            // Pour Contact, scroll avec offset plus important
+            const elementPosition = element.offsetTop - 120;
+            window.scrollTo({
+              top: Math.max(0, elementPosition),
+              behavior: 'smooth'
+            });
+          } else {
+            // Pour les autres sections, offset standard
+            const navbarHeight = 80;
+            const elementPosition = element.offsetTop - navbarHeight;
+            window.scrollTo({
+              top: Math.max(0, elementPosition),
+              behavior: 'smooth'
+            });
+          }
         } else {
           // Fallback si l'élément n'est pas trouvé
           window.location.hash = hash;
