@@ -1,15 +1,17 @@
 import Navbar from './components/Navbar';
 import Accueil from './components/sections/Accueil';
-import CV from './components/sections/CV';
-import AteliersPro from './components/sections/AteliersPro';
-import Stages from './components/sections/Stages';
-import Veilles from './components/sections/Veilles';
-import Competences from './components/sections/Competences';
-import Productions from './components/sections/Productions';
 import Contact from './components/sections/Contact';
 import MentionsLegales from './components/sections/MentionsLegales';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
+
+// Lazy loading pour les sections volumineuses
+const CV = lazy(() => import('./components/sections/CV'));
+const AteliersPro = lazy(() => import('./components/sections/AteliersPro'));
+const Stages = lazy(() => import('./components/sections/Stages'));
+const Veilles = lazy(() => import('./components/sections/Veilles'));
+const Competences = lazy(() => import('./components/sections/Competences'));
+const Productions = lazy(() => import('./components/sections/Productions'));
 
 function ScrollToHash() {
   const location = useLocation();
@@ -66,12 +68,54 @@ function App() {
             <Route path="/" element={
               <>
                 <Accueil />
-                <CV />
-                <AteliersPro />
-                <Stages />
-                <Veilles />
-                <Competences />
-                <Productions />
+                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Chargement du CV...</p>
+                  </div>
+                </div>}>
+                  <CV />
+                </Suspense>
+                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Chargement des ateliers...</p>
+                  </div>
+                </div>}>
+                  <AteliersPro />
+                </Suspense>
+                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Chargement des stages...</p>
+                  </div>
+                </div>}>
+                  <Stages />
+                </Suspense>
+                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Chargement des veilles...</p>
+                  </div>
+                </div>}>
+                  <Veilles />
+                </Suspense>
+                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Chargement des compétences...</p>
+                  </div>
+                </div>}>
+                  <Competences />
+                </Suspense>
+                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Chargement des productions...</p>
+                  </div>
+                </div>}>
+                  <Productions />
+                </Suspense>
                 <Contact />
               </>
             } />
