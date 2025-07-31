@@ -117,7 +117,7 @@ const Accueil = () => {
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80&fm=webp"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
                 className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
-                loading="lazy"
+                fetchPriority="high"
                 width="800"
                 height="600"
                 decoding="async"
