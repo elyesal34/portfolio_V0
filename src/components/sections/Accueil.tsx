@@ -25,17 +25,19 @@ const Accueil = () => {
 
   useEffect(() => {
     const lcpText = document.getElementById('lcp-text');
-    if (lcpText) lcpText.style.display = 'none';
+    if (lcpText) lcpText.style.visibility = 'hidden';
   }, []);
 
   return (
     <section id="accueil" className="min-h-screen pt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
       {/* Éléments décoratifs de fond - chargés après */}
-      <div className="absolute inset-0 opacity-10" aria-hidden="true">
-        <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+      <div style={{ position: 'relative', minHeight: '120px' }}>
+        <div className="absolute inset-0 opacity-10" aria-hidden="true">
+          <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
@@ -110,7 +112,7 @@ const Accueil = () => {
 
           {/* Image - chargée en lazy loading après le contenu principal */}
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
-            <div className="relative">
+            <div className="relative" style={{ minHeight: '80px' }}>
               <img
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80&fm=webp"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"

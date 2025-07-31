@@ -49,7 +49,7 @@ function ScrollToHash() {
 function App() {
   useEffect(() => {
     const lcpText = document.getElementById('lcp-text');
-    if (lcpText) lcpText.style.display = 'none';
+    if (lcpText) lcpText.style.visibility = 'hidden';
   }, []);
 
   return (
