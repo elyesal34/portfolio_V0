@@ -734,3 +734,9 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
   font-style: italic;
   font-display: swap;
 }
+#lcp-text {
+  min-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5;
+  visibility: hidden;
+}
