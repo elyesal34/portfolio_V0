@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,7 @@ const Navbar = () => {
     // Attendre que le menu mobile se ferme avant de naviguer
     setTimeout(() => {
       if (location.pathname === '/') {
-        const element = document.querySelector(hash);
+        const element = document.querySelector(hash) as HTMLElement | null;
         console.log('📍 Élément trouvé:', element);
         
         if (element) {
