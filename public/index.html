@@ -2,3 +2,43 @@
   <link rel="preload" href="/fonts/inter-v19-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v19-latin-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v19-latin-700italic.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    html, body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e293b, #3b82f6, #8b5cf6);
+      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #accueil {
+      min-height: 100vh;
+      padding-top: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    h1, .text-4xl, .md\:text-6xl, .lg\:text-7xl {
+      font-size: 2.25rem;
+      font-weight: bold;
+      line-height: 1.1;
+      margin: 0 0 1rem 0;
+    }
+    @media (min-width: 768px) {
+      h1, .md\:text-6xl { font-size: 3.75rem; }
+    }
+    @media (min-width: 1024px) {
+      h1, .lg\:text-7xl { font-size: 4.5rem; }
+    }
+    .text-blue-200 { color: #bfdbfe; }
+    .rounded-2xl { border-radius: 1rem; }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .w-full { width: 100%; }
+    .h-auto { height: auto; }
+    .font-bold { font-weight: bold; }
+    .text-center { text-align: center; }
+    .max-w-7xl { max-width: 80rem; margin-left: auto; margin-right: auto; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    .z-10 { z-index: 10; position: relative; }
+  </style>
