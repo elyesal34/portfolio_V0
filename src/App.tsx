@@ -10,7 +10,6 @@ import Contact from './components/sections/Contact';
 import MentionsLegales from './components/sections/MentionsLegales';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import ProjectCard from './components/ProjectCard/ProjectCard.tsx';
 
 function ScrollToHash() {
   const location = useLocation();
@@ -19,7 +18,7 @@ function ScrollToHash() {
     if (location.pathname === '/' && location.hash) {
       const hash = location.hash;
       setTimeout(() => {
-        const element = document.querySelector(hash);
+        const element = document.querySelector(hash) as HTMLElement | null;
         console.log('📍 ScrollToHash - Élément trouvé:', element);
         if (element) {
           if (hash === '#contact') {
