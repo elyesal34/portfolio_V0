@@ -1,10 +1,43 @@
 import { Github, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProjectCard from '../ProjectCard/ProjectCard';
+
+// Chargement dynamique Google Analytics
+const loadGoogleAnalytics = () => {
+  if ((window as any).gtag) return;
+  const script = document.createElement('script');
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MJLQKQWB5R';
+  script.async = true;
+  document.head.appendChild(script);
+
+  (window as any).dataLayer = (window as any).dataLayer || [];
+  function gtag(){(window as any).dataLayer.push(arguments);}
+  (window as any).gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', 'G-MJLQKQWB5R');
+};
+
+// Chargement dynamique reCAPTCHA (à appeler uniquement si besoin d'un formulaire)
+const loadRecaptcha = () => {
+  if (document.getElementById('recaptcha-script')) return;
+  const script = document.createElement('script');
+  script.id = 'recaptcha-script';
+  script.src = 'https://www.gstatic.com/recaptcha/api2/v1554100419869/recaptcha__en.js';
+  script.async = true;
+  script.defer = true;
+  document.body.appendChild(script);
+};
 
 const Productions = () => {
   const [activeFilter, setActiveFilter] = useState('Tous');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+
+  // Charge Google Analytics uniquement sur cette page
+  useEffect(() => {
+    loadGoogleAnalytics();
+    // Décommente si tu utilises reCAPTCHA sur cette page :
+    // loadRecaptcha();
+  }, []);
 
   const projets = [
     {
