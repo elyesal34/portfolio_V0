@@ -1,4 +1,4 @@
-import { Github, ExternalLink, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
+import { Github, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import ProjectCard from '../ProjectCard/ProjectCard';
 
@@ -834,6 +834,7 @@ const Productions = () => {
         )}
 
         {/* Statistiques */}
+        {/*
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-6 text-center">Statistiques de Production</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -855,6 +856,7 @@ const Productions = () => {
             </div>
           </div>
         </div>
+        */}
       </div>
     </section>
   );
