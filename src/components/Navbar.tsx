@@ -36,28 +36,52 @@ const Navbar = () => {
     
     // Navigation immédiate pour éviter les problèmes de timing
     if (location.pathname === '/') {
-      const element = document.querySelector(hash) as HTMLElement | null;
-      
-      if (element) {
-        // Calcul de la position avec offset approprié
+      // Fonction pour effectuer le scroll avec le bon offset
+      const performScroll = (element: HTMLElement) => {
         let elementPosition: number;
         
         if (hash === '#contact') {
-          // Pour Contact, offset spécial pour compenser le pt-40
+          // Pour Contact, offset spécial pour compenser le pt-40 (160px)
           elementPosition = element.offsetTop - 160;
         } else {
-          // Pour les autres sections, offset standard
+          // Pour les autres sections, offset standard (80px)
           elementPosition = element.offsetTop - 80;
         }
         
-        // Scroll immédiat
         window.scrollTo({
           top: Math.max(0, elementPosition),
           behavior: 'smooth'
         });
+      };
+
+      // Essayer de trouver l'élément immédiatement
+      const element = document.querySelector(hash) as HTMLElement | null;
+      
+      if (element) {
+        // Utiliser requestAnimationFrame pour un meilleur timing
+        requestAnimationFrame(() => {
+          performScroll(element);
+        });
       } else {
-        // Fallback si l'élément n'est pas trouvé
-        window.location.hash = hash;
+        // Si l'élément n'est pas trouvé, essayer plusieurs fois avec des délais croissants
+        const retryTimes = [100, 300, 500, 1000];
+        let retryCount = 0;
+        
+        const retryScroll = () => {
+          const retryElement = document.querySelector(hash) as HTMLElement | null;
+          
+          if (retryElement) {
+            performScroll(retryElement);
+          } else if (retryCount < retryTimes.length) {
+            setTimeout(retryScroll, retryTimes[retryCount]);
+            retryCount++;
+          } else {
+            // Fallback final vers window.location.hash
+            window.location.hash = hash;
+          }
+        };
+        
+        setTimeout(retryScroll, retryTimes[0]);
       }
     } else {
       // Navigation vers page d'accueil + hash
