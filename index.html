@@ -13,6 +13,18 @@
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="3KCu5cbGDmR-r2S-T9-hxGnuCx62Ovv3e52bWSUnB58" />
     
+    <!-- Content Security Policy pour améliorer la sécurité -->
+    <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline' 'unsafe-eval';
+  img-src 'self' https://www.google-analytics.com data:;
+  connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
+  style-src 'self' 'unsafe-inline';
+  font-src 'self';
+  frame-src 'none';
+  object-src 'none';
+">
+
     <!-- Favicon optimisé et professionnel -->
     <link rel="icon" type="image/webp" sizes="32x32" href="/favicon-32x32.webp" />
     <link rel="icon" type="image/webp" sizes="16x16" href="/favicon-16x16.webp" />
