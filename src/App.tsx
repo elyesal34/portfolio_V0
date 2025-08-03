@@ -24,8 +24,8 @@ function ScrollToHash() {
         console.log('📍 ScrollToHash - Élément trouvé:', element);
         if (element) {
           if (hash === '#contact') {
-            // Pour Contact, offset spécial
-            const elementPosition = element.offsetTop - 120;
+            // Pour Contact, offset spécial pour compenser le pt-40
+            const elementPosition = element.offsetTop - 160;
             console.log('💬 ScrollToHash Contact - Position:', elementPosition + 'px');
             window.scrollTo({
               top: Math.max(0, elementPosition),

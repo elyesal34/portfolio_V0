@@ -49,8 +49,8 @@ const Navbar = () => {
           
           // Utiliser scrollIntoView avec offset personnalisé
           if (hash === '#contact') {
-            // Pour Contact, scroll avec offset plus important
-            const elementPosition = element.offsetTop - 120;
+            // Pour Contact, scroll avec offset plus important pour compenser le pt-40
+            const elementPosition = element.offsetTop - 160;
             console.log('💬 Contact - Position calculée:', elementPosition + 'px');
             window.scrollTo({
               top: Math.max(0, elementPosition),
