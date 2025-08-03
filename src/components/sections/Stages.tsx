@@ -3,43 +3,40 @@ import { Calendar, MapPin, Building, Users, Target, Award } from 'lucide-react';
 const Stages = () => {
   const stages = [
     {
-      entreprise: "TechSolutions SARL",
-      poste: "Développeur Web Junior",
-      duree: "6 semaines",
-      periode: "Mai - Juin 2023",
-      lieu: "Paris, France",
-      description: "Stage de première année axé sur le développement web et la découverte du monde professionnel.",
+      entreprise: "Cyriaque Mazères",
+      poste: "Développeur Full Stack Junior",
+      duree: "5 semaines",
+      periode: "Mai - Juin 2024",
+      lieu: "Pau, France",
+      description: "Stage de première année concernant le développement web d'une application d'affichage des temps d'attente des établissements de soins",
       missions: [
-        "Développement d'un site vitrine avec PHP et MySQL",
-        "Maintenance et mise à jour de sites existants",
-        "Participation aux réunions d'équipe",
-        "Documentation des procédures de développement"
+        "Réalisation d'une application web avec React",
+        "Développement d'une interface utilisateur et d'une fonctionnalité de recherche des établissements de soins",
       ],
-      competences: ["PHP", "MySQL", "HTML/CSS", "JavaScript", "Git"],
+      competences: ["React", "HTML/CSS", "JavaScript", "Git"],
       resultats: [
-        "Site web fonctionnel livré en production",
-        "Amélioration des performances de 30%",
-        "Documentation complète rédigée"
+        "Application web fonctionnelle",
+        "Potentiel réduction des temps d'attente des établissements de soins",
+        "Amélioration de la qualité de vie des patients"
       ]
     },
     {
-      entreprise: "InnovaTech",
-      poste: "Développeur Full-Stack",
-      duree: "8 semaines",
-      periode: "Avril - Juin 2024",
-      lieu: "Lyon, France",
-      description: "Stage de deuxième année avec des responsabilités accrues sur des projets d'envergure.",
+      entreprise: "Coach Internet",
+      poste: "Développeur Web Junior",
+      duree: "6 semaines",
+      periode: "Janvier - Février 2025",
+      lieu: "Pau, France",
+      description: "Stage de deuxième année concernant l'utilisation de l'API Google Maps pour récupérer les informations des entreprises",
       missions: [
-        "Développement d'une application web complète avec React et Node.js",
-        "Conception et implémentation d'une API REST",
+        "Développement d'un programme en Python pour récupérer les informations des entreprises",
+        "Conception et implémentation d'une API REST pour récupérer les informations des entreprises",
         "Tests unitaires et intégration continue",
-        "Formation des utilisateurs finaux"
+        "Utilisation d'Apify pour configurer les filtres"  
       ],
-      competences: ["React", "Node.js", "MongoDB", "Docker", "Jest", "CI/CD"],
+      competences: ["Python", "API Google Maps", "Apify", "Git", "REST API", "Scraping", "Sequelize"],
       resultats: [
-        "Application déployée avec succès",
-        "Réduction du temps de traitement de 50%",
-        "Formation de 15 utilisateurs"
+        "Programme fonctionnel",
+        "Production d'un fichier CSV avec les informations des entreprises"
       ]
     }
   ];
