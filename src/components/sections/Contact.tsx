@@ -411,11 +411,6 @@ const Contact = () => {
             </div>
           </div>
         </div>
-
-        {/* Footer Mentions légales */}
-        <div className="text-center mt-12 text-sm text-gray-500">
-          <Link to="/mentions-legales" className="underline hover:text-blue-600">Mentions légales</Link>
-        </div>
       </div>
       
       <footer className="mt-16 text-center text-gray-600 text-sm">
