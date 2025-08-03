@@ -34,54 +34,35 @@ const Navbar = () => {
   const handleMenuClick = (hash: string) => {
     setIsOpen(false);
     
-    // 🔍 DEBUG: Log de navigation
-    console.log('🚀 Navigation vers:', hash);
-    
-    // Attendre que le menu mobile se ferme avant de naviguer
-    setTimeout(() => {
-      if (location.pathname === '/') {
-        const element = document.querySelector(hash) as HTMLElement | null;
-        console.log('📍 Élément trouvé:', element);
+    // Navigation immédiate pour éviter les problèmes de timing
+    if (location.pathname === '/') {
+      const element = document.querySelector(hash) as HTMLElement | null;
+      
+      if (element) {
+        // Calcul de la position avec offset approprié
+        let elementPosition: number;
         
-        if (element) {
-          const elementTop = element.offsetTop;
-          console.log('📏 Position de l\'élément:', elementTop + 'px');
-          
-          // Utiliser scrollIntoView avec offset personnalisé
-          if (hash === '#contact') {
-            // Pour Contact, scroll avec offset plus important pour compenser le pt-40
-            const elementPosition = element.offsetTop - 160;
-            console.log('💬 Contact - Position calculée:', elementPosition + 'px');
-            window.scrollTo({
-              top: Math.max(0, elementPosition),
-              behavior: 'smooth'
-            });
-          } else {
-            // Pour les autres sections, offset standard
-            const navbarHeight = 80;
-            const elementPosition = element.offsetTop - navbarHeight;
-            console.log('🔧 Section standard - Position calculée:', elementPosition + 'px');
-            window.scrollTo({
-              top: Math.max(0, elementPosition),
-              behavior: 'smooth'
-            });
-          }
-          
-          // Log de la position finale après scroll
-          setTimeout(() => {
-            console.log('📍 Position finale du scroll:', window.scrollY + 'px');
-            console.log('🎯 Élément visible dans viewport:', element.getBoundingClientRect().top);
-          }, 1000);
+        if (hash === '#contact') {
+          // Pour Contact, offset spécial pour compenser le pt-40
+          elementPosition = element.offsetTop - 160;
         } else {
-          console.log('❌ Élément non trouvé, fallback vers hash');
-          // Fallback si l'élément n'est pas trouvé
-          window.location.hash = hash;
+          // Pour les autres sections, offset standard
+          elementPosition = element.offsetTop - 80;
         }
+        
+        // Scroll immédiat
+        window.scrollTo({
+          top: Math.max(0, elementPosition),
+          behavior: 'smooth'
+        });
       } else {
-        console.log('🔄 Navigation vers page d\'accueil + hash');
-        navigate('/' + hash);
+        // Fallback si l'élément n'est pas trouvé
+        window.location.hash = hash;
       }
-    }, isOpen ? 300 : 0); // Délai seulement si le menu mobile était ouvert
+    } else {
+      // Navigation vers page d'accueil + hash
+      navigate('/' + hash);
+    }
   };
 
   const scrollToTop = () => {
