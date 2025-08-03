@@ -23,6 +23,37 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'react/self-closing-comp': 'off',
+       // Règles de base React
+    "react/react-in-jsx-scope": "off", // Pas nécessaire depuis React 17+
+    "react/jsx-uses-react": "off",     // Idem
+    
+    // Règles de style JSX
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": false // Désactive l'exigence de / pour les balises HTML natives
+    }],
+    
+    // Règles de qualité de code
+    "react/jsx-no-useless-fragment": ["error", {
+      "allowExpressions": true
+    }],
+    "react/jsx-no-comment-textnodes": "warn",
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-no-target-blank": ["error", { 
+      "enforceDynamicLinks": "always" 
+    }],
+    "react/jsx-no-undef": "error",
+    
+    // Règles Hooks
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    
+    // Règles personnalisées
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ]
     },
   }
 );
