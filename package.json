@@ -56,7 +56,7 @@
       "plugin:react/recommended"
     ],
     "rules": {
-      "react/self-closing-comp": "off"
+      "react/self-closing-comp": ["error", { "html": false }]
     }
   }
 }
