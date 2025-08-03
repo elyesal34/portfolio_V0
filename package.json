@@ -8,9 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --config vitest.config.ts",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run"
+    "test:run": "vitest run --config vitest.config.ts",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch",
+    "test:integration": "vitest run src/**/*.integration.test.tsx"
   },
   "dependencies": {
     "@emailjs/browser": "^4.3.3",

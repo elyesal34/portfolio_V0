@@ -32,59 +32,68 @@ const Navbar = () => {
   ];
 
   const handleMenuClick = (hash: string) => {
+    console.log(`🚀 Navigation vers ${hash}`);
     setIsOpen(false);
     
-    // Navigation immédiate pour éviter les problèmes de timing
     if (location.pathname === '/') {
-      // Fonction pour effectuer le scroll avec le bon offset
-      const performScroll = (element: HTMLElement) => {
-        let elementPosition: number;
+      // Utiliser requestAnimationFrame pour un timing parfait
+      requestAnimationFrame(() => {
+        const element = document.querySelector(hash) as HTMLElement | null;
+        console.log(`📍 Élément trouvé pour ${hash}:`, element);
         
-        if (hash === '#contact') {
-          // Pour Contact, offset spécial pour compenser le pt-40 (160px)
-          elementPosition = element.offsetTop - 160;
-        } else {
-          // Pour les autres sections, offset standard (80px)
-          elementPosition = element.offsetTop - 80;
-        }
-        
-        window.scrollTo({
-          top: Math.max(0, elementPosition),
-          behavior: 'smooth'
-        });
-      };
+        if (element) {
+          const performScroll = (element: HTMLElement) => {
+            let elementPosition: number;
+            
+            if (hash === '#contact') {
+              // Offset spécial pour Contact (160px)
+              elementPosition = element.offsetTop - 160;
+              console.log(`💬 Contact - Position calculée: ${elementPosition}px (offsetTop: ${element.offsetTop}px - 160px)`);
+            } else {
+              // Offset standard pour les autres sections (80px)
+              elementPosition = element.offsetTop - 80;
+              console.log(`🔧 ${hash} - Position calculée: ${elementPosition}px (offsetTop: ${element.offsetTop}px - 80px)`);
+            }
+            
+            window.scrollTo({
+              top: Math.max(0, elementPosition),
+              behavior: 'smooth'
+            });
+            
+            console.log(`📍 Scroll vers: ${Math.max(0, elementPosition)}px`);
+          };
 
-      // Essayer de trouver l'élément immédiatement
-      const element = document.querySelector(hash) as HTMLElement | null;
-      
-      if (element) {
-        // Utiliser requestAnimationFrame pour un meilleur timing
-        requestAnimationFrame(() => {
           performScroll(element);
-        });
-      } else {
-        // Si l'élément n'est pas trouvé, essayer plusieurs fois avec des délais croissants
-        const retryTimes = [100, 300, 500, 1000];
-        let retryCount = 0;
-        
-        const retryScroll = () => {
-          const retryElement = document.querySelector(hash) as HTMLElement | null;
+        } else {
+          // Système de retry avec délais croissants
+          const retryTimes = [100, 300, 500, 1000];
+          let retryCount = 0;
           
-          if (retryElement) {
-            performScroll(retryElement);
-          } else if (retryCount < retryTimes.length) {
-            setTimeout(retryScroll, retryTimes[retryCount]);
-            retryCount++;
-          } else {
-            // Fallback final vers window.location.hash
-            window.location.hash = hash;
-          }
-        };
-        
-        setTimeout(retryScroll, retryTimes[0]);
-      }
+          const retryScroll = () => {
+            const retryElement = document.querySelector(hash) as HTMLElement | null;
+            console.log(`🔄 Retry ${retryCount + 1} pour ${hash}:`, retryElement);
+            
+            if (retryElement) {
+              const elementPosition = hash === '#contact' ? retryElement.offsetTop - 160 : retryElement.offsetTop - 80;
+              window.scrollTo({
+                top: Math.max(0, elementPosition),
+                behavior: 'smooth'
+              });
+              console.log(`✅ Retry réussi - Scroll vers: ${Math.max(0, elementPosition)}px`);
+            } else if (retryCount < retryTimes.length - 1) {
+              retryCount++;
+              setTimeout(retryScroll, retryTimes[retryCount]);
+            } else {
+              console.log(`❌ Fallback vers window.location.hash pour ${hash}`);
+              window.location.hash = hash;
+            }
+          };
+          
+          setTimeout(retryScroll, retryTimes[0]);
+        }
+      });
     } else {
-      // Navigation vers page d'accueil + hash
+      console.log(`🔄 Navigation vers page d'accueil + ${hash}`);
       navigate('/' + hash);
     }
   };
