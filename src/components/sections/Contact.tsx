@@ -169,9 +169,9 @@ const Contact = () => {
   return (
     <section 
       id="contact" 
-      className="min-h-screen pt-40 bg-gradient-to-br from-gray-50 to-blue-50"
+      className="min-h-screen pt-32 bg-gradient-to-br from-gray-50 to-blue-50"
       data-testid="contact-section"
-    >
+>
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Contact</h2>
