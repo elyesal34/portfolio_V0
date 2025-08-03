@@ -34,7 +34,7 @@ const CV = () => {
       periode: "Juillet 2022",
       type: "Interim",
       missions: [
-        "Manoeauvre sur les chantiers de construction",
+        "Manœuvres sur les chantiers",
         "Aide à la préparation des matériaux et outils",
         "Respect des normes de sécurité sur les chantiers"
       ],
