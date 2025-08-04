@@ -351,11 +351,10 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div role="region" aria-label="Vérification reCAPTCHA" className="mb-6">
                 <ReCAPTCHA
                   sitekey="6LcHfmkrAAAAAEmyM6dmIM9iQq0a18vRmp6DviN4"
                   onChange={token => setRecaptchaToken(token)}
-                  aria-label="Vérification reCAPTCHA"
                 />
               </div>
 
