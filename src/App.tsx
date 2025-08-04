@@ -25,8 +25,8 @@ function ScrollToHash() {
         if (element) {
           if (hash === '#contact') {
             // Pour Contact, offset spécial pour compenser le pt-40
-            const elementPosition = element.offsetTop - 160;
-            console.log('💬 ScrollToHash Contact - Position:', elementPosition + 'px');
+            const elementPosition = element.offsetTop - 128;
+            console.log('💬 ScrollToHash Contact - Position:', elementPosition + 'px (offset: 128px)');
             window.scrollTo({
               top: Math.max(0, elementPosition),
               behavior: 'smooth'
@@ -35,7 +35,7 @@ function ScrollToHash() {
             // Pour les autres sections
             const navbarHeight = 80;
             const elementPosition = element.offsetTop - navbarHeight;
-            console.log('🔧 ScrollToHash Standard - Position:', elementPosition + 'px');
+            console.log('🔧 ScrollToHash Standard - Position:', elementPosition + 'px (offset: 80px)');
             window.scrollTo({
               top: Math.max(0, elementPosition),
               behavior: 'smooth'

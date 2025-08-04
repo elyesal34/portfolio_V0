@@ -73,7 +73,7 @@ Tests  11 passed (11)
 - **Fallback robuste** vers `window.location.hash`
 
 ### ✅ Offset Correct
-- **Contact** : 160px (compense le `pt-40`)
+- **Contact** : 128px (compense le `pt-32`)
 - **Autres sections** : 80px (offset standard)
 
 ### ✅ Gestion d'Erreurs

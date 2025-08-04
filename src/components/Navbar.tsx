@@ -45,9 +45,9 @@ const Navbar = () => {
           const performScroll = (element: HTMLElement) => {
             let elementPosition: number;
             
-            if (hash === '#contact') {
-              // Offset spécial pour Contact (128px)
-              elementPosition = element.offsetTop - 128;
+            // Offset spécial pour Contact (128px) - synchronisé avec pt-32
+            elementPosition = element.offsetTop - 128;
+            console.log(`💬 Contact - Position calculée: ${elementPosition}px (offsetTop: ${element.offsetTop}px - 128px)`);
               console.log(`💬 Contact - Position calculée: ${elementPosition}px (offsetTop: ${element.offsetTop}px - 128px)`);
             } else {
               // Offset standard pour les autres sections (80px)
@@ -74,12 +74,12 @@ const Navbar = () => {
             console.log(`🔄 Retry ${retryCount + 1} pour ${hash}:`, retryElement);
             
             if (retryElement) {
-              const elementPosition = hash === '#contact' ? retryElement.offsetTop - 160 : retryElement.offsetTop - 80;
+              const elementPosition = hash === '#contact' ? retryElement.offsetTop - 128 : retryElement.offsetTop - 80;
               window.scrollTo({
                 top: Math.max(0, elementPosition),
                 behavior: 'smooth'
               });
-              console.log(`✅ Retry réussi - Scroll vers: ${Math.max(0, elementPosition)}px`);
+              console.log(`✅ Retry réussi - Scroll vers: ${Math.max(0, elementPosition)}px (offset: ${hash === '#contact' ? '128px' : '80px'})`);
             } else if (retryCount < retryTimes.length - 1) {
               retryCount++;
               setTimeout(retryScroll, retryTimes[retryCount]);

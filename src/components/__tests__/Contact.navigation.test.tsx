@@ -80,7 +80,7 @@ describe('Navigation vers Contact - Test Spécialisé', () => {
       // Vérifier que scrollTo a été appelé avec l'offset spécial pour Contact
       await waitFor(() => {
         expect(window.scrollTo).toHaveBeenCalledWith({
-          top: Math.max(0, 2000 - 160), // 2000 - 160 = 1840px
+          top: Math.max(0, 2000 - 128), // 2000 - 128 = 1872px
           behavior: 'smooth'
         })
       })
