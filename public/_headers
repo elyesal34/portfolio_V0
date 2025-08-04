@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; frame-src 'self' https://www.google.com/ https://www.recaptcha.net/; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.google.com https://www.gstatic.com https://images.unsplash.com https://api.emailjs.com https://www.recaptcha.net https://www.googletagmanager.com https://region1.google-analytics.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://www.googletagmanager.com; script-src-elem 'self' 'unsafe-inline' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://www.googletagmanager.com; img-src 'self' data: https://images.unsplash.com; worker-src 'self' https://www.google.com https://www.gstatic.com;
+  Content-Security-Policy: default-src 'self'; frame-src 'self' https://www.google.com https://www.recaptcha.net; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.google.com https://www.gstatic.com https://images.unsplash.com https://api.emailjs.com https://www.recaptcha.net https://www.googletagmanager.com https://region1.google-analytics.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://www.googletagmanager.com https://www.google-analytics.com; script-src-elem 'self' 'unsafe-inline' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' data: https://images.unsplash.com https://www.google-analytics.com https://region1.google-analytics.com; worker-src 'self' https://www.google.com https://www.gstatic.com;
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
@@ -78,5 +78,3 @@
 /sw.js
   Cache-Control: no-cache, no-store, must-revalidate
   Content-Type: application/javascript; charset=utf-8
-
-worker-src 'self' https://www.google.com https://www.gstatic.com;
