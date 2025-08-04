@@ -31,6 +31,7 @@ const loadRecaptcha = () => {
 const Productions = () => {
   const [activeFilter, setActiveFilter] = useState('Tous');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   // Charge Google Analytics uniquement sur cette page
   useEffect(() => {
@@ -710,6 +711,8 @@ const Productions = () => {
     </div>
   );
 
+  const visibleProjects = projets.slice(0, visibleCount);
+
   return (
     <section id="productions" className="min-h-screen pt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -755,7 +758,7 @@ const Productions = () => {
             <ProjectCard />
           </div>
           
-          {filteredProjets.map((projet, index) => (
+          {visibleProjects.map((projet, index) => (
             <article 
               key={index} 
               className={`group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 focus-within:ring-4 focus-within:ring-blue-300 active:scale-95 ${
