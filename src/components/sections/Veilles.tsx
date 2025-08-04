@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BookOpen, TrendingUp, Lightbulb, ExternalLink, Calendar, Tag } from 'lucide-react';
 
 const Veilles = () => {
@@ -69,6 +70,10 @@ const Veilles = () => {
     { nom: "JavaScript Weekly", url: "https://javascriptweekly.com", description: "Newsletter hebdomadaire sur JavaScript" }
   ];
 
+  // Pagination pour les articles de veille
+  const [visibleCount, setVisibleCount] = useState(3); // Affiche 3 articles au départ
+  const visibleArticles = articles.slice(0, visibleCount);
+
   return (
     <section id="veilles" className="min-h-screen pt-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -89,7 +94,7 @@ const Veilles = () => {
             </h3>
             
             <div className="space-y-8">
-              {articles.map((article, index) => (
+              {visibleArticles.map((article, index) => (
                 <div key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -139,6 +144,17 @@ const Veilles = () => {
                 </div>
               ))}
             </div>
+            {/* Bouton Voir plus */}
+            {visibleCount < articles.length && (
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={() => setVisibleCount(visibleCount + 2)}
+                  className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+                >
+                  Voir plus d'articles
+                </button>
+              </div>
+            )}
           </div>
 
           <div>

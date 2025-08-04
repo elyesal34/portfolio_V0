@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Code2, Database, Globe, Smartphone, Shield, Users } from 'lucide-react';
 
 const AteliersPro = () => {
@@ -70,6 +71,10 @@ const AteliersPro = () => {
     }
   ];
 
+  // Pagination : afficher 3 ateliers au départ
+  const [visibleCount, setVisibleCount] = useState(3);
+  const visibleAteliers = ateliers.slice(0, visibleCount);
+
   return (
     <section id="ateliers" className="min-h-screen pt-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -83,7 +88,7 @@ const AteliersPro = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {ateliers.map((atelier, index) => (
+          {visibleAteliers.map((atelier, index) => (
             <article key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-center mb-4">
                 <div aria-hidden="true">{atelier.icon}</div>
@@ -114,6 +119,18 @@ const AteliersPro = () => {
             </article>
           ))}
         </div>
+
+        {/* Bouton Voir plus */}
+        {visibleCount < ateliers.length && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => setVisibleCount(visibleCount + 3)}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              Voir plus d'ateliers
+            </button>
+          </div>
+        )}
 
         <div className="mt-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-4">Compétences développées</h3>

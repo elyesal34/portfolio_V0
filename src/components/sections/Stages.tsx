@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Calendar, MapPin, Building, Users, Target, Award } from 'lucide-react';
 
 const Stages = () => {
@@ -41,6 +42,10 @@ const Stages = () => {
     }
   ];
 
+  // Pagination : afficher 1 ou 2 stages au départ (ajuste selon ton besoin)
+  const [visibleCount, setVisibleCount] = useState(1);
+  const visibleStages = stages.slice(0, visibleCount);
+
   return (
     <section id="stages" className="min-h-screen pt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -54,7 +59,7 @@ const Stages = () => {
         </div>
 
         <div className="space-y-12">
-          {stages.map((stage, index) => (
+          {visibleStages.map((stage, index) => (
             <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -135,6 +140,18 @@ const Stages = () => {
             </div>
           ))}
         </div>
+
+        {/* Bouton Voir plus */}
+        {visibleCount < stages.length && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => setVisibleCount(visibleCount + 1)}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              Voir plus de stages
+            </button>
+          </div>
+        )}
 
         <div className="mt-16 bg-white rounded-xl p-8 shadow-lg">
           <h3 className="text-2xl font-bold text-gray-900 mb-6">Bilan des stages</h3>

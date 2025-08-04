@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Code, Database, Globe, Smartphone, Shield, Users, Wrench, BookOpen } from 'lucide-react';
 
 const Competences = () => {
@@ -107,6 +108,27 @@ const Competences = () => {
     return "Débutant";
   };
 
+  // Limitation/pagination pour chaque catégorie technique
+  const [visibleTechCounts, setVisibleTechCounts] = useState(
+    competencesTechniques.map(cat => Math.min(4, cat.competences.length))
+  );
+  // Limitation/pagination pour les compétences transversales
+  const [visibleTransCount, setVisibleTransCount] = useState(2);
+
+  const showMoreTech = (catIdx: number) => {
+    setVisibleTechCounts(counts =>
+      counts.map((count, idx) =>
+        idx === catIdx
+          ? Math.min(count + 4, competencesTechniques[catIdx].competences.length)
+          : count
+      )
+    );
+  };
+
+  const showMoreTrans = () => {
+    setVisibleTransCount(count => Math.min(count + 2, competencesTransversales.length));
+  };
+
   return (
     <section id="competences" className="min-h-screen pt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -123,31 +145,42 @@ const Competences = () => {
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Techniques</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {competencesTechniques.map((categorie, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-6">
+            {competencesTechniques.map((categorie, catIdx) => (
+              <div key={catIdx} className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex items-center mb-6">
                   <div className="text-blue-500 mr-3">{categorie.icon}</div>
                   <h4 className="text-xl font-bold text-gray-900">{categorie.categorie}</h4>
                 </div>
-                
                 <div className="space-y-4">
-                  {categorie.competences.map((comp, compIndex) => (
-                    <div key={compIndex}>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium text-gray-800">{comp.nom}</span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}>
-                          {getNiveauText(comp.niveau)}
-                        </span>
+                  {categorie.competences
+                    .slice(0, visibleTechCounts[catIdx])
+                    .map((comp, compIndex) => (
+                      <div key={compIndex}>
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-medium text-gray-800">{comp.nom}</span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}>
+                            {getNiveauText(comp.niveau)}
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
+                          <div 
+                            className={`h-2 rounded-full ${getNiveauColor(comp.niveau)}`}
+                            style={{ width: `${comp.niveau}%` }}
+                          ></div>
+                        </div>
+                        <p className="text-sm text-gray-600">{comp.description}</p>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
-                        <div 
-                          className={`h-2 rounded-full ${getNiveauColor(comp.niveau)}`}
-                          style={{ width: `${comp.niveau}%` }}
-                        ></div>
-                      </div>
-                      <p className="text-sm text-gray-600">{comp.description}</p>
-                    </div>
                   ))}
+                  {visibleTechCounts[catIdx] < categorie.competences.length && (
+                    <div className="flex justify-center mt-4">
+                      <button
+                        onClick={() => showMoreTech(catIdx)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                      >
+                        Voir plus
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -158,7 +191,7 @@ const Competences = () => {
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Transversales</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {competencesTransversales.map((comp, index) => (
+            {competencesTransversales.slice(0, visibleTransCount).map((comp, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex items-center mb-4">
                   {comp.icon}
@@ -180,6 +213,16 @@ const Competences = () => {
               </div>
             ))}
           </div>
+          {visibleTransCount < competencesTransversales.length && (
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={showMoreTrans}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+              >
+                Voir plus
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Certifications */}
