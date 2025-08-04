@@ -48,7 +48,6 @@ const Navbar = () => {
             if (hash === '#contact') {
               // Offset spécial pour Contact (128px)
               elementPosition = element.offsetTop - 128;
-              console.log(`💬 Contact - Position calculée: ${elementPosition}px (offsetTop: ${element.offsetTop}px - 128px)`);
             } else {
               // Offset standard pour les autres sections (80px)
               elementPosition = element.offsetTop - 80;
