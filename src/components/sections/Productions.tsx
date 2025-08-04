@@ -711,7 +711,8 @@ const Productions = () => {
     </div>
   );
 
-  const visibleProjects = projets.slice(0, visibleCount);
+  // Pagination sur les projets filtrés
+  const visibleProjects = filteredProjets.slice(0, visibleCount);
 
   return (
     <section id="productions" className="min-h-screen pt-16 bg-gray-50">
@@ -860,6 +861,18 @@ const Productions = () => {
             </article>
           ))}
         </div>
+
+        {/* Bouton Voir plus */}
+        {visibleCount < filteredProjets.length && (
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={() => setVisibleCount(visibleCount + 4)}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              Voir plus de projets
+            </button>
+          </div>
+        )}
 
         {/* Modal d'article */}
         {selectedProject !== null && (
