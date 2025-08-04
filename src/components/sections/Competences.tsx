@@ -115,7 +115,7 @@ const Competences = () => {
   // Limitation/pagination pour les compétences transversales
   const [visibleTransCount, setVisibleTransCount] = useState(2);
 
-  const showMoreTech = (catIdx: number) => {
+  const showMoreTech = (catIdx) => {
     setVisibleTechCounts(counts =>
       counts.map((count, idx) =>
         idx === catIdx
@@ -124,10 +124,7 @@ const Competences = () => {
       )
     );
   };
-
-  const showMoreTrans = () => {
-    setVisibleTransCount(count => Math.min(count + 2, competencesTransversales.length));
-  };
+  const showMoreTrans = () => setVisibleTransCount(count => Math.min(count + 2, competencesTransversales.length));
 
   return (
     <section id="competences" className="min-h-screen pt-16 bg-gray-50">
@@ -146,7 +143,7 @@ const Competences = () => {
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Techniques</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {competencesTechniques.map((categorie, catIdx) => (
-              <div key={catIdx} className="bg-white rounded-xl shadow-lg p-6">
+              <div key={categorie.categorie} className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex items-center mb-6">
                   <div className="text-blue-500 mr-3">{categorie.icon}</div>
                   <h4 className="text-xl font-bold text-gray-900">{categorie.categorie}</h4>
@@ -154,8 +151,8 @@ const Competences = () => {
                 <div className="space-y-4">
                   {categorie.competences
                     .slice(0, visibleTechCounts[catIdx])
-                    .map((comp, compIndex) => (
-                      <div key={compIndex}>
+                    .map((comp) => (
+                      <div key={comp.nom}>
                         <div className="flex justify-between items-center mb-2">
                           <span className="font-medium text-gray-800">{comp.nom}</span>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}>
@@ -191,8 +188,8 @@ const Competences = () => {
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Transversales</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {competencesTransversales.slice(0, visibleTransCount).map((comp, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-6">
+            {competencesTransversales.slice(0, visibleTransCount).map((comp) => (
+              <div key={comp.nom} className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex items-center mb-4">
                   {comp.icon}
                   <h4 className="text-lg font-bold text-gray-900 ml-3">{comp.nom}</h4>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ProjectCard.css';
 
-const ProjectCard = () => {
+const ProjectCard = ({ image, titre, ...props }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,65 +27,66 @@ const ProjectCard = () => {
   };
 
   return (
-    <>
-      {/* Carte projet pour la section "Productions & Réalisations" */}
-      <div className="project-card-portfolio">
-        <div className="project-image">
-          <div className="project-overlay">
-            <div className="project-tech-stack">
-              <span className="tech-badge">Node.js</span>
-              <span className="tech-badge">Express</span>
-              <span className="tech-badge">SQLite</span>
-              <span className="tech-badge">Gratuit</span>
-            </div>
+    <article className="project-card-portfolio">
+      <img
+        src={image}
+        alt={titre}
+        loading="lazy"
+        className="project-image"
+      />
+      <div className="project-overlay">
+        <div className="project-tech-stack">
+          <span className="tech-badge">Node.js</span>
+          <span className="tech-badge">Express</span>
+          <span className="tech-badge">SQLite</span>
+          <span className="tech-badge">Gratuit</span>
+        </div>
+      </div>
+      <div className="project-icon-large">
+        <span>🚀</span>
+      </div>
+      
+      <div className="project-content">
+        <h3 className="project-title">Application Web PHP → Node.js</h3>
+        <p className="project-description">
+          Conversion complète d'une application PHP vers Node.js avec Express, 
+          hébergée gratuitement sur Render.com avec SSL et déploiements automatiques.
+        </p>
+        
+        <div className="project-features">
+          <div className="feature-item">
+            <span className="feature-icon">✓</span>
+            <span>Interface responsive avec animations</span>
           </div>
-          <div className="project-icon-large">
-            <span>🚀</span>
+          <div className="feature-item">
+            <span className="feature-icon">✓</span>
+            <span>API REST complète</span>
+          </div>
+          <div className="feature-item">
+            <span className="feature-icon">✓</span>
+            <span>Hébergement gratuit permanent</span>
+          </div>
+          <div className="feature-item">
+            <span className="feature-icon">✓</span>
+            <span>Base de données SQLite intégrée</span>
           </div>
         </div>
         
-        <div className="project-content">
-          <h3 className="project-title">Application Web PHP → Node.js</h3>
-          <p className="project-description">
-            Conversion complète d'une application PHP vers Node.js avec Express, 
-            hébergée gratuitement sur Render.com avec SSL et déploiements automatiques.
-          </p>
-          
-          <div className="project-features">
-            <div className="feature-item">
-              <span className="feature-icon">✓</span>
-              <span>Interface responsive avec animations</span>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">✓</span>
-              <span>API REST complète</span>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">✓</span>
-              <span>Hébergement gratuit permanent</span>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">✓</span>
-              <span>Base de données SQLite intégrée</span>
-            </div>
-          </div>
-          
-          <div className="project-actions">
-            <button 
-              onClick={openProject} 
-              className="btn-demo"
-            >
-              <span className="btn-icon">👁️</span>
-              Voir la démo
-            </button>
-            <button 
-              onClick={openInNewTab} 
-              className="btn-live"
-            >
-              <span className="btn-icon">🔗</span>
-              Site live
-            </button>
-          </div>
+        <div className="project-actions">
+          <button 
+            onClick={openProject} 
+            className="btn-demo"
+          >
+            <span className="btn-icon">👁️</span>
+            Voir la démo
+          </button>
+          <button 
+            onClick={openInNewTab} 
+            className="btn-live"
+          >
+            <span className="btn-icon">🔗</span>
+            Site live
+          </button>
         </div>
       </div>
 
@@ -143,7 +144,7 @@ const ProjectCard = () => {
           </div>
         </div>
       )}
-    </>
+    </article>
   );
 };
 

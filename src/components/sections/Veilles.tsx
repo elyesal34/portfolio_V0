@@ -94,8 +94,8 @@ const Veilles = () => {
             </h3>
             
             <div className="space-y-8">
-              {visibleArticles.map((article, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
+              {visibleArticles.map((article) => (
+                <div key={article.titre} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <h4 className="text-xl font-bold text-gray-900 mb-2">{article.titre}</h4>

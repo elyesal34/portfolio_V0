@@ -711,7 +711,6 @@ const Productions = () => {
     </div>
   );
 
-  // Pagination sur les projets filtrés
   const visibleProjects = filteredProjets.slice(0, visibleCount);
 
   return (

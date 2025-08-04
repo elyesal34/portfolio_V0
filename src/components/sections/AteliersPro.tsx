@@ -88,8 +88,8 @@ const AteliersPro = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {visibleAteliers.map((atelier, index) => (
-            <article key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
+          {visibleAteliers.map((atelier) => (
+            <article key={atelier.title} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-center mb-4">
                 <div aria-hidden="true">{atelier.icon}</div>
                 <h3 className="text-xl font-bold ml-3">{atelier.title}</h3>

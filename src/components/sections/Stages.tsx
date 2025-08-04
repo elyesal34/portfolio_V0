@@ -59,8 +59,8 @@ const Stages = () => {
         </div>
 
         <div className="space-y-12">
-          {visibleStages.map((stage, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {visibleStages.map((stage) => (
+            <div key={stage.entreprise} className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex-1">
