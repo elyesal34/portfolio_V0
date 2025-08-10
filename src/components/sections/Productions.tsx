@@ -1,6 +1,7 @@
 import { Github, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import ProjectCard from '../ProjectCard/ProjectCard';
+import ImageWithSuspense from '../ImageWithSuspense';
 
 // Chargement dynamique Google Analytics
 const loadGoogleAnalytics = () => {
@@ -768,14 +769,13 @@ const Productions = () => {
             >
               {/* Image du projet */}
               <div className="relative overflow-hidden h-48">
-                <img
+                <ImageWithSuspense
                   src={projet.image}
                   alt={`Aperçu du projet ${projet.titre}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  loading="lazy"
                   width="800"
                   height="400"
-                  decoding="async"
+                  fallbackSrc="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 {projet.featured && (

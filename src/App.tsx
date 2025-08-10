@@ -2,6 +2,7 @@ import Navbar from './components/Navbar';
 import Accueil from './components/sections/Accueil';
 import Contact from './components/sections/Contact';
 import MentionsLegales from './components/sections/MentionsLegales';
+import DataLoader from './components/DataLoader';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
 
@@ -68,54 +69,24 @@ function App() {
             <Route path="/" element={
               <>
                 <Accueil />
-                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement du CV...</p>
-                  </div>
-                </div>}>
+                <DataLoader>
                   <CV />
-                </Suspense>
-                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement des ateliers...</p>
-                  </div>
-                </div>}>
+                </DataLoader>
+                <DataLoader>
                   <AteliersPro />
-                </Suspense>
-                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement des stages...</p>
-                  </div>
-                </div>}>
+                </DataLoader>
+                <DataLoader>
                   <Stages />
-                </Suspense>
-                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement des veilles...</p>
-                  </div>
-                </div>}>
+                </DataLoader>
+                <DataLoader>
                   <Veilles />
-                </Suspense>
-                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement des compétences...</p>
-                  </div>
-                </div>}>
+                </DataLoader>
+                <DataLoader>
                   <Competences />
-                </Suspense>
-                <Suspense fallback={<div className="min-h-screen pt-16 bg-gray-50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Chargement des productions...</p>
-                  </div>
-                </div>}>
+                </DataLoader>
+                <DataLoader>
                   <Productions />
-                </Suspense>
+                </DataLoader>
                 <Contact />
               </>
             } />

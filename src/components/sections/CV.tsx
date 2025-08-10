@@ -1,4 +1,5 @@
 import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from 'lucide-react';
+import ImageWithSuspense from '../ImageWithSuspense';
 
 const CV = () => {
   // Formations
@@ -96,7 +97,14 @@ const CV = () => {
           <div className="bg-gradient-to-r from-blue-600 to-purple-700 p-8 text-white">
             <div className="flex flex-col md:flex-row items-center md:items-start">
               <div className="md:w-32 md:h-32 w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-6">
-                <img src="/Photo_face.webp" alt="Allani Elyes" className="w-32 h-32 object-cover rounded-full" />
+                <ImageWithSuspense 
+                  src="/Photo_face.webp" 
+                  alt="Allani Elyes" 
+                  className="w-32 h-32 object-cover rounded-full" 
+                  width={128}
+                  height={128}
+                  fallbackSrc="/image.webp"
+                />
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-3xl font-bold mb-2 text-white">Allani Elyes</h3>
