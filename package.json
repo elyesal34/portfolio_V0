@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.3.3",
-    "lucide-react": "^0.344.0",
+    "lucide-react": "^0.539.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^4.0.13",
