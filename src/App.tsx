@@ -5,6 +5,9 @@ import Accueil from './components/sections/Accueil';
 import MentionsLegales from './components/sections/MentionsLegales';
 
 // Lazy loading des composants pour optimiser le chargement initial
+const CV = lazy(() => import('./components/sections/CV'));
+const AteliersPro = lazy(() => import('./components/sections/AteliersPro'));
+const Stages = lazy(() => import('./components/sections/Stages'));
 const Competences = lazy(() => import('./components/sections/Competences'));
 const Productions = lazy(() => import('./components/sections/Productions'));
 const Veilles = lazy(() => import('./components/sections/Veilles'));
@@ -51,6 +54,9 @@ function App() {
               <Route path="/" element={
                 <>
                   <Accueil />
+                  <CV />
+                  <AteliersPro />
+                  <Stages />
                   <Competences />
                   <Productions />
                   <Veilles />
