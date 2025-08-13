@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,69 +31,8 @@ const Navbar = () => {
   ];
 
   const handleMenuClick = (hash: string) => {
-    console.log(`🚀 Navigation vers ${hash}`);
     setIsOpen(false);
-    
-    if (location.pathname === '/') {
-      // Utiliser requestAnimationFrame pour un timing parfait
-      requestAnimationFrame(() => {
-        const element = document.querySelector(hash) as HTMLElement | null;
-        console.log(`📍 Élément trouvé pour ${hash}:`, element);
-        
-        if (element) {
-          const performScroll = (element: HTMLElement) => {
-            let elementPosition: number;
-            
-            if (hash === '#contact') {
-              // Offset spécial pour Contact (128px)
-              elementPosition = element.offsetTop - 128;
-            } else {
-              // Offset standard pour les autres sections (80px)
-              elementPosition = element.offsetTop - 80;
-              console.log(`🔧 ${hash} - Position calculée: ${elementPosition}px (offsetTop: ${element.offsetTop}px - 80px)`);
-            }
-          
-            window.scrollTo({
-              top: Math.max(0, elementPosition),
-              behavior: 'smooth'
-            });
-            
-            console.log(`📍 Scroll vers: ${Math.max(0, elementPosition)}px`);
-          };
-
-          performScroll(element);
-        } else {
-          // Système de retry avec délais croissants
-          const retryTimes = [100, 300, 500, 1000];
-          let retryCount = 0;
-          
-          const retryScroll = () => {
-            const retryElement = document.querySelector(hash) as HTMLElement | null;
-            console.log(`🔄 Retry ${retryCount + 1} pour ${hash}:`, retryElement);
-            
-            if (retryElement) {
-              const elementPosition = hash === '#contact' ? retryElement.offsetTop - 128 : retryElement.offsetTop - 80;
-              window.scrollTo({
-                top: Math.max(0, elementPosition),
-                behavior: 'smooth'
-              });
-              console.log(`✅ Retry réussi - Scroll vers: ${Math.max(0, elementPosition)}px`);
-            } else if (retryCount < retryTimes.length - 1) {
-              retryCount++;
-              setTimeout(retryScroll, retryTimes[retryCount]);
-            } else {
-              console.log(`❌ Fallback vers window.location.hash pour ${hash}`);
-              window.location.hash = hash;
-            }
-          };
-          
-          setTimeout(retryScroll, retryTimes[0]);
-        }
-      });
-    } else {
-      console.log(`🔄 Navigation vers page d'accueil + ${hash}`);
-      navigate('/' + hash);
-    }
+    navigate('/' + hash);
   };
 
   const scrollToTop = () => {

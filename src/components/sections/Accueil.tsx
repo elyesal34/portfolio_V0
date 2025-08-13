@@ -1,43 +1,19 @@
 import { ArrowDown, Code, Database, Smartphone, Download, Mail, ExternalLink } from 'lucide-react';
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ImageWithSuspense from '../ImageWithSuspense';
 
 const Accueil = () => {
-  const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToProductions = () => {
-    const element = document.querySelector('#productions');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToCV = () => {
-    const element = document.querySelector('#cv');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    const lcpText = document.getElementById('lcp-text');
-    if (lcpText) lcpText.style.visibility = 'hidden';
-  }, []);
+  const navigate = useNavigate();
 
   return (
     <section id="accueil" className="min-h-screen pt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
       {/* Éléments décoratifs de fond - chargés après */}
-      <div style={{ position: 'relative', minHeight: '120px' }}>
+      <div className="relative min-h-[120px]">
         <div className="absolute inset-0 opacity-10" aria-hidden="true">
           <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce delay-1000"></div>
+          <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse delay-2000"></div>
+          <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce delay-500"></div>
         </div>
       </div>
 
@@ -69,7 +45,7 @@ const Accueil = () => {
             {/* Boutons - rendu immédiat */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button
-                onClick={scrollToContact}
+                onClick={() => navigate('/#contact')}
                 className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
                 aria-label="Aller à la section contact"
               >
@@ -77,7 +53,7 @@ const Accueil = () => {
                 <span>Me contacter</span>
               </button>
               <button
-                onClick={scrollToProductions}
+                onClick={() => navigate('/#productions')}
                 className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
                 aria-label="Voir mes projets et réalisations"
               >
@@ -85,7 +61,7 @@ const Accueil = () => {
                 <span>Voir mes projets</span>
               </button>
               <button
-                onClick={scrollToCV}
+                onClick={() => navigate('/#cv')}
                 className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
                 aria-label="Télécharger mon CV"
               >
@@ -113,7 +89,7 @@ const Accueil = () => {
 
           {/* Image - chargée en lazy loading après le contenu principal */}
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
-            <div className="relative" style={{ minHeight: '80px' }}>
+            <div className="relative min-h-20">
               <ImageWithSuspense
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80&fm=webp"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
@@ -128,10 +104,10 @@ const Accueil = () => {
               <div className="absolute -top-6 -left-6 bg-blue-500 p-4 rounded-full shadow-lg animate-bounce" role="presentation">
                 <Code className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-purple-500 p-4 rounded-full shadow-lg animate-bounce" style={{ animationDelay: '1s' }} role="presentation">
+              <div className="absolute -bottom-6 -right-6 bg-purple-500 p-4 rounded-full shadow-lg animate-bounce delay-1000" role="presentation">
                 <Database className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
               </div>
-              <div className="absolute top-1/2 -right-8 bg-green-500 p-4 rounded-full shadow-lg animate-bounce" style={{ animationDelay: '2s' }} role="presentation">
+              <div className="absolute top-1/2 -right-8 bg-green-500 p-4 rounded-full shadow-lg animate-bounce delay-2000" role="presentation">
                 <Smartphone className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
               </div>
             </div>
@@ -141,7 +117,7 @@ const Accueil = () => {
         {/* Flèche de défilement */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <button 
-            onClick={scrollToCV}
+            onClick={() => navigate('/#cv')}
             className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
             aria-label="Défiler vers la section CV"
           >
