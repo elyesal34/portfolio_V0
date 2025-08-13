@@ -4,7 +4,7 @@ import Contact from './components/sections/Contact';
 import MentionsLegales from './components/sections/MentionsLegales';
 import DataLoader from './components/DataLoader';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy } from 'react';
 
 // Lazy loading pour les sections volumineuses
 const CV = lazy(() => import('./components/sections/CV'));
