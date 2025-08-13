@@ -12,13 +12,14 @@ interface ImageProps {
 }
 
 function ImageContent({ src, alt, className, width, height, loading = 'lazy', fallbackSrc }: ImageProps) {
-  try {
-    // Utilisation du hook use() pour charger l'image
-    const loadedSrc = useImageLoader(src);
-    
+  // Appel du hook en dehors de tout try/catch
+  const loadedSrc = useImageLoader(src);
+
+  // Si le hook retourne null ou une valeur d'échec, on affiche le fallback
+  if (!loadedSrc && fallbackSrc) {
     return (
       <img
-        src={loadedSrc}
+        src={fallbackSrc}
         alt={alt}
         className={className}
         width={width}
@@ -27,22 +28,9 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
         decoding="async"
       />
     );
-  } catch (error) {
-    // Fallback en cas d'erreur de chargement
-    if (fallbackSrc) {
-      return (
-        <img
-          src={fallbackSrc}
-          alt={alt}
-          className={className}
-          width={width}
-          height={height}
-          loading={loading}
-          decoding="async"
-        />
-      );
-    }
-    
+  }
+
+  if (!loadedSrc) {
     // Placeholder en cas d'échec total
     return (
       <div 
@@ -53,6 +41,18 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
       </div>
     );
   }
+
+  return (
+    <img
+      src={loadedSrc}
+      alt={alt}
+      className={className}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+    />
+  );
 }
 
 function ImageSkeleton({ width, height, className }: { width?: number; height?: number; className?: string }) {
