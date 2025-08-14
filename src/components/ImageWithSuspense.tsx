@@ -14,13 +14,16 @@ interface ImageProps {
 function ImageContent({ src, alt, className, width, height, loading = 'lazy', fallbackSrc }: ImageProps) {
   // Appel du hook en dehors de tout try/catch
   const loadedSrc = useImageLoader(src);
+  
+  // S'assurer que l'attribut alt n'est jamais vide pour l'accessibilité
+  const validAlt = alt.trim() || 'Image';
 
   // Si le hook retourne null ou une valeur d'échec, on affiche le fallback
   if (!loadedSrc && fallbackSrc) {
     return (
       <img
         src={fallbackSrc}
-        alt={alt}
+        alt={validAlt}
         className={className}
         width={width}
         height={height}
@@ -45,7 +48,7 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
   return (
     <img
       src={loadedSrc}
-      alt={alt}
+      alt={validAlt}
       className={className}
       width={width}
       height={height}
