@@ -24,9 +24,9 @@ const Navbar = () => {
     { title: 'CV', icon: <FileText size={18} />, hash: '#cv' },
     { title: 'Ateliers Pro', icon: <Code2 size={18} />, hash: '#ateliers' },
     { title: 'Stages', icon: <Briefcase size={18} />, hash: '#stages' },
-    { title: 'Veilles', icon: <BookOpen size={18} />, hash: '#veilles' },
     { title: 'Compétences', icon: <Brain size={18} />, hash: '#competences' },
     { title: 'Productions', icon: <GraduationCap size={18} />, hash: '#productions' },
+    { title: 'Veilles', icon: <BookOpen size={18} />, hash: '#veilles' },
     { title: 'Contact', icon: <Mail size={18} />, hash: '#contact' },
   ];
 
