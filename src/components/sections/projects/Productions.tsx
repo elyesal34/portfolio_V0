@@ -1,6 +1,6 @@
 import { Github, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import ProjectCard from '../ProjectCard/ProjectCard';
+import ProjectCard from '../../ProjectCard/ProjectCard';
 import ImageWithSuspense from '../../ui/ImageWithSuspense';
 
 // Chargement dynamique Google Analytics
@@ -12,22 +12,12 @@ const loadGoogleAnalytics = () => {
   document.head.appendChild(script);
 
   (window as any).dataLayer = (window as any).dataLayer || [];
-  function gtag(){(window as any).dataLayer.push(arguments);}
+  function gtag(...args: any[]){(window as any).dataLayer.push(args);}
   (window as any).gtag = gtag;
   gtag('js', new Date());
   gtag('config', 'G-MJLQKQWB5R');
 };
 
-// Chargement dynamique reCAPTCHA (à appeler uniquement si besoin d'un formulaire)
-const loadRecaptcha = () => {
-  if (document.getElementById('recaptcha-script')) return;
-  const script = document.createElement('script');
-  script.id = 'recaptcha-script';
-  script.src = 'https://www.gstatic.com/recaptcha/api2/v1554100419869/recaptcha__en.js';
-  script.async = true;
-  script.defer = true;
-  document.body.appendChild(script);
-};
 
 const Productions = () => {
   const [activeFilter, setActiveFilter] = useState('Tous');
@@ -756,7 +746,7 @@ const Productions = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-16 px-2 sm:px-0">
           {/* Projet Node.js PHP → Node.js */}
           <div className="lg:col-span-2">
-            <ProjectCard />
+            <ProjectCard image="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80&fm=webp" titre="Conversion d'une application PHP vers Node.js" />
           </div>
           
           {visibleProjects.map((projet, index) => (
@@ -773,8 +763,8 @@ const Productions = () => {
                   src={projet.image}
                   alt={`Aperçu du projet ${projet.titre}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  width="800"
-                  height="400"
+                  width={800}
+                  height={400}
                   fallbackSrc="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
