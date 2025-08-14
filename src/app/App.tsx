@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Accueil from './components/sections/Accueil';
-import MentionsLegales from './components/sections/MentionsLegales';
+import Navbar from '../components/layout/Navbar';
+import Accueil from '../components/sections/home/Accueil';
+import MentionsLegales from '../components/sections/legal/MentionsLegales';
 
 // Lazy loading des composants pour optimiser le chargement initial
-const CV = lazy(() => import('./components/sections/CV'));
-const AteliersPro = lazy(() => import('./components/sections/AteliersPro'));
-const Stages = lazy(() => import('./components/sections/Stages'));
-const Competences = lazy(() => import('./components/sections/Competences'));
-const Productions = lazy(() => import('./components/sections/Productions'));
-const Veilles = lazy(() => import('./components/sections/Veilles'));
-const Contact = lazy(() => import('./components/sections/Contact'));
+const CV = lazy(() => import('../components/sections/about/CV'));
+const AteliersPro = lazy(() => import('../components/sections/projects/AteliersPro'));
+const Stages = lazy(() => import('../components/sections/projects/Stages'));
+const Competences = lazy(() => import('../components/sections/about/Competences'));
+const Productions = lazy(() => import('../components/sections/projects/Productions'));
+const Veilles = lazy(() => import('../components/sections/content/Veilles'));
+const Contact = lazy(() => import('../components/sections/contact/Contact'));
 
 function ScrollToHash() {
   const location = useLocation();

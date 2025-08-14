@@ -37,8 +37,7 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
     // Placeholder en cas d'échec total
     return (
       <div 
-        className={`bg-gray-200 flex items-center justify-center ${className}`}
-        style={{ width, height }}
+        className={`bg-gray-200 flex items-center justify-center ${className || 'w-full h-64'}`}
       >
         <span className="text-gray-500 text-sm">Image non disponible</span>
       </div>
@@ -58,11 +57,10 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
   );
 }
 
-function ImageSkeleton({ width, height, className }: { width?: number; height?: number; className?: string }) {
+function ImageSkeleton({ className }: { className?: string }) {
   return (
     <div 
-      className={`bg-gray-200 animate-pulse ${className}`}
-      style={{ width, height }}
+      className={`bg-gray-200 animate-pulse ${className || 'w-full h-64'}`}
     >
       <div className="flex items-center justify-center h-full">
         <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -79,8 +77,6 @@ export default function ImageWithSuspense(props: ImageProps) {
     <Suspense 
       fallback={
         <ImageSkeleton 
-          width={props.width} 
-          height={props.height} 
           className={props.className} 
         />
       }

@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './ProjectCard.css';
 
-const ProjectCard = ({ image, titre, ...props }) => {
+interface ProjectCardProps {
+  image: string;
+  titre: string;
+}
+
+const ProjectCard = ({ image, titre }: ProjectCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -122,7 +127,7 @@ const ProjectCard = ({ image, titre, ...props }) => {
                 frameBorder="0"
                 title="Application Web PHP → Node.js"
                 onLoad={handleIframeLoad}
-                style={{ display: isLoading ? 'none' : 'block' }}
+                className={isLoading ? 'hidden' : 'block'}
                 allow="fullscreen"
               />
             </div>
