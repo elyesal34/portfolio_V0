@@ -275,7 +275,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     autoComplete="name"
-                    aria-invalid={status === 'error' && !formData.nom ? 'true' : 'false'}
+                    aria-invalid={status === 'error' && !formData.nom}
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
                     placeholder="Votre nom"
@@ -295,7 +295,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     autoComplete="email"
-                    aria-invalid={status === 'error' && !formData.email ? 'true' : 'false'}
+                    aria-invalid={status === 'error' && !formData.email}
                     disabled={isLoading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900 placeholder-gray-500"
                     placeholder="Votre email"
@@ -313,7 +313,7 @@ const Contact = () => {
                   value={formData.sujet}
                   onChange={handleChange}
                   required
-                  aria-invalid={status === 'error' && !formData.sujet ? 'true' : 'false'}
+                  aria-invalid={status === 'error' && !formData.sujet}
                   disabled={isLoading}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed bg-gray-50 text-gray-900"
                 >
@@ -335,7 +335,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  aria-invalid={status === 'error' && !formData.message ? 'true' : 'false'}
+                  aria-invalid={status === 'error' && !formData.message}
                   autoComplete="off"
                   disabled={isLoading}
                   rows={6}
