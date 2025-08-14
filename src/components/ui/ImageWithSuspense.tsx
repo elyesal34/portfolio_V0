@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { useImageLoader } from '../hooks/useAsyncData';
+import { useImageLoader } from '../../hooks/useAsyncData';
 
 interface ImageProps {
   src: string;
