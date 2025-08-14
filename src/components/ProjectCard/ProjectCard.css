@@ -21,12 +21,21 @@
 /* Section image/header du projet */
 .project-image {
   position: relative;
-  height: 200px;
+  width: 100%;
+  height: 200px; /* Fixed height for the container */
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+/* Ensure images maintain their aspect ratio */
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This will cover the area while maintaining aspect ratio */
+  object-position: center; /* Center the image within the container */
 }
 
 .project-overlay {
@@ -55,6 +64,7 @@
   border-radius: 15px;
   font-size: 0.75rem;
   font-weight: 600;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -188,6 +198,7 @@
   align-items: center;
   z-index: 9999;
   padding: 1rem;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   animation: modalFadeIn 0.3s ease-out;
 }
