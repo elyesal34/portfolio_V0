@@ -169,7 +169,7 @@ const Contact = () => {
   return (
     <section 
       id="contact" 
-      className="min-h-screen pt-32 bg-gradient-to-br from-gray-50 to-blue-50"
+      className="min-h-screen pt-32 bg-gradient-to-br from-gray-50 to-blue-50 scroll-mt-32"
       data-testid="contact-section"
     >
       <div className="max-w-7xl mx-auto px-4 py-20">
