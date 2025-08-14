@@ -87,11 +87,12 @@ const Navbar = () => {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors ${
-                  isScrolled 
-                    ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
+                  isScrolled
+                    ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                     : 'text-gray-300 hover:text-white hover:bg-gray-700'
                 }`}
-                aria-expanded={isOpen ? "true" : "false"}
+                aria-controls="mobile-menu"
+                aria-expanded={isOpen}
                 aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -102,7 +103,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg" role="menu">
+          <div id="mobile-menu" className="md:hidden bg-white border-t border-gray-200 shadow-lg" role="menu">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {menuItems.map((item) => (
                 <button
