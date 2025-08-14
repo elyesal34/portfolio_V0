@@ -1,7 +1,6 @@
-import { Github, Code, Database, Smartphone, Globe, Filter, Star, Calendar, User, ArrowRight, CheckCircle, Target, Layers, Zap, BookOpen } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Globe, Database, Smartphone, Code, Target, CheckCircle, Layers, Zap, ArrowRight, Star, Filter } from 'lucide-react';
 import ProjectCard from '../../ProjectCard/ProjectCard';
-import ImageWithSuspense from '../../ui/ImageWithSuspense';
 
 // Chargement dynamique Google Analytics
 const loadGoogleAnalytics = () => {
@@ -22,7 +21,6 @@ const loadGoogleAnalytics = () => {
 const Productions = () => {
   const [activeFilter, setActiveFilter] = useState('Tous');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [visibleCount, setVisibleCount] = useState(6);
 
   // Charge Google Analytics uniquement sur cette page
   useEffect(() => {
@@ -519,32 +517,17 @@ const Productions = () => {
   ];
 
   const filters = ['Tous', 'Application Web', 'Application Mobile', 'Backend API'];
-
+  
   const filteredProjets = activeFilter === 'Tous' 
     ? projets 
     : projets.filter(projet => projet.type === activeFilter);
 
-  const getStatutColor = (statut: string) => {
-    switch (statut) {
-      case 'Terminé': return 'bg-green-100 text-green-800 border-green-200';
-      case 'En cours': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'Planifié': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'Application Web': return <Globe className="w-4 h-4" />;
-      case 'Application Mobile': return <Smartphone className="w-4 h-4" />;
-      case 'Backend API': return <Database className="w-4 h-4" />;
-      default: return <Code className="w-4 h-4" />;
-    }
-  };
 
-  const ProjectModal = ({ project, onClose }: { project: typeof projets[0], onClose: () => void }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+const ProjectModal = ({ project, onClose }: { project: typeof projets[0], onClose: () => void }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+      {/* ... (rest of the code remains the same) */}
         <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold text-gray-900">{project.titre}</h2>
           <button
@@ -702,8 +685,6 @@ const Productions = () => {
     </div>
   );
 
-  const visibleProjects = filteredProjets.slice(0, visibleCount);
-
   return (
     <section id="productions" className="min-h-screen pt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -744,124 +725,25 @@ const Productions = () => {
 
         {/* Projets */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-16 px-2 sm:px-0">
-          {/* Projet Node.js PHP → Node.js */}
-          <div className="lg:col-span-2">
-            <ProjectCard image="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80&fm=webp" titre="Conversion d'une application PHP vers Node.js" />
-          </div>
-          
-          {visibleProjects.map((projet, index) => (
-            <article 
-              key={index} 
-              className={`group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 focus-within:ring-4 focus-within:ring-blue-300 active:scale-95 ${
-                projet.featured ? 'ring-2 ring-blue-500 ring-opacity-50' : ''
-              }`}
-              tabIndex={0}
-            >
-              {/* Image du projet */}
-              <div className="relative overflow-hidden h-48">
-                <ImageWithSuspense
-                  src={projet.image}
-                  alt={`Aperçu du projet ${projet.titre}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  width={800}
-                  height={400}
-                  fallbackSrc="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                {projet.featured && (
-                  <div className="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1">
-                    <Star className="w-4 h-4" aria-hidden="true" />
-                    <span>Projet phare</span>
-                  </div>
-                )}
-                <div className="absolute bottom-4 right-4 flex items-center space-x-2 text-white text-sm">
-                  <Calendar className="w-4 h-4" aria-hidden="true" />
-                  <span>{projet.date}</span>
-                </div>
-              </div>
-
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-blue-500">{projet.icon}</div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                        {projet.titre}
-                      </h3>
-                      <div className="flex items-center text-sm text-gray-500 space-x-1">
-                        {getTypeIcon(projet.type)}
-                        <span>{projet.type}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatutColor(projet.statut)}`}>
-                    {projet.statut}
-                  </span>
-                </div>
-
-                <p className="text-gray-600 mb-4 leading-relaxed">{projet.description}</p>
-
-                <div className="mb-4">
-                  <h4 className="font-semibold text-gray-800 mb-2 flex items-center space-x-1">
-                    <Code className="w-4 h-4" aria-hidden="true" />
-                    <span>Technologies utilisées :</span>
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {projet.technologies.map((tech, techIndex) => (
-                      <span 
-                        key={techIndex} 
-                        className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
-                  <div className="flex items-center space-x-1">
-                    <User className="w-4 h-4" aria-hidden="true" />
-                    <span>Durée: {projet.duree}</span>
-                  </div>
-                  <span>Contexte: {projet.contexte}</span>
-                </div>
-
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => setSelectedProject(index)}
-                    className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors space-x-2 flex-1 justify-center"
-                    aria-label={`Lire l'article détaillé du projet ${projet.titre}`}
-                  >
-                    <BookOpen className="w-4 h-4" aria-hidden="true" />
-                    <span>Lire l'article</span>
-                  </button>
-                  <a
-                    href={projet.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors space-x-2"
-                    aria-label={`Voir le code source du projet ${projet.titre} sur GitHub`}
-                  >
-                    <Github className="w-4 h-4" aria-hidden="true" />
-                    <span>Code</span>
-                  </a>
-                </div>
-              </div>
-            </article>
+          {filteredProjets.map((projet: typeof projets[0], index: number) => (
+            <div key={index} className={projet.featured ? 'lg:col-span-2' : ''}>
+              <ProjectCard
+                image={projet.image}
+                titre={projet.titre}
+                description={projet.description}
+                technologies={projet.technologies}
+                duree={projet.duree}
+                contexte={projet.contexte}
+                statut={projet.statut}
+                github={projet.github}
+                demo={projet.demo}
+                featured={projet.featured}
+                date={projet.date}
+                icon={projet.icon}
+              />
+            </div>
           ))}
         </div>
-
-        {/* Bouton Voir plus */}
-        {visibleCount < filteredProjets.length && (
-          <div className="flex justify-center mb-8">
-            <button
-              onClick={() => setVisibleCount(visibleCount + 4)}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
-            >
-              Voir plus de projets
-            </button>
-          </div>
-        )}
 
         {/* Modal d'article */}
         {selectedProject !== null && (
