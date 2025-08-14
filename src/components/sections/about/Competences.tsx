@@ -161,8 +161,8 @@ const Competences = () => {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
                           <div 
-                            className={`h-2 rounded-full ${getNiveauColor(comp.niveau)} transition-all duration-300`}
-                            style={{ width: `${comp.niveau}%` } as React.CSSProperties}
+                            className={`h-2 rounded-full ${getNiveauColor(comp.niveau)} transition-all duration-300 w-[var(--progress-width)]`}
+                            style={{ '--progress-width': `${comp.niveau}%` } as React.CSSProperties}
                           ></div>
                         </div>
                         <p className="text-sm text-gray-600">{comp.description}</p>
@@ -197,8 +197,8 @@ const Competences = () => {
                 <p className="text-gray-600 mb-4">{comp.description}</p>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className={`h-2 rounded-full ${getNiveauColor(comp.niveau)} transition-all duration-300`}
-                    style={{ width: `${comp.niveau}%` } as React.CSSProperties}
+                    className={`h-2.5 rounded-full ${getNiveauColor(comp.niveau)} w-[var(--progress-width)]`}
+                    style={{ '--progress-width': `${comp.niveau}%` } as React.CSSProperties}
                   ></div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
