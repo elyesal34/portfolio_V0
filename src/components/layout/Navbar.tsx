@@ -92,7 +92,7 @@ const Navbar = () => {
                     : 'text-gray-300 hover:text-white hover:bg-gray-700'
                 }`}
                 aria-controls="mobile-menu"
-                aria-expanded={isOpen}
+                aria-expanded={isOpen ? "true" : "false"}
                 aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
