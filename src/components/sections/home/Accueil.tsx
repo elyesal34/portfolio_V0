@@ -1,9 +1,13 @@
 import { ArrowDown, Code, Database, Smartphone, Download, Mail, ExternalLink } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import ImageWithSuspense from '../../ui/ImageWithSuspense';
 
 const Accueil = () => {
-  const navigate = useNavigate();
+  const scrollWithOffset = (el: HTMLElement) => {
+    const yOffset = -64;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
 
   return (
     <section id="accueil" className="min-h-screen pt-16 scroll-mt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
@@ -44,30 +48,33 @@ const Accueil = () => {
 
             {/* Boutons - rendu immédiat */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button
-                onClick={() => navigate({ pathname: '/', hash: '#contact' })}
+              <HashLink
+                to="/#contact"
+                scroll={scrollWithOffset}
                 className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
                 aria-label="Aller à la section contact"
               >
                 <Mail size={20} aria-hidden="true" />
                 <span>Me contacter</span>
-              </button>
-              <button
-                onClick={() => navigate({ pathname: '/', hash: '#productions' })}
+              </HashLink>
+              <HashLink
+                to="/#productions"
+                scroll={scrollWithOffset}
                 className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
                 aria-label="Voir mes projets et réalisations"
               >
                 <ExternalLink size={20} aria-hidden="true" />
                 <span>Voir mes projets</span>
-              </button>
-              <button
-                onClick={() => navigate({ pathname: '/', hash: '#cv' })}
+              </HashLink>
+              <HashLink
+                to="/#cv"
+                scroll={scrollWithOffset}
                 className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
                 aria-label="Télécharger mon CV"
               >
                 <Download size={20} aria-hidden="true" />
                 <span>Télécharger CV</span>
-              </button>
+              </HashLink>
             </div>
 
             {/* Statistiques rapides - rendu immédiat */}
@@ -116,13 +123,14 @@ const Accueil = () => {
 
         {/* Flèche de défilement */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <button 
-            onClick={() => navigate({ pathname: '/', hash: '#cv' })}
+          <HashLink 
+            to="/#cv"
+            scroll={scrollWithOffset}
             className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
             aria-label="Défiler vers la section CV"
           >
             <ArrowDown className="w-8 h-8" aria-hidden="true" />
-          </button>
+          </HashLink>
         </div>
       </div>
 
