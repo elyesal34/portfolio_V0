@@ -1,5 +1,9 @@
-import { useState } from 'react';
-import { Code, Database, Globe, Smartphone, Shield, Users, Wrench, BookOpen } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Code, Database, Globe, Wrench, Users, BookOpen, Shield, Smartphone } from 'lucide-react';
+import ProgressBar from '../../ui/ProgressBar';
+
+
+
 
 const Competences = () => {
   const competencesTechniques = [
@@ -96,35 +100,40 @@ const Competences = () => {
     }
   ];
 
-  const getNiveauColor = (niveau: number) => {
+  const getNiveauColor = useCallback((niveau: number): string => {
     if (niveau >= 80) return "bg-green-500";
     if (niveau >= 60) return "bg-yellow-500";
     return "bg-red-500";
-  };
+  }, []);
 
-  const getNiveauText = (niveau: number) => {
+  const getNiveauText = useCallback((niveau: number): string => {
     if (niveau >= 80) return "Avancé";
     if (niveau >= 60) return "Intermédiaire";
     return "Débutant";
-  };
+  }, []);
 
-  // Limitation/pagination pour chaque catégorie technique
-  const [visibleTechCounts, setVisibleTechCounts] = useState(
+  // Gestion de la pagination
+  const [visibleTechCounts, setVisibleTechCounts] = useState<number[]>(() =>
     competencesTechniques.map(cat => Math.min(4, cat.competences.length))
   );
-  // Limitation/pagination pour les compétences transversales
-  const [visibleTransCount, setVisibleTransCount] = useState(2);
+  
+  const [visibleTransCount, setVisibleTransCount] = useState<number>(2);
 
-  const showMoreTech = (catIdx: number) => {
-    setVisibleTechCounts((counts: number[]) =>
-      counts.map((count: number, idx: number) =>
+  const showMoreTech = useCallback((catIdx: number) => {
+    setVisibleTechCounts(prevCounts =>
+      prevCounts.map((count, idx) =>
         idx === catIdx
           ? Math.min(count + 4, competencesTechniques[catIdx].competences.length)
           : count
       )
     );
-  };
-  const showMoreTrans = () => setVisibleTransCount((count: number) => Math.min(count + 2, competencesTransversales.length));
+  }, [competencesTechniques]);
+
+  const showMoreTrans = useCallback(() => {
+    setVisibleTransCount(prevCount => 
+      Math.min(prevCount + 2, competencesTransversales.length)
+    );
+  }, [competencesTransversales.length]);
 
   return (
     <section id="competences" className="min-h-screen pt-16 bg-gray-50">
@@ -155,16 +164,19 @@ const Competences = () => {
                       <div key={comp.nom}>
                         <div className="flex justify-between items-center mb-2">
                           <span className="font-medium text-gray-800">{comp.nom}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}>
+                          <span 
+                            className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}
+                            aria-label={`Niveau ${getNiveauText(comp.niveau).toLowerCase()}`}
+                          >
                             {getNiveauText(comp.niveau)}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
-                          <div 
-                            className={`h-2 rounded-full ${getNiveauColor(comp.niveau)} transition-all duration-300 w-[var(--progress-width)]`}
-                            style={{ '--progress-width': `${comp.niveau}%` } as React.CSSProperties}
-                          ></div>
-                        </div>
+                        <ProgressBar 
+                          level={comp.niveau}
+                          levelColor={getNiveauColor(comp.niveau)}
+                          label={comp.nom}
+                          className="mb-1"
+                        />
                         <p className="text-sm text-gray-600">{comp.description}</p>
                       </div>
                   ))}
@@ -195,12 +207,12 @@ const Competences = () => {
                   <h4 className="text-lg font-bold text-gray-900 ml-3">{comp.nom}</h4>
                 </div>
                 <p className="text-gray-600 mb-4">{comp.description}</p>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2.5 rounded-full ${getNiveauColor(comp.niveau)} w-[var(--progress-width)]`}
-                    style={{ '--progress-width': `${comp.niveau}%` } as React.CSSProperties}
-                  ></div>
-                </div>
+                <ProgressBar 
+                  level={comp.niveau}
+                  levelColor={getNiveauColor(comp.niveau)}
+                  label={comp.nom}
+                  className="h-2.5"
+                />
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-sm text-gray-500">Niveau</span>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}>

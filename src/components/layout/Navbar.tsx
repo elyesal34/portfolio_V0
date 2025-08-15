@@ -30,6 +30,31 @@ const Navbar = () => {
     { title: 'Contact', icon: <Mail size={18} />, hash: '#contact' },
   ];
 
+  const scrollToElement = (hash: string, attempt = 0) => {
+    const element = document.querySelector(hash);
+    if (!element) {
+      // Système de retry avec délais croissants
+      const retryDelays = [100, 300, 500, 1000];
+      if (attempt < retryDelays.length) {
+        setTimeout(() => scrollToElement(hash, attempt + 1), retryDelays[attempt]);
+      }
+      return;
+    }
+
+    // Offset spécial pour la section Contact (160px), 80px pour les autres
+    const headerOffset = hash === '#contact' ? 160 : 80;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = Math.max(0, elementPosition - headerOffset);
+
+    // Utilisation de requestAnimationFrame pour un défilement plus fluide
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    });
+  };
+
   const handleMenuClick = (hash: string) => {
     setIsOpen(false);
     
@@ -39,22 +64,11 @@ const Navbar = () => {
       return;
     }
     
+    // Navigation et défilement
     navigate('/' + hash);
     
-    // Délai pour s'assurer que la navigation est terminée avant de faire défiler
-    setTimeout(() => {
-      const element = document.querySelector(hash);
-      if (element) {
-        const headerOffset = 64; // Hauteur de la navbar (4rem = 64px)
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }, 50);
+    // Premier essai immédiat, puis retry avec délais si nécessaire
+    setTimeout(() => scrollToElement(hash), 0);
   };
 
   const scrollToTop = () => {

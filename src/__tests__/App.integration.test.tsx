@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import App from '../App'
+import App from '../app/App'
 
 // Mock pour window.scrollTo
 const mockScrollTo = vi.fn()
@@ -31,7 +30,7 @@ describe('App - Tests d\'intégration complets', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     // Simuler que toutes les sections existent
-    mockQuerySelector.mockImplementation((selector) => {
+    mockQuerySelector.mockImplementation(() => {
       const mockElement = {
         offsetTop: 1000,
         getBoundingClientRect: () => ({ top: 1000 }),
