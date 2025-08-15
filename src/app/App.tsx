@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { lazy, Suspense, useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
 import UpdateNotification from '../components/layout/UpdateNotification';
+import OfflineError from '../components/layout/OfflineError';
 import Accueil from '../components/sections/home/Accueil';
 import MentionsLegales from '../components/sections/legal/MentionsLegales';
 
@@ -117,6 +118,7 @@ function App() {
             </Routes>
           </Suspense>
           <UpdateNotification />
+          <OfflineError />
         </main>
       </div>
     </Router>
