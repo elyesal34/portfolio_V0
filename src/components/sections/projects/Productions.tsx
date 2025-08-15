@@ -1,33 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Globe, Database, Smartphone, Code, Target, CheckCircle, Layers, Zap, ArrowRight, Star, Filter } from 'lucide-react';
 import ProjectCard from '../../ProjectCard/ProjectCard';
-
-// Chargement dynamique Google Analytics
-const loadGoogleAnalytics = () => {
-  if ((window as any).gtag) return;
-  const script = document.createElement('script');
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MJLQKQWB5R';
-  script.async = true;
-  document.head.appendChild(script);
-
-  (window as any).dataLayer = (window as any).dataLayer || [];
-  function gtag(...args: any[]){(window as any).dataLayer.push(args);}
-  (window as any).gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', 'G-MJLQKQWB5R');
-};
-
 
 const Productions = () => {
   const [activeFilter, setActiveFilter] = useState('Tous');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
-  // Charge Google Analytics uniquement sur cette page
-  useEffect(() => {
-    loadGoogleAnalytics();
-    // Décommente si tu utilises reCAPTCHA sur cette page :
-    // loadRecaptcha();
-  }, []);
+  // GA is initialized lazily globally from main.tsx
 
   const projets = [
     {

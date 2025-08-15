@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from 'react-router-dom';
+
+const ReCAPTCHALazy = lazy(() => import('react-google-recaptcha'));
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,54 @@ const Contact = () => {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const captchaRegionRef = useRef<HTMLDivElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  // Lazy reveal reCAPTCHA when region is visible or on first interaction
+  useEffect(() => {
+    if (showCaptcha) return;
+
+    const reveal = () => setShowCaptcha(true);
+
+    // IntersectionObserver to reveal when in view
+    let observer: IntersectionObserver | null = null;
+    if ('IntersectionObserver' in window && captchaRegionRef.current) {
+      observer = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            reveal();
+            observer?.disconnect();
+            break;
+          }
+        }
+      }, { rootMargin: '200px', threshold: 0.1 });
+      observer.observe(captchaRegionRef.current);
+    }
+
+    // User interaction fallback: focus/typing/click within form
+    const formEl = formRef.current;
+    if (formEl) {
+      const onInteract = () => {
+        reveal();
+        formEl.removeEventListener('pointerdown', onInteract);
+        formEl.removeEventListener('keydown', onInteract);
+        formEl.removeEventListener('focusin', onInteract);
+      };
+      formEl.addEventListener('pointerdown', onInteract, { once: true });
+      formEl.addEventListener('keydown', onInteract, { once: true });
+      formEl.addEventListener('focusin', onInteract, { once: true });
+
+      return () => {
+        observer?.disconnect();
+        formEl.removeEventListener('pointerdown', onInteract);
+        formEl.removeEventListener('keydown', onInteract);
+        formEl.removeEventListener('focusin', onInteract);
+      };
+    }
+
+    return () => observer?.disconnect();
+  }, [showCaptcha]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -249,7 +298,7 @@ const Contact = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Envoyez-moi un message</h3>
             
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100" noValidate aria-live="polite">
+            <form ref={formRef} onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100" noValidate aria-live="polite">
               {status !== 'idle' && (
                 <div className={`mb-6 p-4 rounded-lg flex items-start ${
                   status === 'success' 
@@ -351,11 +400,29 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div role="region" aria-label="Vérification reCAPTCHA" className="mb-6">
-                <ReCAPTCHA
-                  sitekey="6LcHfmkrAAAAAEmyM6dmIM9iQq0a18vRmp6DviN4"
-                  onChange={token => setRecaptchaToken(token)}
-                />
+              <div
+                role="region"
+                aria-label="Vérification reCAPTCHA"
+                className="mb-6"
+                ref={captchaRegionRef}
+              >
+                {showCaptcha ? (
+                  <Suspense fallback={<div className="h-[78px] rounded bg-gray-100 animate-pulse" aria-hidden="true" /> }>
+                    <ReCAPTCHALazy
+                      sitekey="6LcHfmkrAAAAAEmyM6dmIM9iQq0a18vRmp6DviN4"
+                      onChange={token => setRecaptchaToken(token)}
+                    />
+                  </Suspense>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setShowCaptcha(true)}
+                    className="w-full h-[78px] flex items-center justify-center rounded border border-dashed border-gray-300 bg-gray-50 text-gray-600 hover:bg-gray-100"
+                    aria-label="Activer la vérification reCAPTCHA"
+                  >
+                    Cliquez pour activer la vérification reCAPTCHA
+                  </button>
+                )}
               </div>
 
               <button
