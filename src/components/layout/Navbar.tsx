@@ -32,18 +32,22 @@ const Navbar = () => {
   ];
 
   const scrollToElement = (hash: string, attempt = 0) => {
-    const element = document.querySelector(hash);
+    const element = document.querySelector(hash) as HTMLElement | null;
     if (!element) {
       // Système de retry avec délais croissants
-      const retryDelays = [100, 300, 500, 1000];
+      const retryDelays = [50, 150, 300, 600, 1000];
       if (attempt < retryDelays.length) {
         setTimeout(() => scrollToElement(hash, attempt + 1), retryDelays[attempt]);
       }
       return;
     }
-    // Utilise CSS scroll-margin-top défini sur les sections
+    // Scroll déterministe avec offset pour la navbar fixe
     requestAnimationFrame(() => {
-      (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const rect = element.getBoundingClientRect();
+      const absoluteTop = rect.top + window.pageYOffset;
+      const offset = 64; // navbar ~16 (pt-16) -> 64px
+      const top = Math.max(absoluteTop - offset, 0);
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   };
 
@@ -58,19 +62,12 @@ const Navbar = () => {
     
     // Si déjà sur la page d'accueil, ne pas renaviguer: mettre à jour le hash et scroller
     if (location.pathname === '/') {
-      try {
-        const newUrl = `${location.pathname}${hash}`;
-        window.history.replaceState(null, '', newUrl);
-      } catch {}
-      // Scroll immédiat + fallback retry
-      setTimeout(() => scrollToElement(hash), 0);
+      navigate({ pathname: '/', hash });
       return;
     }
 
     // Sinon, navigation vers la page racine avec ancre explicite
     navigate({ pathname: '/', hash });
-    // Premier essai immédiat, puis retry avec délais si nécessaire
-    setTimeout(() => scrollToElement(hash), 0);
   };
 
   const scrollToTop = () => {

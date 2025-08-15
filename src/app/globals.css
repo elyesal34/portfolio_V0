@@ -6,7 +6,7 @@
 @layer base {
   /* Préchargement des polices critiques */
   html {
-     scroll-behavior: smooth;
+     scroll-behavior: auto;
   }
   
   body {
@@ -67,8 +67,10 @@
     contain-intrinsic-size: 800px 600px;
   }
   
-  /* Optimisation du rendu des sections */
-  section {
+  /* Optimisation du rendu des sections (opt-in uniquement)
+     Note: appliqué auparavant à tous les <section>, cela perturbait la navigation par ancres (#hash)
+     en retardant le rendu de la section cible. On le restreint à une classe optionnelle. */
+  .lazy-section {
     content-visibility: auto;
     contain-intrinsic-size: 0 1000px;
   }

@@ -18,13 +18,37 @@ function ScrollToHash() {
   useEffect(() => {
     if (!location.hash) return;
     const hash = location.hash;
+    const offset = 64; // hauteur approx. de la navbar fixe
+
+    const scrollDeterministic = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const absoluteTop = rect.top + window.pageYOffset;
+      const top = Math.max(absoluteTop - offset, 0);
+      window.scrollTo({ top, behavior: 'smooth' });
+    };
+
     // 1) Tentative immédiate
     const tryScrollNow = () => {
       const element = document.querySelector(hash) as HTMLElement | null;
       if (!element) return false;
-      requestAnimationFrame(() => {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      requestAnimationFrame(() => scrollDeterministic(element));
+      // multi-pass pour compenser les décalages de layout (images/captcha)
+      const passes = [150, 400, 800];
+      passes.forEach((ms) => {
+        window.setTimeout(() => {
+          const el = document.querySelector(hash) as HTMLElement | null;
+          if (el) scrollDeterministic(el);
+        }, ms);
       });
+      // observer les changements de taille de la cible pendant une courte durée
+      try {
+        const target = element;
+        const ro = new ResizeObserver(() => {
+          scrollDeterministic(target);
+        });
+        ro.observe(target);
+        window.setTimeout(() => ro.disconnect(), 1500);
+      } catch {}
       return true;
     };
 
