@@ -32,7 +32,29 @@ const Navbar = () => {
 
   const handleMenuClick = (hash: string) => {
     setIsOpen(false);
+    
+    if (hash === '#accueil') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      navigate('/');
+      return;
+    }
+    
     navigate('/' + hash);
+    
+    // Délai pour s'assurer que la navigation est terminée avant de faire défiler
+    setTimeout(() => {
+      const element = document.querySelector(hash);
+      if (element) {
+        const headerOffset = 64; // Hauteur de la navbar (4rem = 64px)
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 50);
   };
 
   const scrollToTop = () => {
@@ -42,7 +64,7 @@ const Navbar = () => {
   return (
     <>
       <nav 
-        className={`fixed w-full z-50 transition-all duration-300 ${
+        className={`fixed w-full z-50 h-16 transition-all duration-300 ${
           isScrolled 
             ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
             : 'bg-gray-900'
