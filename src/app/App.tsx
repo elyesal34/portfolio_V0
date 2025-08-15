@@ -18,22 +18,43 @@ function ScrollToHash() {
   useEffect(() => {
     if (!location.hash) return;
     const hash = location.hash;
-    // Essai immédiat puis léger délai si le DOM n'est pas prêt
-    const tryScroll = () => {
+    // 1) Tentative immédiate
+    const tryScrollNow = () => {
       const element = document.querySelector(hash) as HTMLElement | null;
-      if (element) {
-        requestAnimationFrame(() => {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-        return true;
-      }
-      return false;
+      if (!element) return false;
+      requestAnimationFrame(() => {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      return true;
     };
 
-    if (!tryScroll()) {
-      const id = setTimeout(() => { tryScroll(); }, 100);
-      return () => clearTimeout(id);
-    }
+    if (tryScrollNow()) return;
+
+    // 2) Observe l'apparition de l'élément (lazy loading)
+    let observer: MutationObserver | null = null;
+    let timeoutId: number | undefined;
+
+    const stop = () => {
+      if (observer) observer.disconnect();
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+
+    observer = new MutationObserver(() => {
+      if (tryScrollNow()) {
+        stop();
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // 3) Sécurité: arrête après 3s même si non trouvé
+    timeoutId = window.setTimeout(() => {
+      stop();
+      // dernier essai au cas où
+      tryScrollNow();
+    }, 3000);
+
+    return () => stop();
   }, [location]);
   return null;
 }

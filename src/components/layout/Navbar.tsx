@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,9 +56,19 @@ const Navbar = () => {
       return;
     }
     
-    // Navigation vers la page racine avec ancre explicite
+    // Si déjà sur la page d'accueil, ne pas renaviguer: mettre à jour le hash et scroller
+    if (location.pathname === '/') {
+      try {
+        const newUrl = `${location.pathname}${hash}`;
+        window.history.replaceState(null, '', newUrl);
+      } catch {}
+      // Scroll immédiat + fallback retry
+      setTimeout(() => scrollToElement(hash), 0);
+      return;
+    }
+
+    // Sinon, navigation vers la page racine avec ancre explicite
     navigate({ pathname: '/', hash });
-    
     // Premier essai immédiat, puis retry avec délais si nécessaire
     setTimeout(() => scrollToElement(hash), 0);
   };
