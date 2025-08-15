@@ -111,7 +111,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div 
           id="mobile-menu" 
-          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-96' : 'max-h-0'}`}
+          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${isOpen ? 'max-h-[85vh] overflow-y-auto' : 'max-h-0 overflow-hidden'}`}
           aria-hidden={!isOpen}
         >
           <nav aria-label="Navigation mobile">
