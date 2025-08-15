@@ -69,27 +69,6 @@ export function forceUpdate() {
   }
 }
 
-// Écouteur d'événement pour la mise à jour du Service Worker
-function listenForWaitingServiceWorker(registration: ServiceWorkerRegistration, callback: () => void) {
-  function awaitStateChange() {
-    registration.installing?.addEventListener('statechange', function (event) {
-      if (event.target instanceof ServiceWorker && event.target.state === 'installed') {
-        callback();
-      }
-    });
-  }
-
-  if (registration.waiting) {
-    // SW est en attente
-    return callback();
-  }
-  if (registration.installing) {
-    return awaitStateChange();
-  }
-  
-  registration.addEventListener('updatefound', awaitStateChange);
-}
-
 // Vérifier les mises à jour régulièrement
 if (process.env.NODE_ENV === 'production') {
   // Vérifier les mises à jour toutes les heures
