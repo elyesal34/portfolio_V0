@@ -45,7 +45,7 @@ const Accueil = () => {
             {/* Boutons - rendu immédiat */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button
-                onClick={() => navigate('/#contact')}
+                onClick={() => navigate({ pathname: '/', hash: '#contact' })}
                 className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
                 aria-label="Aller à la section contact"
               >
@@ -53,7 +53,7 @@ const Accueil = () => {
                 <span>Me contacter</span>
               </button>
               <button
-                onClick={() => navigate('/#productions')}
+                onClick={() => navigate({ pathname: '/', hash: '#productions' })}
                 className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
                 aria-label="Voir mes projets et réalisations"
               >
@@ -61,7 +61,7 @@ const Accueil = () => {
                 <span>Voir mes projets</span>
               </button>
               <button
-                onClick={() => navigate('/#cv')}
+                onClick={() => navigate({ pathname: '/', hash: '#cv' })}
                 className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
                 aria-label="Télécharger mon CV"
               >
@@ -117,7 +117,7 @@ const Accueil = () => {
         {/* Flèche de défilement */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <button 
-            onClick={() => navigate('/#cv')}
+            onClick={() => navigate({ pathname: '/', hash: '#cv' })}
             className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
             aria-label="Défiler vers la section CV"
           >

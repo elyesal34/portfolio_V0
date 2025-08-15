@@ -55,8 +55,8 @@ const Navbar = () => {
       return;
     }
     
-    // Navigation et défilement
-    navigate('/' + hash);
+    // Navigation vers la page racine avec ancre explicite
+    navigate({ pathname: '/', hash });
     
     // Premier essai immédiat, puis retry avec délais si nécessaire
     setTimeout(() => scrollToElement(hash), 0);

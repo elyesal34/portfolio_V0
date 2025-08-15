@@ -16,16 +16,23 @@ const Contact = lazy(() => import('../components/sections/contact/Contact'));
 function ScrollToHash() {
   const location = useLocation();
   useEffect(() => {
-    if (location.pathname === '/' && location.hash) {
-      const hash = location.hash;
-      setTimeout(() => {
-        const element = document.querySelector(hash) as HTMLElement | null;
-        if (element) {
-          requestAnimationFrame(() => {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        }
-      }, 100);
+    if (!location.hash) return;
+    const hash = location.hash;
+    // Essai immédiat puis léger délai si le DOM n'est pas prêt
+    const tryScroll = () => {
+      const element = document.querySelector(hash) as HTMLElement | null;
+      if (element) {
+        requestAnimationFrame(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        return true;
+      }
+      return false;
+    };
+
+    if (!tryScroll()) {
+      const id = setTimeout(() => { tryScroll(); }, 100);
+      return () => clearTimeout(id);
     }
   }, [location]);
   return null;
