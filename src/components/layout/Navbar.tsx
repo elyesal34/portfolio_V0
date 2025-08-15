@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,48 +29,17 @@ const Navbar = () => {
     { title: 'Contact', icon: <Mail size={18} />, hash: '#contact' },
   ];
 
-  const scrollToElement = (hash: string, attempt = 0) => {
-    const element = document.querySelector(hash) as HTMLElement | null;
-    if (!element) {
-      // Système de retry avec délais croissants
-      const retryDelays = [50, 150, 300, 600, 1000];
-      if (attempt < retryDelays.length) {
-        setTimeout(() => scrollToElement(hash, attempt + 1), retryDelays[attempt]);
-      }
-      return;
-    }
-    // Scroll déterministe avec offset pour la navbar fixe
-    requestAnimationFrame(() => {
-      const rect = element.getBoundingClientRect();
-      const absoluteTop = rect.top + window.pageYOffset;
-      const offset = 64; // navbar ~16 (pt-16) -> 64px
-      const top = Math.max(absoluteTop - offset, 0);
-      window.scrollTo({ top, behavior: 'smooth' });
-    });
+  // Configuration du défilement avec offset pour la navbar fixe
+  const scrollWithOffset = (el: HTMLElement) => {
+    const yOffset = -64; // navbar ~16 (pt-16) -> 64px
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
-  const handleMenuClick = (hash: string) => {
+  const handleMenuClick = () => {
     setIsOpen(false);
-    
-    if (hash === '#accueil') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      navigate('/');
-      return;
-    }
-    
-    // Si déjà sur la page d'accueil, ne pas renaviguer: mettre à jour le hash et scroller
-    if (location.pathname === '/') {
-      navigate({ pathname: '/', hash });
-      return;
-    }
-
-    // Sinon, navigation vers la page racine avec ancre explicite
-    navigate({ pathname: '/', hash });
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <>
@@ -88,32 +55,36 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <button
-                onClick={() => handleMenuClick('#accueil')}
+              <HashLink
+                to="/#accueil"
+                scroll={scrollWithOffset}
                 className={`text-xl font-bold transition-colors ${
                   isScrolled ? 'text-gray-900 hover:text-blue-600' : 'text-white hover:text-blue-400'
                 }`}
+                onClick={handleMenuClick}
               >
                 Elyes Allani
-              </button>
+              </HashLink>
             </div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
               {menuItems.map((item) => (
-                <button
+                <HashLink
                   key={item.title}
-                  onClick={() => handleMenuClick(item.hash)}
+                  to={`/${item.hash}`}
+                  scroll={scrollWithOffset}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
                       : 'text-gray-300 hover:text-white hover:bg-gray-700'
                   }`}
                   aria-label={`Aller à la section ${item.title}`}
+                  onClick={handleMenuClick}
                 >
                   {item.icon}
                   <span>{item.title}</span>
-                </button>
+                </HashLink>
               ))}
             </div>
 
@@ -127,7 +98,8 @@ const Navbar = () => {
                     : 'text-gray-300 hover:text-white hover:bg-gray-700'
                 }`}
                 aria-controls="mobile-menu"
-                aria-expanded={isOpen ? "true" : "false"}
+                aria-expanded={isOpen}
+                aria-haspopup="true"
                 aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -137,35 +109,41 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        {isOpen && (
-          <div id="mobile-menu" className="md:hidden bg-white border-t border-gray-200 shadow-lg" role="menu">
+        <div 
+          id="mobile-menu" 
+          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-96' : 'max-h-0'}`}
+          aria-hidden={!isOpen}
+        >
+          <nav aria-label="Navigation mobile">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {menuItems.map((item) => (
-                <button
+                <HashLink
                   key={item.title}
-                  onClick={() => handleMenuClick(item.hash)}
+                  to={`/${item.hash}`}
+                  scroll={scrollWithOffset}
                   className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
-                  role="menuitem"
-                  aria-label={`Aller à la section ${item.title}`}
+                  onClick={handleMenuClick}
+                  tabIndex={isOpen ? 0 : -1}
                 >
                   {item.icon}
                   <span>{item.title}</span>
-                </button>
+                </HashLink>
               ))}
             </div>
-          </div>
-        )}
+          </nav>
+        </div>
       </nav>
 
       {/* Back to Top Button */}
       {showBackToTop && (
-        <button
-          onClick={scrollToTop}
+        <HashLink
+          to="#accueil"
+          scroll={scrollWithOffset}
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"
         >
           <ChevronUp size={24} />
-        </button>
+        </HashLink>
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
 import UpdateNotification from '../components/layout/UpdateNotification';
@@ -16,10 +16,9 @@ const Veilles = lazy(() => import('../components/sections/content/Veilles'));
 const Contact = lazy(() => import('../components/sections/contact/Contact'));
 
 function ScrollToHash() {
-  const location = useLocation();
   useEffect(() => {
-    if (!location.hash) return;
-    const hash = location.hash;
+    const hash = window.location.hash;
+    if (!hash) return;
     const offset = 64; // hauteur approx. de la navbar fixe
 
     const scrollDeterministic = (el: HTMLElement) => {
@@ -81,7 +80,7 @@ function ScrollToHash() {
     }, 3000);
 
     return () => stop();
-  }, [location]);
+  }, []);
   return null;
 }
 
