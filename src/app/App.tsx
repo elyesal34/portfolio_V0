@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
+import UpdateNotification from '../components/layout/UpdateNotification';
 import Accueil from '../components/sections/home/Accueil';
 import MentionsLegales from '../components/sections/legal/MentionsLegales';
 
@@ -115,6 +116,7 @@ function App() {
               <Route path="/mentions-legales" element={<MentionsLegales />} />
             </Routes>
           </Suspense>
+          <UpdateNotification />
         </main>
       </div>
     </Router>
