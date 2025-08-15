@@ -665,7 +665,7 @@ const ProjectModal = ({ project, onClose }: { project: typeof projets[0], onClos
   );
 
   return (
-    <section id="productions" className="min-h-screen pt-16 bg-gray-50">
+    <section id="productions" className="min-h-screen pt-16 scroll-mt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">

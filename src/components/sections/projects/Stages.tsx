@@ -47,7 +47,7 @@ const Stages = () => {
   const visibleStages = stages.slice(0, visibleCount);
 
   return (
-    <section id="stages" className="min-h-screen pt-16 bg-gray-50">
+    <section id="stages" className="min-h-screen pt-16 scroll-mt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Stages en Entreprise</h2>

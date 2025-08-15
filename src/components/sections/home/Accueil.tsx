@@ -6,7 +6,7 @@ const Accueil = () => {
   const navigate = useNavigate();
 
   return (
-    <section id="accueil" className="min-h-screen pt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+    <section id="accueil" className="min-h-screen pt-16 scroll-mt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
       {/* Éléments décoratifs de fond - chargés après */}
       <div className="relative min-h-[120px]">
         <div className="absolute inset-0 opacity-10" aria-hidden="true">

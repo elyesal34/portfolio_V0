@@ -40,18 +40,9 @@ const Navbar = () => {
       }
       return;
     }
-
-    // Offset spécial pour la section Contact (160px), 80px pour les autres
-    const headerOffset = hash === '#contact' ? 160 : 80;
-    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = Math.max(0, elementPosition - headerOffset);
-
-    // Utilisation de requestAnimationFrame pour un défilement plus fluide
+    // Utilise CSS scroll-margin-top défini sur les sections
     requestAnimationFrame(() => {
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   };
 

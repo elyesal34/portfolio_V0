@@ -21,13 +21,8 @@ function ScrollToHash() {
       setTimeout(() => {
         const element = document.querySelector(hash) as HTMLElement | null;
         if (element) {
-          const navbarHeight = 64; // Hauteur de la navbar (4rem = 64px)
-          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-          const offsetPosition = elementPosition - navbarHeight;
-
-          window.scrollTo({
-            top: Math.max(0, offsetPosition),
-            behavior: 'smooth'
+          requestAnimationFrame(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
           });
         }
       }, 100);

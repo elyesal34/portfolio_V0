@@ -75,7 +75,7 @@ const Veilles = () => {
   const visibleArticles = articles.slice(0, visibleCount);
 
   return (
-    <section id="veilles" className="min-h-screen pt-16 bg-white">
+    <section id="veilles" className="min-h-screen pt-16 scroll-mt-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Veille Technologique</h2>
