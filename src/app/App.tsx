@@ -130,10 +130,6 @@ function App() {
       const lcpText = document.getElementById('lcp-text');
       if (lcpText) lcpText.style.visibility = 'hidden';
     });
-    // Prefetch CV chunk after idle to improve scroll-to-next-section perception
-    schedule(() => {
-      void import('../components/sections/about/CV');
-    });
   }, []);
 
   return (

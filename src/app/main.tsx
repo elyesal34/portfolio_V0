@@ -5,7 +5,7 @@ import App from './App.tsx';
 import './globals.css';
 import { registerServiceWorker } from '../utils/serviceWorker';
 
-// Lazy initialize Google Analytics on idle or first interaction
+// Lazy initialize Google Analytics only on first interaction (no idle preload)
 function onFirstInteractionOnce(cb: () => void) {
   const handler = () => {
     window.removeEventListener('pointerdown', handler);
@@ -16,16 +16,10 @@ function onFirstInteractionOnce(cb: () => void) {
   window.addEventListener('keydown', handler, { once: true });
 }
 
-type RequestIdleCallback = (cb: IdleRequestCallback, opts?: { timeout?: number }) => number;
 
 function initAnalyticsLazily() {
   const load = () => import('../utils/analytics').then(m => m.initGA()).catch(() => {});
-  const ric = (window as Window & { requestIdleCallback?: RequestIdleCallback }).requestIdleCallback;
-  if (ric) {
-    ric(load, { timeout: 3000 });
-  } else {
-    setTimeout(load, 1500);
-  }
+  // Do not schedule on idle to avoid loading GA during Lighthouse run
   onFirstInteractionOnce(load);
 }
 

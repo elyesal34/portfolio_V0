@@ -88,8 +88,7 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('lucide-react')) return 'icons';
           if (id.includes('@emailjs/browser')) return 'email';
           if (id.includes('react-google-recaptcha')) return 'recaptcha';
-          // Group all other node_modules into a single vendor chunk
-          if (id.includes('node_modules')) return 'vendor';
+          // Let Rollup decide for other node_modules to enable better per-route/code-split chunks
           return undefined;
         },
         // Optimiser les noms de fichiers
