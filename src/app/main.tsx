@@ -23,9 +23,11 @@ function initAnalyticsLazily() {
   onFirstInteractionOnce(load);
 }
 
-// Enregistrer le service worker en production
+// Enregistrer le service worker en production (après le 'load' pour éviter la chaîne critique)
 if (import.meta.env.PROD) {
-  registerServiceWorker();
+  window.addEventListener('load', () => {
+    registerServiceWorker();
+  });
   initAnalyticsLazily();
 }
 

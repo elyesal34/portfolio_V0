@@ -76,6 +76,17 @@ export default defineConfig(({ mode }) => ({
       open: true,
     })),
   ],
+  // Use Preact in production builds only (drop-in via compat)
+  resolve: {
+    alias: mode === 'production'
+      ? {
+          react: 'preact/compat',
+          'react-dom/test-utils': 'preact/test-utils',
+          'react-dom': 'preact/compat',
+          'react/jsx-runtime': 'preact/jsx-runtime'
+        }
+      : []
+  },
   optimizeDeps: {
     exclude: ['lucide-react'],
     include: ['react', 'react-dom']
@@ -86,7 +97,9 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           // Force special chunks to keep explicit names
+          if (id.includes('preact')) return 'react';
           if (id.includes('react-router')) return 'router';
+          if (id.includes('react-dom') || /(^|\\|\/)react(\\|\/)/.test(id)) return 'react';
           if (id.includes('lucide-react')) return 'icons';
           if (id.includes('@emailjs/browser')) return 'email';
           if (id.includes('react-google-recaptcha')) return 'recaptcha';
@@ -101,8 +114,8 @@ export default defineConfig(({ mode }) => ({
     },
     // Désactiver les source maps en production
     sourcemap: false,
-    // Chunk size optimisé
-    chunkSizeWarningLimit: 500,
+    // Chunk size optimisé (raise threshold since vendor chunks are expected)
+    chunkSizeWarningLimit: 800,
     // Minification optimisée
     minify: 'terser',
     terserOptions: {

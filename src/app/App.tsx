@@ -122,14 +122,40 @@ function App() {
   // Defer non-critical effects to idle time
   useEffect(() => {
     const schedule = (cb: () => void) => {
-      const ric: any = (window as any).requestIdleCallback;
+      const win = window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+      };
+      const ric = win.requestIdleCallback;
       if (typeof ric === 'function') ric(cb);
-      else setTimeout(cb, 1);
+      else window.setTimeout(cb, 1);
     };
     schedule(() => {
       const lcpText = document.getElementById('lcp-text');
       if (lcpText) lcpText.style.visibility = 'hidden';
     });
+  }, []);
+
+  // Prefetch likely-next sections during idle time to warm cache
+  useEffect(() => {
+    const win = window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+    };
+    const prefetch = () => {
+      const tasks = [
+        import('../components/sections/about/CV'),
+        import('../components/sections/projects/Productions'),
+        import('../components/sections/contact/Contact'),
+      ];
+      // Silence errors if network is blocked; this is a best-effort warmup
+      tasks.forEach((p) => p.catch(() => null));
+    };
+    const ric = win.requestIdleCallback;
+    if (typeof ric === 'function') {
+      ric(prefetch, { timeout: 3000 });
+    } else {
+      const id = window.setTimeout(prefetch, 1500);
+      return () => window.clearTimeout(id);
+    }
   }, []);
 
   return (

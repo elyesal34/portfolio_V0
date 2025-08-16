@@ -1,5 +1,6 @@
-import { Code2, Database, Globe, Smartphone, Shield, Users } from 'lucide-react';
 import { useState } from 'react';
+
+import { Code2, Database, Globe, Smartphone, Shield, Users } from '../../../icons/lucide';
 
 const AteliersPro = () => {
   const ateliers = [

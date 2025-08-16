@@ -1,6 +1,7 @@
-import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from 'lucide-react';
 import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from '../../../icons/lucide';
 
 const ReCAPTCHALazy = lazy(() => import('react-google-recaptcha'));
 

@@ -1,5 +1,4 @@
-import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ComponentType } from 'react';
 import { HashLink } from 'react-router-hash-link';
 
 const Navbar = () => {
@@ -18,15 +17,39 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = [
-    { title: 'Accueil', icon: <Home size={18} />, hash: '#accueil' },
-    { title: 'CV', icon: <FileText size={18} />, hash: '#cv' },
-    { title: 'Ateliers Pro', icon: <Code2 size={18} />, hash: '#ateliers' },
-    { title: 'Stages', icon: <Briefcase size={18} />, hash: '#stages' },
-    { title: 'Compétences', icon: <Brain size={18} />, hash: '#competences' },
-    { title: 'Productions', icon: <GraduationCap size={18} />, hash: '#productions' },
-    { title: 'Veilles', icon: <BookOpen size={18} />, hash: '#veilles' },
-    { title: 'Contact', icon: <Mail size={18} />, hash: '#contact' },
+  type IconName = 'Menu' | 'X' | 'Code2' | 'BookOpen' | 'Briefcase' | 'GraduationCap' | 'Mail' | 'Home' | 'FileText' | 'Brain' | 'ChevronUp';
+  type IconsModule = Partial<Record<IconName, ComponentType<{ size?: number; color?: string; className?: string }>>>;
+  const [icons, setIcons] = useState<IconsModule | null>(null);
+
+  useEffect(() => {
+    // Charger uniquement les icônes nécessaires via un wrapper minimal
+    const load = () => import('../../icons/lucideNavbar')
+      .then((m) => setIcons(m as unknown as IconsModule))
+      .catch(() => {});
+    if ('requestIdleCallback' in window) {
+      const win = window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+      };
+      const ric = win.requestIdleCallback;
+      if (typeof ric === 'function') {
+        ric(load, { timeout: 2000 });
+      } else {
+        setTimeout(load, 0);
+      }
+    } else {
+      setTimeout(load, 0);
+    }
+  }, []);
+
+  const menuItems: { title: string; icon: IconName; hash: string }[] = [
+    { title: 'Accueil', icon: 'Home', hash: '#accueil' },
+    { title: 'CV', icon: 'FileText', hash: '#cv' },
+    { title: 'Ateliers Pro', icon: 'Code2', hash: '#ateliers' },
+    { title: 'Stages', icon: 'Briefcase', hash: '#stages' },
+    { title: 'Compétences', icon: 'Brain', hash: '#competences' },
+    { title: 'Productions', icon: 'GraduationCap', hash: '#productions' },
+    { title: 'Veilles', icon: 'BookOpen', hash: '#veilles' },
+    { title: 'Contact', icon: 'Mail', hash: '#contact' },
   ];
 
   // Configuration du défilement avec offset pour la navbar fixe
@@ -59,7 +82,9 @@ const Navbar = () => {
                 to="/#accueil"
                 scroll={scrollWithOffset}
                 className={`text-xl font-bold transition-colors ${
-                  isScrolled ? 'text-gray-900 hover:text-blue-600' : 'text-white hover:text-blue-400'
+                  isScrolled 
+                    ? 'text-gray-900 hover:text-blue-600 hover:underline underline-offset-4' 
+                    : 'text-white hover:text-blue-300 hover:underline underline-offset-4'
                 }`}
                 onClick={handleMenuClick}
               >
@@ -69,7 +94,9 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
-              {menuItems.map((item) => (
+              {menuItems.map((item) => {
+                const Icon = icons?.[item.icon];
+                return (
                 <HashLink
                   key={item.title}
                   to={`/${item.hash}`}
@@ -77,15 +104,16 @@ const Navbar = () => {
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
-                      : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                      : 'text-gray-100 hover:text-white hover:bg-gray-800'
                   }`}
                   aria-label={`Aller à la section ${item.title}`}
                   onClick={handleMenuClick}
                 >
-                  {item.icon}
+                  {Icon ? <Icon size={18} /> : null}
                   <span>{item.title}</span>
                 </HashLink>
-              ))}
+                );
+              })}
             </div>
 
             {/* Mobile Menu Button */}
@@ -102,7 +130,11 @@ const Navbar = () => {
                 aria-haspopup="true"
                 aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
+                {icons ? (
+                  isOpen ? (icons.X ? <icons.X size={24} /> : '✕') : (icons.Menu ? <icons.Menu size={24} /> : '≡')
+                ) : (
+                  isOpen ? '✕' : '≡'
+                )}
               </button>
             </div>
           </div>
@@ -142,7 +174,7 @@ const Navbar = () => {
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"
         >
-          <ChevronUp size={24} />
+          {icons?.ChevronUp ? <icons.ChevronUp size={24} /> : <span aria-hidden>↑</span>}
         </HashLink>
       )}
     </>

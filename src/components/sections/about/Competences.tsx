@@ -1,6 +1,6 @@
-import { Code, Database, Globe, Wrench, Users, BookOpen, Shield, Smartphone } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 
+import { Code, Database, Globe, Wrench, Users, BookOpen, Shield, Smartphone } from '../../../icons/lucide';
 import ProgressBar from '../../ui/ProgressBar';
 
 

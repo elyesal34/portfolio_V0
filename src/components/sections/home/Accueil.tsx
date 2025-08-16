@@ -1,7 +1,7 @@
-import { ArrowDown, Download, Mail, ExternalLink } from 'lucide-react';
-import { HashLink } from 'react-router-hash-link';
 import { lazy, Suspense, useEffect, useState } from 'react';
+import { HashLink } from 'react-router-hash-link';
 
+import { ArrowDown, Download, Mail, ExternalLink } from '../../../icons/lucide';
 import ImageWithSuspense from '../../ui/ImageWithSuspense';
 const DecorativeBackground = lazy(() => import('./DecorativeBackground'));
 const FloatingIcons = lazy(() => import('./FloatingIcons'));
@@ -12,7 +12,15 @@ const Accueil = () => {
   useEffect(() => {
     // Defer non-critical decorations until after first paint/idle
     if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(() => setEnhance(true), { timeout: 2000 });
+      const win = window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+      };
+      const ric = win.requestIdleCallback;
+      if (typeof ric === 'function') {
+        ric(() => setEnhance(true), { timeout: 2000 });
+      } else {
+        setTimeout(() => setEnhance(true), 0);
+      }
     } else {
       setTimeout(() => setEnhance(true), 0);
     }
@@ -64,7 +72,7 @@ const Accueil = () => {
                 to="/#contact"
                 scroll={scrollWithOffset}
                 className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
-                aria-label="Aller à la section contact"
+                aria-label="Contacter Elyes Allani"
               >
                 <Mail size={20} aria-hidden="true" />
                 <span>Me contacter</span>
@@ -93,15 +101,15 @@ const Accueil = () => {
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-blue-300 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
-                <div className="text-black text-sm md:text-base">Projets</div>
+                <div className="text-gray-200 text-sm md:text-base">Projets</div>
               </div>
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-purple-300 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
-                <div className="text-black text-sm md:text-base">Stages</div>
+                <div className="text-gray-200 text-sm md:text-base">Stages</div>
               </div>
               <div className="text-center group">
                 <div className="text-2xl md:text-3xl font-bold text-green-300 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
-                <div className="text-black text-sm md:text-base">Technologies</div>
+                <div className="text-gray-200 text-sm md:text-base">Technologies</div>
               </div>
             </div>
           </div>
