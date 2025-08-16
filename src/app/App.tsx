@@ -134,7 +134,7 @@ function ScrollTopOnNavigate() {
     if (location.hash) return; // Hash handling is done by ScrollToHash
     // On path navigation or reload without hash, scroll to top
     window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return null;
 }
