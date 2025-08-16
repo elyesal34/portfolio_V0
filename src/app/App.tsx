@@ -5,7 +5,7 @@ import Navbar from '../components/layout/Navbar';
 import OfflineError from '../components/layout/OfflineError';
 import UpdateNotification from '../components/layout/UpdateNotification';
 import Accueil from '../components/sections/home/Accueil';
-import MentionsLegales from '../components/sections/legal/MentionsLegales';
+const MentionsLegales = lazy(() => import('../components/sections/legal/MentionsLegales'));
 
 // Lazy loading des composants pour optimiser le chargement initial
 const CV = lazy(() => import('../components/sections/about/CV'));
@@ -129,6 +129,10 @@ function App() {
     schedule(() => {
       const lcpText = document.getElementById('lcp-text');
       if (lcpText) lcpText.style.visibility = 'hidden';
+    });
+    // Prefetch CV chunk after idle to improve scroll-to-next-section perception
+    schedule(() => {
+      void import('../components/sections/about/CV');
     });
   }, []);
 
