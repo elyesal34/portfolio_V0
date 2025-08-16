@@ -1,9 +1,23 @@
-import { ArrowDown, Code, Database, Smartphone, Download, Mail, ExternalLink } from 'lucide-react';
+import { ArrowDown, Download, Mail, ExternalLink } from 'lucide-react';
 import { HashLink } from 'react-router-hash-link';
+import { lazy, Suspense, useEffect, useState } from 'react';
 
 import ImageWithSuspense from '../../ui/ImageWithSuspense';
+const DecorativeBackground = lazy(() => import('./DecorativeBackground'));
+const FloatingIcons = lazy(() => import('./FloatingIcons'));
 
 const Accueil = () => {
+  const [enhance, setEnhance] = useState(false);
+
+  useEffect(() => {
+    // Defer non-critical decorations until after first paint/idle
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(() => setEnhance(true), { timeout: 2000 });
+    } else {
+      setTimeout(() => setEnhance(true), 0);
+    }
+  }, []);
+
   const scrollWithOffset = (el: HTMLElement) => {
     const yOffset = -64;
     const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
@@ -12,15 +26,12 @@ const Accueil = () => {
 
   return (
     <section id="accueil" className="min-h-screen pt-16 scroll-mt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
-      {/* Éléments décoratifs de fond - chargés après */}
-      <div className="relative min-h-[120px]">
-        <div className="absolute inset-0 opacity-10" aria-hidden="true">
-          <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce delay-1000"></div>
-          <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse delay-2000"></div>
-          <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce delay-500"></div>
-        </div>
-      </div>
+      {/* Éléments décoratifs de fond - lazy après paint */}
+      {enhance && (
+        <Suspense fallback={null}>
+          <DecorativeBackground />
+        </Suspense>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]">
@@ -95,29 +106,26 @@ const Accueil = () => {
             </div>
           </div>
 
-          {/* Image - chargée en lazy loading après le contenu principal */}
+          {/* Image héro - priorité haute pour LCP */}
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
             <div className="relative min-h-20">
               <ImageWithSuspense
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80&fm=webp"
+                src="/images/example.jpg"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
                 className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
                 width={800}
                 height={600}
                 loading="eager"
-                fallbackSrc="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
+                fetchPriority="high"
+                fallbackSrc="/images/example.jpg"
               />
               
-              {/* Icônes flottantes - chargées après */}
-              <div className="absolute -top-6 -left-6 bg-blue-500 p-4 rounded-full shadow-lg animate-bounce" role="presentation">
-                <Code className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
-              </div>
-              <div className="absolute -bottom-6 -right-6 bg-purple-500 p-4 rounded-full shadow-lg animate-bounce delay-1000" role="presentation">
-                <Database className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
-              </div>
-              <div className="absolute top-1/2 -right-8 bg-green-500 p-4 rounded-full shadow-lg animate-bounce delay-2000" role="presentation">
-                <Smartphone className="w-6 h-6 md:w-8 md:h-8 text-white" aria-hidden="true" />
-              </div>
+              {/* Icônes flottantes - lazy après paint */}
+              {enhance && (
+                <Suspense fallback={null}>
+                  <FloatingIcons />
+                </Suspense>
+              )}
             </div>
           </div>
         </div>

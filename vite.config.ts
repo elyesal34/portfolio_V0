@@ -9,6 +9,8 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     VitePWA({
+      // Do not inject registerSW.js script tag; we register SW manually
+      injectRegister: null,
       includeAssets: ['favicons/favicon.ico', 'favicons/apple-touch-icon.png', 'favicons/site.webmanifest'],
       manifest: {
         name: 'Portfolio Elyes',

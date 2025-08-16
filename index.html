@@ -33,8 +33,6 @@
     <link rel="dns-prefetch" href="//linkedin.com" />
     
     <!-- Resource Hints pour optimiser le chargement -->
-    <link rel="preload" href="./src/app/main.tsx" as="script" />
-    <link rel="preload" href="/src/index.css" as="style" />
     <link rel="prefetch" href="/cv-elyes-allani.pdf" />
     
     <!-- SEO Meta Tags optimisés et professionnels -->
@@ -98,6 +96,6 @@
     </a>
     
     <!-- Runtime init moved to external script for CSP compliance -->
-    <script src="/runtime-init.js"></script>
+    <script src="/runtime-init.js" defer></script>
   </body>
 </html>

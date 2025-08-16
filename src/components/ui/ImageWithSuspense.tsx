@@ -10,9 +10,10 @@ interface ImageProps {
   height?: number;
   loading?: 'lazy' | 'eager';
   fallbackSrc?: string;
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
-function ImageContent({ src, alt, className, width, height, loading = 'lazy', fallbackSrc }: ImageProps) {
+function ImageContent({ src, alt, className, width, height, loading = 'lazy', fallbackSrc, fetchPriority }: ImageProps) {
   // Appel du hook en dehors de tout try/catch
   const loadedSrc = useImageLoader(src);
   
@@ -30,6 +31,7 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
         height={height}
         loading={loading}
         decoding="async"
+        fetchPriority={fetchPriority}
       />
     );
   }
@@ -54,6 +56,7 @@ function ImageContent({ src, alt, className, width, height, loading = 'lazy', fa
       height={height}
       loading={loading}
       decoding="async"
+      fetchPriority={fetchPriority}
     />
   );
 }
