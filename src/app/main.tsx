@@ -2,7 +2,6 @@ import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import App from './App.tsx';
-import './globals.css';
 import { registerServiceWorker } from '../utils/serviceWorker';
 
 // Lazy initialize Google Analytics only on first interaction (no idle preload)

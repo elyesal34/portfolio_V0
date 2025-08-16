@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 import Navbar from '../components/layout/Navbar';
 import OfflineError from '../components/layout/OfflineError';
@@ -29,6 +29,27 @@ function LazyWhenVisible({ children, rootMargin = '300px' }: { children: React.R
       const id = window.setTimeout(() => setVisible(true), 0);
       return () => window.clearTimeout(id);
     }
+
+// Ensure we start at the top when there is no hash (avoid browser scroll restoration)
+function ScrollTopOnNavigate() {
+  const location = useLocation();
+  // Force manual restoration to prevent browser restoring an old scroll position
+  useEffect(() => {
+    try {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (location.hash) return; // Hash handling is done by ScrollToHash
+    // On path navigation or reload without hash, scroll to top
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [location.pathname]);
+
+  return null;
+}
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (e.isIntersecting) {
@@ -166,6 +187,7 @@ function App() {
         </a>
         <Navbar />
         <ScrollToHash />
+        <ScrollTopOnNavigate />
         <main id="main-content" role="main">
           <Suspense fallback={<div className="h-screen w-full flex justify-center items-center"><p>Chargement...</p></div>}>
             <Routes>

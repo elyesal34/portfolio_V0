@@ -72,6 +72,8 @@
     <!-- Précharger et charger le CSS critique (compatible CSP, sans inline) -->
     <link rel="preload" as="style" href="/critical.css">
     <link rel="stylesheet" href="/critical.css">
+    <!-- Charger le CSS global en parallèle du JS pour éviter la chaîne critique JS→CSS -->
+    <link rel="stylesheet" href="/src/app/globals.css">
     <!-- Feuilles de style différée pour les graisses 700 (chargée après interaction) -->
     <link rel="stylesheet" href="/fonts-700.css" media="not all" id="fonts-700">
   </head>
