@@ -6,8 +6,9 @@ export default async (request, context) => {
     return new Response('Unsupported file type', { status: 400 });
   }
 
-  const originalImageUrl = pathname.replace(/^\/images\//, '');
-  const encodedImageUrl = encodeURIComponent(originalImageUrl);
+  // Conserver le préfixe /images/ pour que le service Netlify résolve l'URL locale correctement
+  const originalImagePath = pathname; // ex: /images/example.jpg
+  const encodedImageUrl = encodeURIComponent(originalImagePath);
 
   const width = searchParams.get('w') || '800';
   const quality = searchParams.get('q') || '80';
@@ -17,6 +18,7 @@ export default async (request, context) => {
 
   return Response.redirect(transformedUrl, 302);
 };
+
 // This function handles image optimization requests by redirecting to the Netlify image transformation service.
 
 // It checks the requested image type, extracts parameters like width, quality, and format,

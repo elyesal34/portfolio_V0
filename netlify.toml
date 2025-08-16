@@ -65,11 +65,7 @@
   status = 301
   force = true
 
-# Optimisation des images (transformation Netlify)
-[[redirects]]
-  from = "/images/*"
-  to = "/.netlify/images?url=:splat&w=800&q=80&fm=webp"
-  status = 200
+## Image optimization is handled by the edge function below; no redirect needed
 
 # Prerender / optimisation SEO
 [build.processing]
