@@ -162,6 +162,8 @@ function App() {
       if (!window.location.hash && window.scrollY > 0) {
         window.scrollTo({ top: 0, behavior: 'auto' });
       }
+      // Ensure the temporary scroll lock is released
+      try { document.documentElement.classList.remove('no-scroll'); } catch {}
     }, 400);
     return () => window.clearTimeout(timer);
   }, []);

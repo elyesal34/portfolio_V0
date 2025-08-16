@@ -6,6 +6,12 @@
     }
   } catch {}
 
+  // Temporarily lock scrolling to avoid showing any restored position before we reset to top
+  try {
+    document.documentElement.classList.add('no-scroll');
+    if (document.body) document.body.classList.add('no-scroll');
+  } catch {}
+
   function forceTopRepeating(attempts, delay) {
     var i = 0;
     var run = function(){
@@ -26,8 +32,15 @@
     run();
   }
 
+  function releaseLock() {
+    try {
+      document.documentElement.classList.remove('no-scroll');
+      if (document.body) document.body.classList.remove('no-scroll');
+    } catch {}
+  }
+
   function onFirstLoad() {
-    if (location.hash) return;
+    if (location.hash) { releaseLock(); return; }
     // Blur any auto-focused control that could scroll into view
     try { if (document.activeElement) (document.activeElement).blur(); } catch {}
     // Try immediate and repeated corrections for late layout shifts
@@ -35,16 +48,23 @@
     // Final guard after full load
     window.addEventListener('load', function(){
       if (!location.hash) forceTopRepeating(4, 200);
+      // Release scroll shortly after stabilization
+      setTimeout(releaseLock, 250);
     }, { once: true });
   }
 
   // DOMContentLoaded path
-  window.addEventListener('DOMContentLoaded', onFirstLoad, { once: true });
+  window.addEventListener('DOMContentLoaded', function(){
+    onFirstLoad();
+    // Fallback release in case 'load' never fires quickly
+    setTimeout(releaseLock, 1200);
+  }, { once: true });
 
   // Handle back/forward cache restores
   window.addEventListener('pageshow', function(e){
     if (e && e.persisted && !location.hash) {
       forceTopRepeating(4, 150);
+      setTimeout(releaseLock, 200);
     }
   });
 })();

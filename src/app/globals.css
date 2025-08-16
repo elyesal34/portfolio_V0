@@ -24,6 +24,13 @@
     /* Empêche l'ancrage automatique qui peut déplacer la vue lors du chargement */
     overflow-anchor: none;
   }
+
+  /* Verrouillage temporaire du scroll durant la stabilisation initiale (retiré par scroll-restoration.js) */
+  html.no-scroll,
+  body.no-scroll {
+    overflow: hidden !important;
+    height: 100%;
+  }
 }
 
 /* Animations optimisées - réduites pour les performances */
