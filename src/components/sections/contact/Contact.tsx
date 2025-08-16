@@ -406,7 +406,7 @@ const Contact = () => {
               <div
                 role="region"
                 aria-label="Vérification reCAPTCHA"
-                className="mb-6"
+                className="mb-6 recaptcha-container min-h-[86px] flex items-center justify-center"
                 ref={captchaRegionRef}
               >
                 {showCaptcha ? (

@@ -116,7 +116,7 @@ const Accueil = () => {
 
           {/* Image héro - priorité haute pour LCP */}
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
-            <div className="relative min-h-20">
+            <div className="relative min-h-20 aspect-[4/3]">
               <ImageWithSuspense
                 src="/images/example.jpg"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"

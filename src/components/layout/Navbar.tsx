@@ -70,7 +70,7 @@ const Navbar = () => {
         className={`fixed w-full z-50 h-16 transition-all duration-300 ${
           isScrolled 
             ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
-            : 'bg-gray-900'
+            : 'bg-gray-900 border-b border-transparent'
         }`} 
         role="navigation" 
         aria-label="Navigation principale"
