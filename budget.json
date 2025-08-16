@@ -1,0 +1,21 @@
+[
+  {
+    "path": "/",
+    "resourceSizes": [
+      { "resourceType": "document", "budget": 6 },
+      { "resourceType": "script", "budget": 60 },
+      { "resourceType": "stylesheet", "budget": 15 },
+      { "resourceType": "image", "budget": 20 },
+      { "resourceType": "font", "budget": 60 },
+      { "resourceType": "total", "budget": 280 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "document", "budget": 1 },
+      { "resourceType": "script", "budget": 12 },
+      { "resourceType": "stylesheet", "budget": 3 },
+      { "resourceType": "image", "budget": 4 },
+      { "resourceType": "font", "budget": 3 },
+      { "resourceType": "total", "budget": 25 }
+    ]
+  }
+]
