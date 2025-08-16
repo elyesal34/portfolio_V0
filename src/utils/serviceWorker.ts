@@ -2,15 +2,22 @@
 export function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      const swUrl = '/sw-new.js';
+      const swUrl = '/sw.js';
 
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === 'production' && !isStackBlitz()) {
         registerValidSW(swUrl);
       } else {
-        console.log('Service Worker non enregistré en mode développement');
+        console.log('Service Worker non enregistré en mode développement ou sur StackBlitz');
       }
     });
   }
+}
+
+// Vérifier si l'application s'exécute sur StackBlitz
+function isStackBlitz(): boolean {
+  return window.location.host.includes('stackblitz.io') || 
+         window.location.host.includes('webcontainer') ||
+         window.location.host.includes('localhost') && process.env.NODE_ENV === 'development';
 }
 
 // Enregistrement du Service Worker avec vérification
