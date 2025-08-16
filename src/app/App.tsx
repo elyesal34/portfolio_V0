@@ -29,27 +29,6 @@ function LazyWhenVisible({ children, rootMargin = '300px' }: { children: React.R
       const id = window.setTimeout(() => setVisible(true), 0);
       return () => window.clearTimeout(id);
     }
-
-// Ensure we start at the top when there is no hash (avoid browser scroll restoration)
-function ScrollTopOnNavigate() {
-  const location = useLocation();
-  // Force manual restoration to prevent browser restoring an old scroll position
-  useEffect(() => {
-    try {
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    if (location.hash) return; // Hash handling is done by ScrollToHash
-    // On path navigation or reload without hash, scroll to top
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [location.pathname]);
-
-  return null;
-}
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (e.isIntersecting) {
@@ -136,6 +115,27 @@ function ScrollToHash() {
 
     return () => stop();
   }, []);
+  return null;
+}
+
+// Ensure we start at the top when there is no hash (avoid browser scroll restoration)
+function ScrollTopOnNavigate() {
+  const location = useLocation();
+  // Force manual restoration to prevent browser restoring an old scroll position
+  useEffect(() => {
+    try {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (location.hash) return; // Hash handling is done by ScrollToHash
+    // On path navigation or reload without hash, scroll to top
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [location.pathname]);
+
   return null;
 }
 
