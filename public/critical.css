@@ -1,0 +1,143 @@
+/* Critical CSS pour éviter le FOUC et optimiser LCP */
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f3f4f6;
+  /* Optimisation critique pour LCP */
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimisation critique du contenu above-the-fold */
+#accueil {
+  background: linear-gradient(135deg, #1f2937, #1e3a8a, #581c87);
+  color: white;
+  min-height: 100vh;
+  padding-top: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optimisation du texte LCP */
+.lcp-text {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: #e5e7eb;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .lcp-text {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lcp-text {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1f2937, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: white;
+}
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Optimisation critique pour éviter le layout shift */
+.critical-content {
+  contain: layout style paint;
+  content-visibility: visible;
+}
+
+/* Responsive optimizations critiques */
+@media (max-width: 768px) {
+  .lcp-text {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  #accueil {
+    padding-top: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Optimisation des titres pour mobile */
+  h1 {
+    font-size: 2.5rem !important;
+    line-height: 1.1;
+  }
+  
+  h2 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+  
+  /* Éviter les débordements */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .lcp-text {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+  }
+  
+  h1 {
+    font-size: 2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  /* Optimisation des espacements pour petits écrans */
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Optimisation des boutons pour mobile */
+@media (max-width: 768px) {
+  button, .btn, a[role="button"] {
+    min-width: 48px;
+    min-height: 48px;
+    font-size: 1rem;
+    padding: 12px 16px;
+    font-weight: 600;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}

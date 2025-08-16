@@ -4,17 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="3KCu5cbGDmR-r2S-T9-hxGnuCx62Ovv3e52bWSUnB58" />
     
-    <!-- Content Security Policy pour améliorer la sécurité -->
-    <meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.recaptcha.net https://www.gstatic.com 'unsafe-inline' 'unsafe-eval';
-  img-src 'self' https://www.google-analytics.com https://images.unsplash.com data:;
-  connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://api.emailjs.com;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src 'self' https://fonts.gstatic.com;
-  frame-src 'self' https://www.google.com https://www.recaptcha.net;
-  object-src 'none';
-">
+    <!-- CSP is delivered via Netlify response headers (see netlify.toml) -->
 
     <!-- Favicon optimisé et professionnel -->
     <link rel="icon" type="image/webp" sizes="32x32" href="/favicon-32x32.webp" />
@@ -80,222 +70,14 @@
     <meta name="geo.position" content="43.610769;3.876716" />
     <meta name="ICBM" content="43.610769, 3.876716" />
     
-    <!-- Structured Data (JSON-LD) avec Rich Snippets améliorés -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Elyes Allani",
-      "jobTitle": "Étudiant BTS SIO SLAM - Développeur Full-Stack",
-      "description": "Étudiant en BTS SIO option SLAM à Montpellier, spécialisé dans le développement d'applications web et mobiles. Recherche stage et opportunités professionnelles.",
-      "url": "https://elyes-allani.netlify.app",
-      "email": "allanielyes34@gmail.com",
-      "telephone": "+33652809798",
-      "image": "https://elyes-allani.netlify.app/image.webp",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Montpellier",
-        "addressRegion": "Occitanie",
-        "postalCode": "34000",
-        "addressCountry": "FR"
-      },
-      "knowsAbout": [
-        "JavaScript", "React", "PHP", "Node.js", "MySQL", "MongoDB", 
-        "Python", "Java", "TypeScript", "Laravel", "Docker", "Git",
-        "HTML5", "CSS3", "Tailwind CSS", "Bootstrap", "API REST",
-        "Développement web", "Développement mobile", "Base de données"
-      ],
-      "alumniOf": {
-        "@type": "EducationalOrganization",
-        "name": "Lycée Saint-John Perse",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Montpellier",
-          "addressRegion": "Occitanie",
-          "addressCountry": "FR"
-        }
-      },
-      "hasCredential": {
-        "@type": "EducationalOccupationalCredential",
-        "name": "BTS SIO option SLAM",
-        "description": "Services Informatiques aux Organisations - Solutions Logicielles et Applications Métiers",
-        "credentialCategory": "degree",
-        "educationalLevel": "Bac+2"
-      },
-      "sameAs": [
-        "https://www.linkedin.com/in/elyes-allani-034607174/",
-        "https://github.com/elyesal34"
-      ],
-      "worksFor": {
-        "@type": "EducationalOrganization",
-        "name": "Lycée Saint-John Perse"
-      },
-      "seeks": {
-        "@type": "JobPosting",
-        "title": "Stage de fin d'études - Développeur Full-Stack",
-        "description": "Recherche un stage de 8 semaines en développement web/mobile pour valider le BTS SIO SLAM",
-        "employmentType": "INTERN",
-        "jobLocation": {
-          "@type": "Place",
-          "address": {
-            "@type": "PostalAddress",
-            "addressRegion": "Occitanie",
-            "addressCountry": "FR"
-          }
-        }
-      }
-    }
-    </script>
+    <!-- Structured Data (JSON-LD) inlined with CSP hash -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Elyes Allani","jobTitle":"Étudiant BTS SIO SLAM - Développeur Full-Stack","description":"Étudiant en BTS SIO option SLAM à Montpellier, spécialisé dans le développement d'applications web et mobiles. Recherche stage et opportunités professionnelles.","url":"https://elyes-allani.netlify.app","email":"allanielyes34@gmail.com","telephone":"+33652809798","image":"https://elyes-allani.netlify.app/image.webp","address":{"@type":"PostalAddress","addressLocality":"Montpellier","addressRegion":"Occitanie","postalCode":"34000","addressCountry":"FR"},"knowsAbout":["JavaScript","React","PHP","Node.js","MySQL","MongoDB","Python","Java","TypeScript","Laravel","Docker","Git","HTML5","CSS3","Tailwind CSS","Bootstrap","API REST","Développement web","Développement mobile","Base de données"],"alumniOf":{"@type":"EducationalOrganization","name":"Lycée Saint-John Perse","address":{"@type":"PostalAddress","addressLocality":"Montpellier","addressRegion":"Occitanie","addressCountry":"FR"}},"hasCredential":{"@type":"EducationalOccupationalCredential","name":"BTS SIO option SLAM","description":"Services Informatiques aux Organisations - Solutions Logicielles et Applications Métiers","credentialCategory":"degree","educationalLevel":"Bac+2"},"sameAs":["https://www.linkedin.com/in/elyes-allani-034607174/","https://github.com/elyesal34"],"worksFor":{"@type":"EducationalOrganization","name":"Lycée Saint-John Perse"},"seeks":{"@type":"JobPosting","title":"Stage de fin d'études - Développeur Full-Stack","description":"Recherche un stage de 8 semaines en développement web/mobile pour valider le BTS SIO SLAM","employmentType":"INTERN","jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressRegion":"Occitanie","addressCountry":"FR"}}}}</script>
     
     <!-- Accessibility improvements -->
 
     
-    <!-- Critical CSS inlined pour éviter le FOUC et optimiser LCP -->
-    <style>
-      /* Critical CSS pour éviter le FOUC et optimiser LCP */
-      body { 
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f3f4f6;
-        /* Optimisation critique pour LCP */
-        text-rendering: optimizeSpeed;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      /* Optimisation critique du contenu above-the-fold */
-      #accueil {
-        background: linear-gradient(135deg, #1f2937, #1e3a8a, #581c87);
-        color: white;
-        min-height: 100vh;
-        padding-top: 4rem;
-        position: relative;
-        overflow: hidden;
-      }
-      
-      /* Optimisation du texte LCP */
-      .lcp-text {
-        font-size: 1.125rem;
-        line-height: 1.75rem;
-        color: #e5e7eb;
-        max-width: 42rem;
-        margin: 0 auto;
-      }
-      
-      @media (min-width: 768px) {
-        .lcp-text {
-          font-size: 1.25rem;
-          line-height: 1.75rem;
-        }
-      }
-      
-      @media (min-width: 1024px) {
-        .lcp-text {
-          font-size: 1.5rem;
-          line-height: 2rem;
-        }
-      }
-      
-      .loading-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #1f2937, #3b82f6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        color: white;
-      }
-      .loading-spinner {
-        width: 40px;
-        height: 40px;
-        border: 4px solid rgba(255,255,255,0.3);
-        border-top: 4px solid white;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-      
-      /* Optimisation critique pour éviter le layout shift */
-      .critical-content {
-        contain: layout style paint;
-        content-visibility: visible;
-      }
-      
-      /* Responsive optimizations critiques */
-      @media (max-width: 768px) {
-        .lcp-text {
-          font-size: 1rem;
-          line-height: 1.5rem;
-          padding: 0 1rem;
-        }
-        
-        #accueil {
-          padding-top: 5rem;
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-        
-        /* Optimisation des titres pour mobile */
-        h1 {
-          font-size: 2.5rem !important;
-          line-height: 1.1;
-        }
-        
-        h2 {
-          font-size: 2rem !important;
-          line-height: 1.2;
-        }
-        
-        /* Éviter les débordements */
-        * {
-          max-width: 100%;
-          box-sizing: border-box;
-          word-wrap: break-word;
-        }
-      }
-      
-      @media (max-width: 480px) {
-        .lcp-text {
-          font-size: 0.9rem;
-          line-height: 1.4rem;
-        }
-        
-        h1 {
-          font-size: 2rem !important;
-        }
-        
-        h2 {
-          font-size: 1.75rem !important;
-        }
-        
-        /* Optimisation des espacements pour petits écrans */
-        .container {
-          padding-left: 0.5rem;
-          padding-right: 0.5rem;
-        }
-      }
-      
-      /* Optimisation des boutons pour mobile */
-      @media (max-width: 768px) {
-        button, .btn, a[role="button"] {
-          min-width: 48px;
-          min-height: 48px;
-          font-size: 1rem;
-          padding: 12px 16px;
-          font-weight: 600;
-          word-wrap: break-word;
-          overflow-wrap: break-word;
-        }
-      }
-    </style>
+    <!-- Critical CSS moved to external file for CSP compliance -->
+    <link rel="stylesheet" href="/critical.css" />
   </head>
   <body>
     <!-- Loading screen optimisé pour améliorer la perception de performance -->
@@ -315,60 +97,7 @@
       Aller au contenu principal
     </a>
     
-    <!-- Service Worker Registration optimisé -->
-    <script>
-      // Masquer l'écran de chargement plus rapidement pour améliorer LCP
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-          const loadingScreen = document.getElementById('loading-screen');
-          if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.3s ease';
-            setTimeout(() => {
-              loadingScreen.remove();
-            }, 300);
-          }
-        }, 500); // Réduit de 1000ms à 500ms
-      });
-
-      // Service Worker avec gestion d'erreurs
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered: ', registration);
-              // Vérifier les mises à jour
-              registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                if (newWorker) {
-                  newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                      // Nouvelle version disponible
-                      if (confirm('Une nouvelle version est disponible. Voulez-vous actualiser ?')) {
-                        window.location.reload();
-                      }
-                    }
-                  });
-                }
-              });
-            })
-            .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
-
-      // Performance monitoring optimisé
-      if ('performance' in window) {
-        window.addEventListener('load', () => {
-          setTimeout(() => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            if (perfData) {
-              console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
-            }
-          }, 0);
-        });
-      }
-    </script>
+    <!-- Runtime init moved to external script for CSP compliance -->
+    <script src="/runtime-init.js"></script>
   </body>
 </html>
