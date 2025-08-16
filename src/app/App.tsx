@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 import Navbar from '../components/layout/Navbar';
@@ -140,6 +140,17 @@ function ScrollTopOnNavigate() {
 }
 
 function App() {
+  // Before paint: if no hash, reset scroll to top immediately to beat browser restoration
+  useLayoutEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+      try {
+        document.documentElement.classList.remove('no-scroll');
+        if (document.body) document.body.classList.remove('no-scroll');
+      } catch {}
+    }
+  }, []);
+
   // Defer non-critical effects to idle time
   useEffect(() => {
     const schedule = (cb: () => void) => {
