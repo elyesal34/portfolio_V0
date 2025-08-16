@@ -9,6 +9,8 @@
   /* Préchargement des polices critiques */
   html {
      scroll-behavior: auto;
+     /* Empêche le navigateur d'ancrer automatiquement le scroll et de provoquer un décalage initial */
+     overflow-anchor: none;
   }
   
   body {
