@@ -1,12 +1,13 @@
-import { useState, useCallback } from 'react';
 import { Code, Database, Globe, Wrench, Users, BookOpen, Shield, Smartphone } from 'lucide-react';
+import { useState, useCallback, useMemo } from 'react';
+
 import ProgressBar from '../../ui/ProgressBar';
 
 
 
 
 const Competences = () => {
-  const competencesTechniques = [
+  const competencesTechniques = useMemo(() => ([
     {
       categorie: "Langages de programmation",
       icon: <Code className="w-6 h-6" />,
@@ -50,9 +51,9 @@ const Competences = () => {
         { nom: "Android Studio", niveau: 70, description: "Java/Kotlin, SDK Android" }
       ]
     }
-  ];
+  ]), []);
 
-  const competencesTransversales = [
+  const competencesTransversales = useMemo(() => ([
     {
       nom: "Gestion de projet",
       icon: <Users className="w-6 h-6 text-blue-500" />,
@@ -77,9 +78,9 @@ const Competences = () => {
       description: "Recherche, analyse, synthèse des innovations",
       niveau: 85
     }
-  ];
+  ]), []);
 
-  const certifications = [
+  const certifications = useMemo(() => ([
     {
       nom: "Oracle Certified Associate Java",
       organisme: "Oracle",
@@ -98,7 +99,7 @@ const Competences = () => {
       date: "2024",
       statut: "Prévu"
     }
-  ];
+  ]), []);
 
   const getNiveauColor = useCallback((niveau: number): string => {
     if (niveau >= 80) return "bg-green-500";

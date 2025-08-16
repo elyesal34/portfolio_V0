@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
 
 const Navbar = () => {
@@ -137,7 +137,7 @@ const Navbar = () => {
       {/* Back to Top Button */}
       {showBackToTop && (
         <HashLink
-          to="#accueil"
+          to="/#accueil"
           scroll={scrollWithOffset}
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"

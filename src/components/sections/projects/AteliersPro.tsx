@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Code2, Database, Globe, Smartphone, Shield, Users } from 'lucide-react';
+import { useState } from 'react';
 
 const AteliersPro = () => {
   const ateliers = [

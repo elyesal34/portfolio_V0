@@ -32,7 +32,8 @@ export function useAsyncData<T>(
     return () => {
       isMounted = false;
     };
-  }, deps);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- custom deps list accepted by hook API
+  }, [fetcher, ...deps]);
 
   if (error) {
     throw error;
@@ -56,6 +57,7 @@ export function useCachedData<T>(
 ): T | null {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
+  type DataCache = Record<string, unknown>;
 
   useEffect(() => {
     let isMounted = true;
@@ -63,7 +65,8 @@ export function useCachedData<T>(
     const fetchData = async () => {
       try {
         // Check cache first
-        const cached = (globalThis as any).__dataCache?.[key];
+        const g = globalThis as unknown as { __dataCache?: DataCache };
+        const cached = g.__dataCache?.[key] as T | undefined;
         if (cached) {
           if (isMounted) setData(cached);
           return;
@@ -72,10 +75,10 @@ export function useCachedData<T>(
         const result = await fetcher();
         
         // Update cache
-        if (!(globalThis as any).__dataCache) {
-          (globalThis as any).__dataCache = {};
+        if (!g.__dataCache) {
+          g.__dataCache = {} as DataCache;
         }
-        (globalThis as any).__dataCache[key] = result;
+        g.__dataCache[key] = result as unknown as DataCache[keyof DataCache];
         
         if (isMounted) setData(result);
       } catch (err) {
@@ -88,7 +91,8 @@ export function useCachedData<T>(
     return () => {
       isMounted = false;
     };
-  }, [key, ...deps]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- custom deps list accepted by hook API
+  }, [key, fetcher, ...deps]);
 
   if (error) {
     throw error;

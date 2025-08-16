@@ -1,5 +1,6 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
@@ -64,6 +65,14 @@ export default defineConfig(({ mode }) => ({
         ],
       },
     }),
+    // Analyse du bundle (activée avec `cross-env ANALYZE=1` ou `--mode analyze`)
+    ((mode === 'analyze' || Boolean(process.env.ANALYZE)) && visualizer({
+      filename: 'dist/stats.html',
+      template: 'treemap',
+      gzipSize: true,
+      brotliSize: true,
+      open: true,
+    })),
   ],
   optimizeDeps: {
     exclude: ['lucide-react'],
@@ -73,13 +82,15 @@ export default defineConfig(({ mode }) => ({
     // Optimizations pour PageSpeed
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Chunks plus petits pour réduire le JavaScript inutilisé
-          'react-vendor': ['react', 'react-dom'],
-          'router': ['react-router-dom'],
-          'icons': ['lucide-react'],
-          'email': ['@emailjs/browser'],
-          'recaptcha': ['react-google-recaptcha']
+        manualChunks(id) {
+          // Force special chunks to keep explicit names
+          if (id.includes('react-router')) return 'router';
+          if (id.includes('lucide-react')) return 'icons';
+          if (id.includes('@emailjs/browser')) return 'email';
+          if (id.includes('react-google-recaptcha')) return 'recaptcha';
+          // Group all other node_modules into a single vendor chunk
+          if (id.includes('node_modules')) return 'vendor';
+          return undefined;
         },
         // Optimiser les noms de fichiers
         entryFileNames: 'assets/[name]-[hash].js',

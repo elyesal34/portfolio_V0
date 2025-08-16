@@ -1,5 +1,6 @@
 import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
+
 import App from './App.tsx';
 import './globals.css';
 import { registerServiceWorker } from '../utils/serviceWorker';
@@ -15,10 +16,13 @@ function onFirstInteractionOnce(cb: () => void) {
   window.addEventListener('keydown', handler, { once: true });
 }
 
+type RequestIdleCallback = (cb: IdleRequestCallback, opts?: { timeout?: number }) => number;
+
 function initAnalyticsLazily() {
   const load = () => import('../utils/analytics').then(m => m.initGA()).catch(() => {});
-  if ('requestIdleCallback' in window) {
-    (window as any).requestIdleCallback(load, { timeout: 3000 });
+  const ric = (window as Window & { requestIdleCallback?: RequestIdleCallback }).requestIdleCallback;
+  if (ric) {
+    ric(load, { timeout: 3000 });
   } else {
     setTimeout(load, 1500);
   }
@@ -32,7 +36,7 @@ if (import.meta.env.PROD) {
 }
 
 // Composant racine avec gestion du mode hors ligne
-function Root() {
+export function Root() {
   useEffect(() => {
     // Gestionnaire d'événement pour le mode hors ligne
     const handleOffline = () => {

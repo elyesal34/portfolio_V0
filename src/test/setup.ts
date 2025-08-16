@@ -12,11 +12,11 @@ Object.defineProperty(window, 'requestAnimationFrame', {
   writable: true,
 })
 
-// Mock pour setTimeout - éviter la récursion
+// Mock pour setTimeout - éviter la récursion, sans réassigner le global
 const originalSetTimeout = global.setTimeout
-global.setTimeout = vi.fn((callback: (...args: any[]) => void, delay?: number) => {
-  return originalSetTimeout(callback, delay || 0)
-})
+vi.spyOn(global, 'setTimeout').mockImplementation(((callback: TimerHandler, delay?: number) => {
+  return originalSetTimeout(callback, delay ?? 0) as unknown as number
+}) as unknown as typeof setTimeout)
 
 // Mock pour console.log en mode test
 if (process.env.NODE_ENV === 'test') {

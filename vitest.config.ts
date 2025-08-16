@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react()],
@@ -7,7 +7,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['src/__tests__/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
     coverage: {
       reporter: ['text', 'json', 'html'],
@@ -34,11 +34,14 @@ export default defineConfig({
     },
     // Retry en cas d'échec
     retry: 2,
-    // Logs détaillés
-    logLevel: 'info',
-    // Mock automatique des modules externes
+    // Logs détaillés (utiliser le log du runner par défaut)
+    // Vitest v3: remplacer deps.inline par deps.optimizer.web.include
     deps: {
-      inline: ['@testing-library/jest-dom']
+      optimizer: {
+        web: {
+          include: ['@testing-library/jest-dom']
+        }
+      }
     }
   }
 })

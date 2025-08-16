@@ -1,48 +1,69 @@
-# Rapport de Tests d'Intégration - Navigation Contact
+# Tests d'Intégration — Navigation (HashLink)
 
-## 🎯 Problème Initial
-L'utilisateur signalait qu'il fallait **trois clics** pour accéder à la catégorie contact.
+Ce document décrit l'approche actuelle pour tester la navigation par ancres avec `react-router-hash-link` et les attributs ARIA.
 
-## 🔧 Corrections Apportées
+## 🎯 Objectif
+Garantir une navigation fluide et accessible vers les sections (ex: `#contact`) depuis la navbar desktop et le menu mobile.
 
-### 1. Amélioration de la Logique de Navigation
-- **Problème identifié** : Problèmes de timing dans la fonction `handleMenuClick`
-- **Solution** : Utilisation de `requestAnimationFrame` pour un meilleur timing
-- **Amélioration** : Système de retry avec fallback pour gérer les cas où l'élément n'est pas trouvé immédiatement
+## 🔧 Implémentation actuelle
+- Navigation par liens `HashLink` avec offset via `scrollWithOffset` dans `Navbar.tsx`.
+- App niveau routeur: `App.tsx` contient déjà un `Router`.
+- Menu mobile contrôlé par `#mobile-menu` avec `aria-hidden` qui passe de `true` à `false` lorsque le menu est ouvert.
+- Liens desktop possèdent un nom accessible de type: `aria-label="Aller à la section {Titre}"`.
 
-### 2. Code Modifié dans `src/components/Navbar.tsx`
-```typescript
-const handleMenuClick = (hash: string) => {
-  setIsOpen(false);
-  
-  if (location.pathname === '/') {
-    // Utiliser requestAnimationFrame pour un meilleur timing
-    requestAnimationFrame(() => {
-      const element = document.querySelector(hash);
-      if (element) {
-        // Logique de défilement...
-      } else {
-        // Logique de retry...
-      }
-    });
-  } else {
-    navigate('/' + hash);
-  }
-};
+## 🧪 Stratégie de tests
+- Ne pas mocker `useNavigate`, `document.querySelector`, `window.scrollTo` ou `requestAnimationFrame`.
+- Vérifier la présence des liens par rôle et nom accessible:
+  - Desktop: `getByRole('link', { name: /Aller à la section Contact/i })`.
+  - Logo: `getByRole('link', { name: /Elyes Allani/i })` (href `/#accueil`).
+- Menu mobile: utiliser `within(menu)` pour éviter les doublons (desktop + mobile).
+- Vérifier `aria-hidden` sur `#mobile-menu` lors de l'ouverture/fermeture.
+
+## 📄 Exemples
+
+Vérifier les href des liens desktop:
+```ts
+const expected = [
+  { name: 'Accueil', href: '/#accueil' },
+  { name: 'CV', href: '/#cv' },
+  { name: 'Ateliers Pro', href: '/#ateliers' },
+  { name: 'Stages', href: '/#stages' },
+  { name: 'Compétences', href: '/#competences' },
+  { name: 'Productions', href: '/#productions' },
+  { name: 'Veilles', href: '/#veilles' },
+  { name: 'Contact', href: '/#contact' },
+]
+for (const { name, href } of expected) {
+  const link = screen.getByRole('link', { name: new RegExp(`Aller à la section ${name}`, 'i') })
+  expect(link).toHaveAttribute('href', href)
+}
 ```
 
-### 3. Tests Effectués
-- [x] Test de navigation sur desktop
-- [x] Test de navigation sur mobile
-- [x] Test de performance
-- [x] Test de robustesse (éléments manquants, délais)
+Ouvrir le menu mobile et le refermer après clic:
+```ts
+const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
+fireEvent.click(toggle)
+const menu = document.getElementById('mobile-menu')
+expect(menu).toHaveAttribute('aria-hidden', 'false')
 
-## 📊 Résultats
-- Navigation fluide en un seul clic
-- Meilleure expérience utilisateur
-- Code plus fiable et maintenable
+const contactMobile = within(menu as HTMLElement).getByRole('link', { name: /contact/i })
+fireEvent.click(contactMobile)
+expect(document.getElementById('mobile-menu')).toHaveAttribute('aria-hidden', 'true')
+```
+
+Gérer les doublons de texte (desktop + mobile):
+```ts
+const matches = screen.getAllByText('Contact')
+expect(matches.length).toBeGreaterThan(0)
+```
+
+## 📦 Emplacement des tests
+- Composants: `src/components/**/__tests__/*.test.tsx`
+- Intégration App: `src/__tests__/*.integration.test.tsx`
+
+## ✅ Résultats (actuels)
+- Tous les tests de navigation passent (voir `npm run test:run`).
 
 ## 📝 Recommandations
-- Mettre en place des tests E2E automatisés
-- Documenter les bonnes pratiques de navigation
-- Surveiller les erreurs en production
+- Ajouter des tests E2E (ex: Playwright) pour vérifier réellement le défilement visuel.
+- Continuer d'utiliser des queries par rôle/nom pour la robustesse à long terme.

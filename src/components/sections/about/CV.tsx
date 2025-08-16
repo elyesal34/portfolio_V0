@@ -1,4 +1,5 @@
 import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from 'lucide-react';
+
 import ImageWithSuspense from '../../ui/ImageWithSuspense';
 
 const CV = () => {

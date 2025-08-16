@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 
 const ReCAPTCHALazy = lazy(() => import('react-google-recaptcha'));
@@ -47,6 +46,8 @@ const Contact = () => {
     if (formEl) {
       const onInteract = () => {
         reveal();
+        // Warm up EmailJS module to reduce first-send latency
+        import('@emailjs/browser').catch(() => {});
         formEl.removeEventListener('pointerdown', onInteract);
         formEl.removeEventListener('keydown', onInteract);
         formEl.removeEventListener('focusin', onInteract);
@@ -102,6 +103,7 @@ const Contact = () => {
     }
 
     try {
+      const { default: emailjs } = await import('@emailjs/browser');
       const adminTemplateParams: AdminTemplateParams = {
         from_name: formData.nom,
         from_email: formData.email,

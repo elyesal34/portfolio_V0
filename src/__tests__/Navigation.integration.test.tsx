@@ -3,10 +3,10 @@ import { describe, it, expect } from 'vitest'
 
 import App from '../app/App'
 
-describe('App - Intégration (HashLink)', () => {
+describe("Intégration - Navigation (HashLink)", () => {
   const renderApp = () => render(<App />)
 
-  it('la navbar expose des liens HashLink corrects', () => {
+  it('navbar rend des liens avec href corrects', () => {
     renderApp()
     const expected = [
       { name: 'Accueil', href: '/#accueil' },
@@ -24,7 +24,7 @@ describe('App - Intégration (HashLink)', () => {
     }
   })
 
-  it('menu mobile: aria-hidden passe de false à true après clic sur un lien', () => {
+  it("menu mobile s'ouvre et se ferme via aria-hidden", () => {
     renderApp()
     const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
     fireEvent.click(toggle)

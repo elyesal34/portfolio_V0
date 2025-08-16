@@ -1,5 +1,6 @@
 import { ArrowDown, Code, Database, Smartphone, Download, Mail, ExternalLink } from 'lucide-react';
 import { HashLink } from 'react-router-hash-link';
+
 import ImageWithSuspense from '../../ui/ImageWithSuspense';
 
 const Accueil = () => {

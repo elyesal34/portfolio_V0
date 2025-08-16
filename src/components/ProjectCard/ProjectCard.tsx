@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Code, Github, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+
 import ImageWithSuspense from '../ui/ImageWithSuspense';
 
 interface ProjectCardProps {
