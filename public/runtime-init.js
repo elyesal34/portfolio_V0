@@ -1,15 +1,13 @@
-// Hide loading screen faster to improve LCP
+// Hide loading screen ASAP to improve LCP
 window.addEventListener('DOMContentLoaded', function () {
-  setTimeout(() => {
-    const loadingScreen = document.getElementById('loading-screen');
-    if (loadingScreen) {
-      loadingScreen.style.opacity = '0';
-      loadingScreen.style.transition = 'opacity 0.3s ease';
-      setTimeout(() => {
-        loadingScreen.remove();
-      }, 300);
-    }
-  }, 500);
+  const loadingScreen = document.getElementById('loading-screen');
+  if (!loadingScreen) return;
+  loadingScreen.style.transition = 'opacity 0.2s ease';
+  loadingScreen.style.opacity = '0';
+  // Remove after transition ends or after a short fallback timeout
+  const remove = () => loadingScreen.remove();
+  loadingScreen.addEventListener('transitionend', remove, { once: true });
+  setTimeout(remove, 250);
 });
 
 // Performance monitoring (non-critical)

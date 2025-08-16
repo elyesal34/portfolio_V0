@@ -2,20 +2,20 @@
   {
     "path": "/",
     "resourceSizes": [
-      { "resourceType": "document", "budget": 6 },
-      { "resourceType": "script", "budget": 60 },
-      { "resourceType": "stylesheet", "budget": 15 },
-      { "resourceType": "image", "budget": 20 },
-      { "resourceType": "font", "budget": 60 },
-      { "resourceType": "total", "budget": 280 }
+      { "resourceType": "document", "budget": 5 },
+      { "resourceType": "script", "budget": 55 },
+      { "resourceType": "stylesheet", "budget": 12 },
+      { "resourceType": "image", "budget": 12 },
+      { "resourceType": "font", "budget": 58 },
+      { "resourceType": "total", "budget": 270 }
     ],
     "resourceCounts": [
       { "resourceType": "document", "budget": 1 },
-      { "resourceType": "script", "budget": 12 },
-      { "resourceType": "stylesheet", "budget": 3 },
-      { "resourceType": "image", "budget": 4 },
+      { "resourceType": "script", "budget": 11 },
+      { "resourceType": "stylesheet", "budget": 2 },
+      { "resourceType": "image", "budget": 2 },
       { "resourceType": "font", "budget": 3 },
-      { "resourceType": "total", "budget": 25 }
+      { "resourceType": "total", "budget": 20 }
     ]
   }
 ]

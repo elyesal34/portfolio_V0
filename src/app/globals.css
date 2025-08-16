@@ -560,7 +560,7 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
   
   /* Optimisation du rendu des gradients */
   .bg-gradient-to-br {
-    background-attachment: fixed;
+    background-attachment: scroll;
     will-change: auto;
   }
 }
@@ -750,5 +750,5 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
   min-height: 24px;
   font-size: 1rem;
   line-height: 1.5;
-  visibility: hidden;
+  visibility: visible;
 }
