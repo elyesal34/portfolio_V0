@@ -156,6 +156,16 @@ function App() {
     });
   }, []);
 
+  // Final safety guard: after first paint, if no hash and browser restored a scroll, reset to top once
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (!window.location.hash && window.scrollY > 0) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      }
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   // Prefetch likely-next sections during idle time to warm cache
   useEffect(() => {
     const win = window as unknown as {
