@@ -82,10 +82,7 @@
 [build.processing.html]
   pretty_urls = true
 
-# Edge function pour optimisation image (doit exister dans netlify/edge-functions/)
-[[edge_functions]]
-  function = "image-optimization"
-  path = "/images/*"
+## Edge function image optimization disabled to avoid 504 loops with Netlify Images
 
 # Plugins
 [[plugins]]

@@ -118,14 +118,14 @@ const Accueil = () => {
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
             <div className="relative min-h-20 aspect-[4/3]">
               <ImageWithSuspense
-                src="/images/example.jpg"
+                src="/images/example.jpg?v=static1"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
                 className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
                 width={800}
                 height={600}
                 loading="eager"
                 fetchPriority="high"
-                fallbackSrc="/images/example.jpg"
+                fallbackSrc="/images/example.jpg?v=static1"
               />
               
               {/* Icônes flottantes - lazy après paint */}
