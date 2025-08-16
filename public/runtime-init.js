@@ -21,3 +21,17 @@ if ('performance' in window) {
     }, 0);
   });
 }
+
+// Defer 700-weight fonts: enable stylesheet after first interaction or short delay
+(function deferBoldFonts() {
+  const enableFonts = () => {
+    const link = document.getElementById('fonts-700');
+    if (link && link.media !== 'all') link.media = 'all';
+    window.removeEventListener('pointerdown', enableFonts);
+    window.removeEventListener('keydown', enableFonts);
+  };
+  window.addEventListener('pointerdown', enableFonts, { once: true });
+  window.addEventListener('keydown', enableFonts, { once: true });
+  // Fallback: enable after idle/load
+  window.addEventListener('load', () => setTimeout(enableFonts, 2000), { once: true });
+})();
