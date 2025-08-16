@@ -40,6 +40,8 @@
     "workbox-window": "^7.3.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.0",
     "@eslint/js": "^9.9.1",
     "@types/node": "^24.0.4",
     "@types/react": "^18.3.23",
