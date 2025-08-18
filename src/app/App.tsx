@@ -192,6 +192,16 @@ function App() {
     }
   }, []);
 
+  return (
+    <Router>
+      <AppWithRouter />
+    </Router>
+  );
+}
+
+function AppWithRouter() {
+  const location = useLocation();
+
   function scrollToHash(hash: string) {
     const el = document.querySelector(hash);
     if (!el) return;
@@ -200,7 +210,7 @@ function App() {
     const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
-  const location = useLocation();
+
   useEffect(() => {
     if (window.location.hash) {
       scrollToHash(window.location.hash);
@@ -208,37 +218,35 @@ function App() {
   }, [location.hash]);
 
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-100">
-        <a href="/#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200">
-          Aller au contenu principal
-        </a>
-        <Navbar />
-        <ScrollToHash />
-        <ScrollTopOnNavigate />
-        <main id="main-content" role="main">
-          <Suspense fallback={<div className="h-screen w-full flex justify-center items-center"><p>Chargement...</p></div>}>
-            <Routes>
-              <Route path="/" element={
-                <>
-                  <Accueil />
-                  <LazyWhenVisible><CV /></LazyWhenVisible>
-                  <LazyWhenVisible><AteliersPro /></LazyWhenVisible>
-                  <LazyWhenVisible><Stages /></LazyWhenVisible>
-                  <LazyWhenVisible><Competences /></LazyWhenVisible>
-                  <LazyWhenVisible><Productions /></LazyWhenVisible>
-                  <LazyWhenVisible><Veilles /></LazyWhenVisible>
-                  <LazyWhenVisible><Contact /></LazyWhenVisible>
-                </>
-              } />
-              <Route path="/mentions-legales" element={<MentionsLegales />} />
-            </Routes>
-          </Suspense>
-          <UpdateNotification />
-          <OfflineError />
-        </main>
-      </div>
-    </Router>
+    <div className="min-h-screen bg-gray-100">
+      <a href="/#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200">
+        Aller au contenu principal
+      </a>
+      <Navbar />
+      <ScrollToHash />
+      <ScrollTopOnNavigate />
+      <main id="main-content" role="main">
+        <Suspense fallback={<div className="h-screen w-full flex justify-center items-center"><p>Chargement...</p></div>}>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Accueil />
+                <LazyWhenVisible><CV /></LazyWhenVisible>
+                <LazyWhenVisible><AteliersPro /></LazyWhenVisible>
+                <LazyWhenVisible><Stages /></LazyWhenVisible>
+                <LazyWhenVisible><Competences /></LazyWhenVisible>
+                <LazyWhenVisible><Productions /></LazyWhenVisible>
+                <LazyWhenVisible><Veilles /></LazyWhenVisible>
+                <LazyWhenVisible><Contact /></LazyWhenVisible>
+              </>
+            } />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+          </Routes>
+        </Suspense>
+        <UpdateNotification />
+        <OfflineError />
+      </main>
+    </div>
   );
 }
 
