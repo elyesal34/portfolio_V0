@@ -52,12 +52,7 @@ const Navbar = () => {
     { title: 'Contact', icon: 'Mail', hash: '#contact' },
   ];
 
-  // Configuration du défilement avec offset pour la navbar fixe
-  const scrollWithOffset = (el: HTMLElement) => {
-    const yOffset = -64; // navbar ~16 (pt-16) -> 64px
-    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  };
+  // Suppression du scrollWithOffset : la logique de scroll centralisée est maintenant dans App.tsx
 
   const handleMenuClick = () => {
     setIsOpen(false);
@@ -79,8 +74,7 @@ const Navbar = () => {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <HashLink
-                to="/#accueil"
-                scroll={scrollWithOffset}
+                to="#accueil"
                 className={`text-xl font-bold transition-colors ${
                   isScrolled 
                     ? 'text-gray-900 hover:text-blue-600 hover:underline underline-offset-4' 
@@ -99,8 +93,7 @@ const Navbar = () => {
                 return (
                 <HashLink
                   key={item.title}
-                  to={`/${item.hash}`}
-                  scroll={scrollWithOffset}
+                  to={item.hash}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
@@ -148,19 +141,21 @@ const Navbar = () => {
         >
           <nav aria-label="Navigation mobile">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {menuItems.map((item) => (
-                <HashLink
-                  key={item.title}
-                  to={`/${item.hash}`}
-                  scroll={scrollWithOffset}
-                  className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
-                  onClick={handleMenuClick}
-                  tabIndex={isOpen ? 0 : -1}
-                >
-                  {item.icon}
-                  <span>{item.title}</span>
-                </HashLink>
-              ))}
+              {menuItems.map((item) => {
+                const Icon = icons?.[item.icon];
+                return (
+                  <HashLink
+                    key={item.title}
+                    to={item.hash}
+                    className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
+                    onClick={handleMenuClick}
+                    tabIndex={isOpen ? 0 : -1}
+                  >
+                    {Icon ? <Icon size={18} /> : null}
+                    <span>{item.title}</span>
+                  </HashLink>
+                );
+              })}
             </div>
           </nav>
         </div>
@@ -169,8 +164,7 @@ const Navbar = () => {
       {/* Back to Top Button */}
       {showBackToTop && (
         <HashLink
-          to="/#accueil"
-          scroll={scrollWithOffset}
+          to="#accueil"
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"
         >

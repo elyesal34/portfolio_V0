@@ -50,33 +50,31 @@ function ScrollToHash() {
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
-    const offset = 64; // hauteur approx. de la navbar fixe
-
-    const scrollDeterministic = (el: HTMLElement) => {
-      const rect = el.getBoundingClientRect();
-      const absoluteTop = rect.top + window.pageYOffset;
-      const top = Math.max(absoluteTop - offset, 0);
-      window.scrollTo({ top, behavior: 'smooth' });
-    };
-
+    function scrollWithDynamicOffset(hash: string) {
+      const el = document.querySelector(hash) as HTMLElement | null;
+      if (!el) return;
+      let offset = -64;
+      if (hash === '#contact') offset = -160;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
     // 1) Tentative immédiate
     const tryScrollNow = () => {
       const element = document.querySelector(hash) as HTMLElement | null;
       if (!element) return false;
-      requestAnimationFrame(() => scrollDeterministic(element));
+      requestAnimationFrame(() => scrollWithDynamicOffset(hash));
       // multi-pass pour compenser les décalages de layout (images/captcha)
       const passes = [150, 400, 800];
       passes.forEach((ms) => {
         window.setTimeout(() => {
-          const el = document.querySelector(hash) as HTMLElement | null;
-          if (el) scrollDeterministic(el);
+          scrollWithDynamicOffset(hash);
         }, ms);
       });
       // observer les changements de taille de la cible pendant une courte durée
       try {
         const target = element;
         const ro = new ResizeObserver(() => {
-          scrollDeterministic(target);
+          scrollWithDynamicOffset(hash);
         });
         ro.observe(target);
         window.setTimeout(() => ro.disconnect(), 1500);
@@ -85,36 +83,28 @@ function ScrollToHash() {
       }
       return true;
     };
-
     if (tryScrollNow()) return;
-
     // 2) Observe l'apparition de l'élément (lazy loading)
     let observer: MutationObserver | null = null;
-    // eslint-disable-next-line prefer-const
     let timeoutId: number | undefined;
-
     const stop = () => {
       if (observer) observer.disconnect();
       if (timeoutId) window.clearTimeout(timeoutId);
     };
-
     observer = new MutationObserver(() => {
       if (tryScrollNow()) {
         stop();
       }
     });
-
     observer.observe(document.body, { childList: true, subtree: true });
-
     // 3) Sécurité: arrête après 3s même si non trouvé
     timeoutId = window.setTimeout(() => {
       stop();
       // dernier essai au cas où
       tryScrollNow();
     }, 3000);
-
     return () => stop();
-  }, []);
+  }, [window.location.hash]);
   return null;
 }
 
@@ -201,6 +191,21 @@ function App() {
       return () => window.clearTimeout(id);
     }
   }, []);
+
+  function scrollToHash(hash: string) {
+    const el = document.querySelector(hash);
+    if (!el) return;
+    let offset = -64;
+    if (hash === '#contact') offset = -160;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+  const location = useLocation();
+  useEffect(() => {
+    if (window.location.hash) {
+      scrollToHash(window.location.hash);
+    }
+  }, [location.hash]);
 
   return (
     <Router>
