@@ -104,7 +104,6 @@ function ScrollToHash() {
       tryScrollNow();
     }, 3000);
     return () => stop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return null;
 }
