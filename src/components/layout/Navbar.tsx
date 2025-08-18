@@ -74,7 +74,7 @@ const Navbar = () => {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <HashLink
-                to="#accueil"
+                to="/#accueil"
                 className={`text-xl font-bold transition-colors ${
                   isScrolled 
                     ? 'text-gray-900 hover:text-blue-600 hover:underline underline-offset-4' 
@@ -93,7 +93,7 @@ const Navbar = () => {
                 return (
                 <HashLink
                   key={item.title}
-                  to={item.hash}
+                  to={`/${item.hash}`}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
@@ -146,7 +146,7 @@ const Navbar = () => {
                 return (
                   <HashLink
                     key={item.title}
-                    to={item.hash}
+                    to={`/${item.hash}`}
                     className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
                     onClick={handleMenuClick}
                     tabIndex={isOpen ? 0 : -1}
@@ -164,7 +164,7 @@ const Navbar = () => {
       {/* Back to Top Button */}
       {showBackToTop && (
         <HashLink
-          to="#accueil"
+          to="/#accueil"
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"
         >

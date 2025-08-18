@@ -85,8 +85,8 @@ function ScrollToHash() {
     };
     if (tryScrollNow()) return;
     // 2) Observe l'apparition de l'élément (lazy loading)
-    let observer: MutationObserver | null = null;
-    let timeoutId: number | undefined;
+  let observer: MutationObserver | null = null;
+  const timeoutId: number | undefined = undefined;
     const stop = () => {
       if (observer) observer.disconnect();
       if (timeoutId) window.clearTimeout(timeoutId);
@@ -104,7 +104,8 @@ function ScrollToHash() {
       tryScrollNow();
     }, 3000);
     return () => stop();
-  }, [window.location.hash]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return null;
 }
 
