@@ -50,49 +50,36 @@ function ScrollToHash() {
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
-    function scrollWithDynamicOffset(hash: string) {
-      const el = document.querySelector(hash) as HTMLElement | null;
-      if (!el) return;
+    function scrollWithDynamicOffset(hash) {
+      const el = document.querySelector(hash);
+      console.log('[ScrollToHash] scrollWithDynamicOffset', { hash, el });
+      if (!el) return false;
       let offset = -64;
       if (hash === '#contact') offset = -160;
       const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
       window.scrollTo({ top: y, behavior: 'smooth' });
+      return true;
     }
     // 1) Tentative immédiate
     const tryScrollNow = () => {
-      const element = document.querySelector(hash) as HTMLElement | null;
-      if (!element) return false;
-      requestAnimationFrame(() => scrollWithDynamicOffset(hash));
-      // multi-pass pour compenser les décalages de layout (images/captcha)
-      const passes = [150, 400, 800];
-      passes.forEach((ms) => {
-        window.setTimeout(() => {
-          scrollWithDynamicOffset(hash);
-        }, ms);
-      });
-      // observer les changements de taille de la cible pendant une courte durée
-      try {
-        const target = element;
-        const ro = new ResizeObserver(() => {
-          scrollWithDynamicOffset(hash);
-        });
-        ro.observe(target);
-        window.setTimeout(() => ro.disconnect(), 1500);
-      } catch {
-        /* noop: ResizeObserver may be unavailable in some environments */
+      const found = scrollWithDynamicOffset(hash);
+      if (found) {
+        console.log('[ScrollToHash] Immediate scroll succeeded', hash);
+        return true;
       }
-      return true;
+      return false;
     };
     if (tryScrollNow()) return;
     // 2) Observe l'apparition de l'élément (lazy loading)
-  let observer: MutationObserver | null = null;
-  const timeoutId: number | undefined = undefined;
+    let observer = null;
+    let timeoutId = undefined;
     const stop = () => {
       if (observer) observer.disconnect();
       if (timeoutId) window.clearTimeout(timeoutId);
     };
     observer = new MutationObserver(() => {
       if (tryScrollNow()) {
+        console.log('[ScrollToHash] MutationObserver: section appeared, scroll done', hash);
         stop();
       }
     });
@@ -101,11 +88,26 @@ function ScrollToHash() {
     timeoutId = window.setTimeout(() => {
       stop();
       // dernier essai au cas où
-      tryScrollNow();
+      if (tryScrollNow()) {
+        console.log('[ScrollToHash] Timeout: last scroll attempt succeeded', hash);
+      } else {
+        console.warn('[ScrollToHash] Timeout: section not found for hash', hash);
+      }
     }, 3000);
     return () => stop();
   }, []);
   return null;
+}
+
+// Export utilitaire pour tests unitaires
+export function testableScrollToHash(hash) {
+  const el = typeof document !== 'undefined' ? document.querySelector(hash) : null;
+  if (!el) return false;
+  let offset = -64;
+  if (hash === '#contact') offset = -160;
+  const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+  window.scrollTo({ top: y, behavior: 'auto' });
+  return true;
 }
 
 // Ensure we start at the top when there is no hash (avoid browser scroll restoration)
@@ -251,3 +253,5 @@ function AppWithRouter() {
 }
 
 export default App;
+
+console.log('ScrollToHash:', hash, document.querySelector(hash));
