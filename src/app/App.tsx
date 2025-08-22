@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 
 import Navbar from '../components/layout/Navbar';
 import OfflineError from '../components/layout/OfflineError';
+import Section from '../components/layout/Section';
 import UpdateNotification from '../components/layout/UpdateNotification';
 import Accueil from '../components/sections/home/Accueil';
 const MentionsLegales = lazy(() => import('../components/sections/legal/MentionsLegales'));
@@ -255,34 +256,64 @@ function AppWithRouter() {
   }, [location.hash]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <a href="/#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      <a href="/#accueil" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200">
         Aller au contenu principal
       </a>
       <Navbar />
       <ScrollToHash />
       <ScrollTopOnNavigate />
-      <main id="main-content" role="main">
+      <main id="main-content" role="main" className="flex-grow">
         <Suspense fallback={<div className="h-screen w-full flex justify-center items-center"><p>Chargement...</p></div>}>
           <Routes>
             <Route path="/" element={
               <>
-                <Accueil />
-                <LazyWhenVisible><CV /></LazyWhenVisible>
-                <LazyWhenVisible><AteliersPro /></LazyWhenVisible>
-                <LazyWhenVisible><Stages /></LazyWhenVisible>
-                <LazyWhenVisible><Competences /></LazyWhenVisible>
-                <LazyWhenVisible><Productions /></LazyWhenVisible>
-                <LazyWhenVisible><Veilles /></LazyWhenVisible>
-                <LazyWhenVisible><Contact /></LazyWhenVisible>
+                <Section id="accueil">
+                  <Accueil />
+                </Section>
+                <LazyWhenVisible>
+                  <Section id="cv">
+                    <CV />
+                  </Section>
+                </LazyWhenVisible>
+                <LazyWhenVisible>
+                  <Section id="ateliers">
+                    <AteliersPro />
+                  </Section>
+                </LazyWhenVisible>
+                <LazyWhenVisible>
+                  <Section id="stages">
+                    <Stages />
+                  </Section>
+                </LazyWhenVisible>
+                <LazyWhenVisible>
+                  <Section id="competences">
+                    <Competences />
+                  </Section>
+                </LazyWhenVisible>
+                <LazyWhenVisible>
+                  <Section id="productions">
+                    <Productions />
+                  </Section>
+                </LazyWhenVisible>
+                <LazyWhenVisible>
+                  <Section id="veilles">
+                    <Veilles />
+                  </Section>
+                </LazyWhenVisible>
+                <LazyWhenVisible>
+                  <Section id="contact">
+                    <Contact />
+                  </Section>
+                </LazyWhenVisible>
               </>
             } />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
           </Routes>
         </Suspense>
         <UpdateNotification />
-        <OfflineError />
       </main>
+      <OfflineError />
     </div>
   );
 }
