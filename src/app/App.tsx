@@ -50,7 +50,8 @@ function ScrollToHash() {
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
-    function scrollWithDynamicOffset(hash) {
+    
+    function scrollWithDynamicOffset(hash: string): boolean {
       const el = document.querySelector(hash);
       console.log('[ScrollToHash] scrollWithDynamicOffset', { hash, el });
       if (!el) return false;
@@ -71,11 +72,17 @@ function ScrollToHash() {
     };
     if (tryScrollNow()) return;
     // 2) Observe l'apparition de l'élément (lazy loading)
-    let observer = null;
-    let timeoutId = undefined;
+    let observer: MutationObserver | null = null;
+    let timeoutId: number | undefined;
     const stop = () => {
-      if (observer) observer.disconnect();
-      if (timeoutId) window.clearTimeout(timeoutId);
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+        timeoutId = undefined;
+      }
     };
     observer = new MutationObserver(() => {
       if (tryScrollNow()) {
@@ -85,7 +92,7 @@ function ScrollToHash() {
     });
     observer.observe(document.body, { childList: true, subtree: true });
     // 3) Sécurité: arrête après 3s même si non trouvé
-    timeoutId = window.setTimeout(() => {
+    const timerId = window.setTimeout(() => {
       stop();
       // dernier essai au cas où
       if (tryScrollNow()) {
@@ -94,38 +101,66 @@ function ScrollToHash() {
         console.warn('[ScrollToHash] Timeout: section not found for hash', hash);
       }
     }, 3000);
+    timeoutId = timerId;
     return () => stop();
   }, []);
   return null;
 }
 
-// Export utilitaire pour tests unitaires
-export function testableScrollToHash(hash) {
-  const el = typeof document !== 'undefined' ? document.querySelector(hash) : null;
-  if (!el) return false;
-  let offset = -64;
-  if (hash === '#contact') offset = -160;
-  const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
-  window.scrollTo({ top: y, behavior: 'auto' });
-  return true;
-}
 
-// Ensure we start at the top when there is no hash (avoid browser scroll restoration)
+// Gestion améliorée du défilement lors de la navigation
 function ScrollTopOnNavigate() {
   const location = useLocation();
-  // Force manual restoration to prevent browser restoring an old scroll position
+  const initialLoad = useRef(true);
+  const scrollTimer = useRef<NodeJS.Timeout>();
+
+  // Désactiver la restauration automatique du navigateur
   useEffect(() => {
     try {
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
     } catch {}
+
+    // Nettoyer les timeouts lors du démontage
+    return () => {
+      if (scrollTimer.current) {
+        clearTimeout(scrollTimer.current);
+      }
+    };
   }, []);
 
+  // Gérer le défilement lors de la navigation et du rafraîchissement
   useEffect(() => {
-    if (location.hash) return; // Hash handling is done by ScrollToHash
-    // On path navigation or reload without hash, scroll to top
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    const handleScroll = () => {
+      if (location.hash) {
+        // Laisser ScrollToHash gérer le défilement pour les ancres
+        return;
+      }
+
+      // Pour le premier chargement, on scroll en haut immédiatement
+      if (initialLoad.current) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        initialLoad.current = false;
+        return;
+      }
+
+      // Pour les navigations suivantes, on scroll en haut avec un léger délai
+      // pour s'assurer que le contenu est bien chargé
+      scrollTimer.current = setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 50);
+    };
+
+    // Exécuter la gestion du défilement après un court délai
+    const timer = setTimeout(handleScroll, 0);
+
+    return () => {
+      clearTimeout(timer);
+      if (scrollTimer.current) {
+        clearTimeout(scrollTimer.current);
+      }
+    };
   }, [location.pathname, location.hash]);
 
   return null;
@@ -253,5 +288,3 @@ function AppWithRouter() {
 }
 
 export default App;
-
-console.log('ScrollToHash:', hash, document.querySelector(hash));
