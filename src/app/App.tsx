@@ -238,26 +238,67 @@ function App() {
 }
 
 function AppWithRouter() {
-  const location = useLocation();
+  // La variable location n'est plus utilisée car on utilise window.location directement
 
-  function scrollToHash(hash: string) {
-    const el = document.querySelector(hash);
-    if (!el) return;
-    let offset = -64;
-    if (hash === '#contact') offset = -160;
-    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
+  const scrollToHash = (hash: string, behavior: ScrollBehavior = 'smooth') => {
+    if (!hash) return;
+    
+    // Retirer le # du hash si présent
+    const id = hash.startsWith('#') ? hash.substring(1) : hash;
+    if (!id) return;
+    
+    // Trouver l'élément cible
+    const element = document.getElementById(id);
+    if (!element) return;
+    
+    // Calculer le décalage en fonction de la hauteur de la navbar
+    const headerOffset = id === 'contact' ? 160 : 64;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    // Effectuer le défilement
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: behavior
+    });
+  };
 
-  useEffect(() => {
+  // Gestion du chargement initial avec hash dans l'URL
+  useLayoutEffect(() => {
     if (window.location.hash) {
-      scrollToHash(window.location.hash);
+      // Utiliser 'auto' pour le chargement initial pour éviter les sauts
+      scrollToHash(window.location.hash, 'auto');
+    } else {
+      // S'assurer que la page est tout en haut au chargement initial
+      window.scrollTo(0, 0);
     }
-  }, [location.hash]);
+  }, []);
+
+  // Gestion des changements de hash pendant la navigation
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash) {
+        scrollToHash(window.location.hash);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    window.addEventListener('popstate', handleHashChange);
+    return () => window.removeEventListener('popstate', handleHashChange);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <a href="/#accueil" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200">
+      <a 
+        href="/#accueil" 
+        onClick={(e) => {
+          e.preventDefault();
+          window.history.pushState({}, '', '/#accueil');
+          scrollToHash('accueil');
+        }}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200"
+      >
         Aller au contenu principal
       </a>
       <Navbar />
