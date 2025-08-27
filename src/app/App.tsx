@@ -1,5 +1,37 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, Component, ErrorInfo, ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
+// Composant ErrorBoundary pour capturer les erreurs de rendu
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback: ReactNode;
+  onError: (error: Error, errorInfo: ErrorInfo) => void;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, { hasError: boolean }> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo);
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
 
 import Navbar from '../components/layout/Navbar';
 import OfflineError from '../components/layout/OfflineError';
@@ -19,32 +51,106 @@ const Contact = lazy(() => import('../components/sections/contact/Contact'));
 
 // Render children only when near the viewport to delay downloading their chunks
 function LazyWhenVisible({ children, rootMargin = '300px' }: { children: React.ReactNode; rootMargin?: string }) {
-  const [visible, setVisible] = useState(false);
-  const placeholderRef = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const placeholderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (visible) return;
+    if (isVisible) return;
+    
     const el = placeholderRef.current;
-    if (!el || !('IntersectionObserver' in window)) {
-      // Fallback: render after a tick
-      const id = window.setTimeout(() => setVisible(true), 0);
-      return () => window.clearTimeout(id);
-    }
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          setVisible(true);
-          io.disconnect();
-          break;
-        }
-      }
-    }, { rootMargin, threshold: 0.01 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [visible, rootMargin]);
+    if (!el) return;
 
-  if (visible) return <>{children}</>;
-  return <div ref={placeholderRef} aria-hidden="true" className="min-h-px" />;
+    // Délai minimum avant d'afficher le contenu (même s'il est déjà visible)
+    const minDelay = 300; // 300ms de délai minimum
+    const startTime = Date.now();
+
+    const makeVisible = () => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDelay - elapsed);
+      
+      setTimeout(() => {
+        setIsVisible(true);
+      }, remaining);
+    };
+
+    // Fallback pour les navigateurs sans IntersectionObserver
+    if (!('IntersectionObserver' in window)) {
+      const timer = setTimeout(() => {
+        makeVisible();
+      }, minDelay);
+      return () => clearTimeout(timer);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          makeVisible();
+          observer.disconnect();
+        }
+      },
+      { 
+        rootMargin,
+        threshold: 0.01 
+      }
+    );
+
+    // Timeout de sécurité au cas où l'IntersectionObserver ne déclencherait jamais
+    const safetyTimer = setTimeout(() => {
+      if (!isVisible) {
+        console.warn('LazyWhenVisible: Safety timer triggered');
+        makeVisible();
+        observer.disconnect();
+      }
+    }, 2000); // 2 secondes de timeout de sécurité
+
+    observer.observe(el);
+    
+    return () => {
+      clearTimeout(safetyTimer);
+      observer.disconnect();
+    };
+  }, [isVisible, rootMargin]);
+
+  // Gestion des erreurs avec Error Boundary
+  if (hasError) {
+    return (
+      <div className="min-h-[50vh] flex items-center justify-center p-4">
+        <div className="text-red-600 text-center">
+          <p>Une erreur est survenue lors du chargement de cette section.</p>
+          <button 
+            onClick={() => setHasError(false)}
+            className="mt-2 px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
+          >
+            Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isVisible) {
+    return <div ref={placeholderRef} aria-hidden="true" className="min-h-[50vh]" />;
+  }
+
+  return (
+    <ErrorBoundary 
+      onError={() => setHasError(true)}
+      fallback={
+        <div className="min-h-[50vh] flex items-center justify-center">
+          <div className="text-red-600">Erreur de chargement. Veuillez réessayer.</div>
+        </div>
+      }
+    >
+      <Suspense fallback={
+        <div className="min-h-[50vh] flex items-center justify-center">
+          <div className="animate-pulse text-gray-500">Chargement du contenu...</div>
+        </div>
+      }>
+        {children}
+      </Suspense>
+    </ErrorBoundary>
+  );
 }
 
 function ScrollToHash() {
@@ -74,15 +180,14 @@ function ScrollToHash() {
     if (tryScrollNow()) return;
     // 2) Observe l'apparition de l'élément (lazy loading)
     let observer: MutationObserver | null = null;
-    let timeoutId: number | undefined;
+    let timeoutId: number;
     const stop = () => {
       if (observer) {
         observer.disconnect();
         observer = null;
       }
-      if (timeoutId !== undefined) {
+      if (timeoutId) {
         window.clearTimeout(timeoutId);
-        timeoutId = undefined;
       }
     };
     observer = new MutationObserver(() => {
@@ -93,7 +198,7 @@ function ScrollToHash() {
     });
     observer.observe(document.body, { childList: true, subtree: true });
     // 3) Sécurité: arrête après 3s même si non trouvé
-    const timerId = window.setTimeout(() => {
+    timeoutId = window.setTimeout(() => {
       stop();
       // dernier essai au cas où
       if (tryScrollNow()) {
@@ -102,7 +207,6 @@ function ScrollToHash() {
         console.warn('[ScrollToHash] Timeout: section not found for hash', hash);
       }
     }, 3000);
-    timeoutId = timerId;
     return () => stop();
   }, []);
   return null;
@@ -113,7 +217,7 @@ function ScrollToHash() {
 function ScrollTopOnNavigate() {
   const location = useLocation();
   const initialLoad = useRef(true);
-  const scrollTimer = useRef<NodeJS.Timeout>();
+  const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Désactiver la restauration automatique du navigateur
   useEffect(() => {
@@ -129,7 +233,7 @@ function ScrollTopOnNavigate() {
         clearTimeout(scrollTimer.current);
       }
     };
-  }, []);
+  }, [location.hash]);
 
   // Gérer le défilement lors de la navigation et du rafraîchissement
   useEffect(() => {
@@ -158,8 +262,9 @@ function ScrollTopOnNavigate() {
 
     return () => {
       clearTimeout(timer);
-      if (scrollTimer.current) {
+      if (scrollTimer.current !== null) {
         clearTimeout(scrollTimer.current);
+        scrollTimer.current = null;
       }
     };
   }, [location.pathname, location.hash]);

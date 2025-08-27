@@ -86,7 +86,7 @@ self.addEventListener('fetch', (event) => {
   try {
     // Pour les images, utiliser la stratégie Cache First
     if (url.pathname.match(/\.(jpg|jpeg|png|gif|webp|svg|ico)$/i)) {
-      event.respondWith(handleImageRequest(request));
+      event.respondWith(handleImageRequest(request, event));
     } 
     // Pour les API, utiliser la stratégie Network First
     else if (url.pathname.startsWith('/api/')) {
@@ -108,17 +108,23 @@ self.addEventListener('fetch', (event) => {
 });
 
 // Stratégie pour les images (Cache First)
-async function handleImageRequest(request) {
+async function handleImageRequest(request, event) {
   const cache = await caches.open(DYNAMIC_CACHE);
   const cachedResponse = await cache.match(request);
   
   // Si la réponse est en cache, la retourner immédiatement
   if (cachedResponse) {
-    // Mettre à jour le cache en arrière-plan
-    event.waitUntil(
+    // Mettre à jour le cache en arrière-plan si event est disponible
+    if (event) {
+      event.waitUntil(
+        fetchAndCache(request, cache)
+          .catch(error => console.error('Erreur de mise à jour du cache :', error))
+      );
+    } else {
+      // Mise à jour du cache sans wait si pas d'event (pour rétrocompatibilité)
       fetchAndCache(request, cache)
-        .catch(error => console.error('Erreur de mise à jour du cache :', error))
-    );
+        .catch(error => console.error('Erreur de mise à jour du cache :', error));
+    }
     return cachedResponse;
   }
 

@@ -1,5 +1,4 @@
 import { useState, useEffect, type ComponentType } from 'react';
-import { HashLink } from 'react-router-hash-link';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,17 +72,22 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <HashLink
-                to="/#accueil"
+              <a
+                href="/#accueil"
                 className={`text-xl font-bold transition-colors ${
                   isScrolled 
                     ? 'text-gray-900 hover:text-blue-600 hover:underline underline-offset-4' 
                     : 'text-white hover:text-blue-300 hover:underline underline-offset-4'
                 }`}
-                onClick={handleMenuClick}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.hash = 'accueil';
+                  window.dispatchEvent(new Event('hashchange'));
+                  handleMenuClick();
+                }}
               >
                 Elyes Allani
-              </HashLink>
+              </a>
             </div>
 
             {/* Desktop Menu */}
@@ -91,20 +95,25 @@ const Navbar = () => {
               {menuItems.map((item) => {
                 const Icon = icons?.[item.icon];
                 return (
-                <HashLink
+                <a
                   key={item.title}
-                  to={`/${item.hash}`}
+                  href={item.hash}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
                       : 'text-gray-100 hover:text-white hover:bg-gray-800'
                   }`}
                   aria-label={`Aller à la section ${item.title}`}
-                  onClick={handleMenuClick}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.hash = item.hash.substring(1);
+                    window.dispatchEvent(new Event('hashchange'));
+                    handleMenuClick();
+                  }}
                 >
                   {Icon ? <Icon size={18} /> : null}
                   <span>{item.title}</span>
-                </HashLink>
+                </a>
                 );
               })}
             </div>
@@ -144,16 +153,21 @@ const Navbar = () => {
               {menuItems.map((item) => {
                 const Icon = icons?.[item.icon];
                 return (
-                  <HashLink
+                  <a
                     key={item.title}
-                    to={`/${item.hash}`}
+                    href={item.hash}
                     className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
-                    onClick={handleMenuClick}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.location.hash = item.hash.substring(1);
+                      window.dispatchEvent(new Event('hashchange'));
+                      handleMenuClick();
+                    }}
                     tabIndex={isOpen ? 0 : -1}
                   >
                     {Icon ? <Icon size={18} /> : null}
                     <span>{item.title}</span>
-                  </HashLink>
+                  </a>
                 );
               })}
             </div>
@@ -163,13 +177,18 @@ const Navbar = () => {
 
       {/* Back to Top Button */}
       {showBackToTop && (
-        <HashLink
-          to="/#accueil"
+        <a
+          href="/#accueil"
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.hash = 'accueil';
+            window.dispatchEvent(new Event('hashchange'));
+          }}
         >
           {icons?.ChevronUp ? <icons.ChevronUp size={24} /> : <span aria-hidden>↑</span>}
-        </HashLink>
+        </a>
       )}
     </>
   );

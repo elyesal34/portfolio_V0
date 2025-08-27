@@ -5,10 +5,76 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Configuration de base
+  // Configuration du serveur
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+    strictPort: false,
+    open: true,
+    cors: true,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3000,
+      clientPort: 3000,
+      path: '/ws',
+      timeout: 30000,
+      overlay: false
+    },
+    watch: {
+      usePolling: false,
+      useFsEvents: true,
+      followSymlinks: true
+    },
+    fs: {
+      // Autoriser le chargement depuis le répertoire du projet
+      strict: false
+    },
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+    }
+  },
+  // Optimisation des dépendances
+  optimizeDeps: {
+    // Forcer l'inclusion de React et React DOM dans le bundle optimisé
+    include: ['react', 'react-dom', 'react-dom/client', 'react-router-dom'],
+    exclude: ['lucide-react', 'workbox-*'],
+    esbuildOptions: {
+      // Configuration pour le support de React 18
+      target: 'es2020',
+      supported: { 
+        bigint: true,
+      },
+    },
+  },
   plugins: [
-    react(),
-    VitePWA({
+    {
+      name: 'custom-hmr',
+      enforce: 'post',
+      // Handle HMR updates
+      handleHotUpdate({ file, server }) {
+        if (file.endsWith('.css') || file.endsWith('.tsx') || file.endsWith('.ts')) {
+          console.log('File changed:', file);
+          // Force a full reload for now to avoid HMR issues
+          server.ws.send({ type: 'full-reload' });
+          return [];
+        }
+      },
+    },
+    react({
+      // Configuration pour React 18 avec Emotion
+      jsxImportSource: '@emotion/react',
+      babel: {
+        plugins: ['@emotion/babel-plugin'],
+      },
+      // Utiliser le runtime automatique de React 18
+      jsxRuntime: 'automatic',
+    }),
+    // Désactiver le service worker en mode développement
+    ...(mode === 'development' ? [] : [VitePWA({
       // Do not inject registerSW.js script tag; we register SW manually
       injectRegister: null,
       includeAssets: ['favicons/favicon.ico', 'favicons/apple-touch-icon.png', 'favicons/site.webmanifest'],
@@ -30,7 +96,8 @@ export default defineConfig(({ mode }) => ({
           },
         ],
       },
-      workbox: {
+      // Désactiver le workbox en mode développement
+      workbox: mode === 'development' ? undefined : {
         sourcemap: true,
         cleanupOutdatedCaches: true,
         skipWaiting: true,
@@ -66,7 +133,7 @@ export default defineConfig(({ mode }) => ({
           },
         ],
       },
-    }),
+    })]),
     // Analyse du bundle (activée avec `cross-env ANALYZE=1` ou `--mode analyze`)
     ((mode === 'analyze' || Boolean(process.env.ANALYZE)) && visualizer({
       filename: 'dist/stats.html',
@@ -86,10 +153,6 @@ export default defineConfig(({ mode }) => ({
           'react/jsx-runtime': 'preact/jsx-runtime'
         }
       : []
-  },
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-    include: ['react', 'react-dom']
   },
   build: {
     // Optimizations pour PageSpeed
@@ -159,18 +222,13 @@ export default defineConfig(({ mode }) => ({
     // Assets optimisés
     assetsInlineLimit: 4096,
     // Target moderne pour meilleure optimisation
-    target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88'],
+    target: ['esnext', 'chrome80', 'firefox78', 'safari14', 'edge88'],
     // Optimisations module
     modulePreload: {
       polyfill: false
     },
     // Optimisations supplémentaires
     reportCompressedSize: false
-  },
-  server: {
-    headers: {
-      'Cache-Control': 'public, max-age=31536000'
-    }
   },
   // Optimisations esbuild
   esbuild: {
@@ -179,7 +237,9 @@ export default defineConfig(({ mode }) => ({
     minifyIdentifiers: mode === 'production',
     minifySyntax: mode === 'production',
     minifyWhitespace: mode === 'production',
-    treeShaking: true
+    treeShaking: true,
+    // Activer le support pour les décorateurs
+    jsxInject: `import React from 'react'`
   },
   // Optimisations CSS
   css: {

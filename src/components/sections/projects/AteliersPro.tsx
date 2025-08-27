@@ -1,12 +1,46 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Code2, Database, Globe, Smartphone, Shield, Users } from '../../../icons/lucide';
+// Importer les icônes avec gestion d'erreur
+const Icon: React.FC<{ name: string; className?: string }> = ({ name, className = '' }) => {
+  const [IconComponent, setIconComponent] = useState<React.ComponentType<{ className: string }> | null>(null);
+  const [error, setError] = useState(false);
 
-const AteliersPro = () => {
+  useEffect(() => {
+    const loadIcon = async () => {
+      try {
+        // Importer dynamiquement l'icône depuis lucide-react
+        const module = await import('lucide-react');
+        if (module && module[name as keyof typeof module]) {
+          setIconComponent(() => module[name as keyof typeof module] as React.ComponentType<{ className: string }>);
+        } else {
+          console.warn(`Icône non trouvée: ${name}`);
+          setError(true);
+        }
+      } catch (err) {
+        console.error(`Erreur lors du chargement de l'icône ${name}:`, err);
+        setError(true);
+      }
+    };
+
+    loadIcon();
+  }, [name]);
+
+  if (error) {
+    return <span className={`inline-block w-6 h-6 bg-gray-200 rounded ${className}`} aria-hidden="true" />;
+  }
+
+  return IconComponent ? (
+    <IconComponent className={className} />
+  ) : (
+    <span className={`inline-block w-6 h-6 bg-gray-100 animate-pulse rounded ${className}`} aria-hidden="true" />
+  );
+};
+
+const AteliersPro: React.FC = () => {
   const ateliers = [
     {
       title: "Développement d'applications web",
-      icon: <Globe className="w-8 h-8 text-blue-500" />,
+      icon: <Icon name="Globe" className="w-8 h-8 text-blue-500" />,
       description: "Création d'applications web modernes avec React, PHP et bases de données",
       technologies: ["React", "PHP", "MySQL", "JavaScript"],
       projets: [
@@ -17,7 +51,7 @@ const AteliersPro = () => {
     },
     {
       title: "Programmation orientée objet",
-      icon: <Code2 className="w-8 h-8 text-green-500" />,
+      icon: <Icon name="Code2" className="w-8 h-8 text-green-500" />,
       description: "Maîtrise des concepts POO avec Java et C#",
       technologies: ["Java", "C#", "UML", "Design Patterns"],
       projets: [
@@ -28,7 +62,7 @@ const AteliersPro = () => {
     },
     {
       title: "Base de données",
-      icon: <Database className="w-8 h-8 text-purple-500" />,
+      icon: <Icon name="Database" className="w-8 h-8 text-purple-500" />,
       description: "Conception et administration de bases de données relationnelles",
       technologies: ["MySQL", "PostgreSQL", "SQL Server", "MongoDB"],
       projets: [
@@ -39,7 +73,7 @@ const AteliersPro = () => {
     },
     {
       title: "Développement mobile",
-      icon: <Smartphone className="w-8 h-8 text-orange-500" />,
+      icon: <Icon name="Smartphone" className="w-8 h-8 text-orange-500" />,
       description: "Création d'applications mobiles natives et hybrides",
       technologies: ["React Native", "Flutter", "Android Studio"],
       projets: [
@@ -50,7 +84,7 @@ const AteliersPro = () => {
     },
     {
       title: "Cybersécurité",
-      icon: <Shield className="w-8 h-8 text-red-500" />,
+      icon: <Icon name="Shield" className="w-8 h-8 text-red-500" />,
       description: "Sécurisation des applications et protection des données",
       technologies: ["HTTPS", "JWT", "Cryptographie", "OWASP"],
       projets: [
@@ -61,7 +95,7 @@ const AteliersPro = () => {
     },
     {
       title: "Travail collaboratif",
-      icon: <Users className="w-8 h-8 text-indigo-500" />,
+      icon: <Icon name="Users" className="w-8 h-8 text-indigo-500" />,
       description: "Gestion de projets en équipe avec méthodologies agiles",
       technologies: ["Git", "GitHub", "Scrum", "Jira"],
       projets: [
@@ -74,7 +108,20 @@ const AteliersPro = () => {
 
   // Pagination : afficher 3 ateliers au départ
   const [visibleCount, setVisibleCount] = useState(3);
+  const [isLoading, setIsLoading] = useState(false);
+  
   const visibleAteliers = ateliers.slice(0, visibleCount);
+  
+  const loadMore = () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    // Simuler un chargement asynchrone
+    setTimeout(() => {
+      setVisibleCount(prev => Math.min(prev + 3, ateliers.length));
+      setIsLoading(false);
+    }, 300);
+  };
 
   return (
     <section id="ateliers" className="min-h-screen pt-16 scroll-mt-16 bg-white">
@@ -125,10 +172,11 @@ const AteliersPro = () => {
         {visibleCount < ateliers.length && (
           <div className="flex justify-center mt-8">
             <button
-              onClick={() => setVisibleCount(visibleCount + 3)}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+              onClick={loadMore}
+              disabled={isLoading}
+              className={`px-6 py-3 bg-blue-600 text-white rounded-lg font-medium transition ${isLoading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-blue-700'}`}
             >
-              Voir plus d'ateliers
+              {isLoading ? 'Chargement...' : 'Voir plus d\'ateliers'}
             </button>
           </div>
         )}
@@ -161,4 +209,5 @@ const AteliersPro = () => {
   );
 };
 
-export default AteliersPro;
+// Memoize the component to prevent unnecessary re-renders
+export default React.memo(AteliersPro);

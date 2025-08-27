@@ -1,8 +1,9 @@
+/* eslint-disable import/order */
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 
 import { ArrowDown, Download, Mail, ExternalLink } from '../../../icons/lucide';
-import ImageWithSuspense from '../../ui/ImageWithSuspense';
+import styles from './Accueil.module.css';
 const DecorativeBackground = lazy(() => import('./DecorativeBackground'));
 const FloatingIcons = lazy(() => import('./FloatingIcons'));
 
@@ -33,7 +34,10 @@ const Accueil = () => {
   };
 
   return (
-    <section id="accueil" className="min-h-screen pt-16 scroll-mt-16 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+    <section 
+      id="accueil" 
+      className={`min-h-screen pt-16 scroll-mt-16 bg-gradient-to-br from-gray-900/95 via-blue-900/95 to-purple-900/95 text-white relative overflow-hidden ${styles.heroSection}`}
+    >
       {/* Éléments décoratifs de fond - lazy après paint */}
       {enhance && (
         <Suspense fallback={null}>
@@ -117,15 +121,14 @@ const Accueil = () => {
           {/* Image héro - priorité haute pour LCP */}
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
             <div className="relative min-h-20 aspect-[4/3]">
-              <ImageWithSuspense
-                src="/images/example.jpg?v=static1"
+              <img
+                src="/images/example.jpg"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
                 className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
                 width={800}
                 height={600}
                 loading="eager"
                 fetchPriority="high"
-                fallbackSrc="/images/example.jpg?v=static1"
               />
               
               {/* Icônes flottantes - lazy après paint */}

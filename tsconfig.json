@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
     "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.workbox.json" },
+    { "path": "./tsconfig.workbox-ignore.json" }
+  ],
+  "exclude": [
+    "node_modules/workbox-*"
   ]
 }

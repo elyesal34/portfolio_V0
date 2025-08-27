@@ -93,6 +93,14 @@ export default tseslint.config(
         groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
         'newlines-between': 'always',
         alphabetize: { order: 'asc', caseInsensitive: true },
+        pathGroups: [
+          {
+            pattern: '*.module.css',
+            group: 'index',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludeImportTypes: ['builtin'],
       }],
       'import/no-unresolved': 'off', // TS handles unresolved modules
       'react-refresh/only-export-components': [
@@ -141,6 +149,14 @@ export default tseslint.config(
         groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
         'newlines-between': 'always',
         alphabetize: { order: 'asc', caseInsensitive: true },
+        pathGroups: [
+          {
+            pattern: '*.module.css',
+            group: 'index',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludeImportTypes: ['builtin'],
       }],
       'react-refresh/only-export-components': [
         'warn',
