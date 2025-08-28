@@ -20,13 +20,13 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0',
-    port: 3001,
+    port: 3002,
     strictPort: true,
     open: true,
     cors: true,
     hmr: {
       host: 'localhost',
-      port: 3001,
+      port: 3002,
       protocol: 'ws',
       overlay: false
     },
