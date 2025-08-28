@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
-import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 import { Mail, Phone, MapPin, Linkedin, Github, Send, User, MessageSquare, CheckCircle, AlertCircle, Calendar, Clock, Award } from '../../../icons/lucide';
 
@@ -484,7 +484,7 @@ const Contact = () => {
       
       <footer className="mt-16 text-center text-gray-600 text-sm">
         <span>&copy; 2025 Allani Elyes &nbsp;—&nbsp;</span>
-        <Link to="/mentions-legales" className="underline font-medium hover:text-blue-600">Mentions légales</Link>
+        <a href="/mentions-legales" className="underline font-medium hover:text-blue-600">Mentions légales</a>
       </footer>
     </section>
   );

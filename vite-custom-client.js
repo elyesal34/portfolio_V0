@@ -1,7 +1,7 @@
 // Custom Vite client with improved WebSocket handling
 (function () {
   const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  const socketUrl = `${socketProtocol}://${location.hostname}:3002/`;
+  const socketUrl = `${socketProtocol}://${location.hostname}:3000/`;
   
   console.log('[Vite] Connecting to WebSocket at', socketUrl);
   

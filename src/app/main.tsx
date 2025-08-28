@@ -1,6 +1,7 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 import App from './App';
 import { registerServiceWorker } from '../utils/serviceWorker';
 import ErrorBoundary from '../components/ErrorBoundary';
@@ -87,21 +88,18 @@ function Root() {
 
   return (
     <StrictMode>
-      <BrowserRouter>
-        <ErrorBoundary>
-          <AnchorScroller />
-          {!isOnline && (
-            <div 
-              className="fixed bottom-4 right-4 bg-yellow-500 text-white px-4 py-2 rounded-md shadow-lg z-50"
-              role="status"
-              aria-live="polite"
-            >
-              Mode hors ligne activé
-            </div>
-          )}
-          <App />
-        </ErrorBoundary>
-      </BrowserRouter>
+      <ErrorBoundary>
+        {!isOnline && (
+          <div 
+            className="fixed bottom-4 right-4 bg-yellow-500 text-white px-4 py-2 rounded-md shadow-lg z-50"
+            role="status"
+            aria-live="polite"
+          >
+            Mode hors ligne activé
+          </div>
+        )}
+        <App />
+      </ErrorBoundary>
     </StrictMode>
   );
 }
