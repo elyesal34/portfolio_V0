@@ -1,8 +1,9 @@
-import { StrictMode, useEffect } from 'react';
+import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-
-import App from './App.tsx';
+import { BrowserRouter, useLocation } from 'react-router-dom';
+import App from './App';
 import { registerServiceWorker } from '../utils/serviceWorker';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 // Lazy initialize Google Analytics only on first interaction (no idle preload)
 function onFirstInteractionOnce(cb: () => void) {
@@ -30,44 +31,93 @@ if (import.meta.env.PROD) {
   initAnalyticsLazily();
 }
 
-// Composant racine avec gestion du mode hors ligne
-export function Root() {
+// Scroll to anchor with offset for fixed header
+function AnchorScroller() {
+  const { hash } = useLocation();
+  
   useEffect(() => {
-    // Gestionnaire d'événement pour le mode hors ligne
-    const handleOffline = () => {
-      console.log('Mode hors ligne activé');
-      // Vous pouvez ajouter ici une notification à l'utilisateur
-    };
-
-    const handleOnline = () => {
-      console.log('Connexion rétablie');
-      // Vérifier les mises à jour lors du retour en ligne
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.update().catch(console.error);
-        });
+    if (hash) {
+      const id = decodeURIComponent(hash.replace('#', ''));
+      const element = document.getElementById(id);
+      
+      if (element) {
+        // Small delay to ensure the page has rendered
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Focus for keyboard navigation
+          element.setAttribute('tabIndex', '-1');
+          element.focus({ preventScroll: true });
+        }, 100);
+        
+        return () => clearTimeout(timer);
       }
-    };
+    } else {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [hash]);
+  
+  return null;
+}
 
-    // Ajouter les écouteurs d'événements
-    window.addEventListener('offline', handleOffline);
+// Root component with offline mode and router
+function Root() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
     window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
-    // Nettoyage
     return () => {
-      window.removeEventListener('offline', handleOffline);
       window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
     };
   }, []);
 
+  useEffect(() => {
+    // Check for updates when coming back online
+    if ('serviceWorker' in navigator && isOnline) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.update().catch(console.error);
+      });
+    }
+  }, [isOnline]);
+
   return (
     <StrictMode>
-      <App />
+      <BrowserRouter>
+        <ErrorBoundary>
+          <AnchorScroller />
+          {!isOnline && (
+            <div 
+              className="fixed bottom-4 right-4 bg-yellow-500 text-white px-4 py-2 rounded-md shadow-lg z-50"
+              role="status"
+              aria-live="polite"
+            >
+              Mode hors ligne activé
+            </div>
+          )}
+          <App />
+        </ErrorBoundary>
+      </BrowserRouter>
     </StrictMode>
   );
 }
 
-// Rendu de l'application
-createRoot(document.getElementById('root')!).render(<Root />);
+// Register service worker in production (after 'load' to avoid critical chain)
+if (import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    registerServiceWorker();
+  });
+}
 
-// L'initialisation de l'analytique est maintenant déplacée dans le composant Root
+// Render the app
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(<Root />);
+} else {
+  console.error('Failed to find the root element');
+}

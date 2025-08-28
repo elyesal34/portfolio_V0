@@ -1,467 +1,254 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, Component, ErrorInfo, ReactNode } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-
-// Composant ErrorBoundary pour capturer les erreurs de rendu
-interface ErrorBoundaryProps {
-  children: ReactNode;
-  fallback: ReactNode;
-  onError: (error: Error, errorInfo: ErrorInfo) => void;
-}
-
-class ErrorBoundary extends Component<ErrorBoundaryProps, { hasError: boolean }> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(_: Error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo);
-    }
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}
-
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
-import OfflineError from '../components/layout/OfflineError';
+import Footer from '../components/Footer';
 import Section from '../components/layout/Section';
-import UpdateNotification from '../components/layout/UpdateNotification';
 import Accueil from '../components/sections/home/Accueil';
-const MentionsLegales = lazy(() => import('../components/sections/legal/MentionsLegales'));
 
-// Lazy loading des composants pour optimiser le chargement initial
-const CV = lazy(() => import('../components/sections/about/CV'));
+// Lazy-loaded components
+const CV = lazy(() => import('../components/sections/about/CV.tsx'));
+const Competences = lazy(() => import('../components/sections/about/Competences'));
+const Contact = lazy(() => import('../components/sections/contact/Contact'));
 const AteliersPro = lazy(() => import('../components/sections/projects/AteliersPro'));
 const Stages = lazy(() => import('../components/sections/projects/Stages'));
-const Competences = lazy(() => import('../components/sections/about/Competences'));
 const Productions = lazy(() => import('../components/sections/projects/Productions'));
 const Veilles = lazy(() => import('../components/sections/content/Veilles'));
-const Contact = lazy(() => import('../components/sections/contact/Contact'));
 
-// Render children only when near the viewport to delay downloading their chunks
+// Lazy loading with visibility
 function LazyWhenVisible({ children, rootMargin = '300px' }: { children: React.ReactNode; rootMargin?: string }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const placeholderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isVisible) return;
-    
-    const el = placeholderRef.current;
-    if (!el) return;
-
-    // Délai minimum avant d'afficher le contenu (même s'il est déjà visible)
-    const minDelay = 300; // 300ms de délai minimum
-    const startTime = Date.now();
-
-    const makeVisible = () => {
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, minDelay - elapsed);
-      
-      setTimeout(() => {
-        setIsVisible(true);
-      }, remaining);
-    };
-
-    // Fallback pour les navigateurs sans IntersectionObserver
-    if (!('IntersectionObserver' in window)) {
-      const timer = setTimeout(() => {
-        makeVisible();
-      }, minDelay);
-      return () => clearTimeout(timer);
-    }
+    if (isVisible || !placeholderRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          makeVisible();
+          setIsVisible(true);
           observer.disconnect();
         }
       },
-      { 
-        rootMargin,
-        threshold: 0.01 
-      }
+      { rootMargin, threshold: 0.01 }
     );
 
-    // Timeout de sécurité au cas où l'IntersectionObserver ne déclencherait jamais
-    const safetyTimer = setTimeout(() => {
-      if (!isVisible) {
-        console.warn('LazyWhenVisible: Safety timer triggered');
-        makeVisible();
-        observer.disconnect();
-      }
-    }, 2000); // 2 secondes de timeout de sécurité
-
-    observer.observe(el);
-    
-    return () => {
-      clearTimeout(safetyTimer);
-      observer.disconnect();
-    };
+    observer.observe(placeholderRef.current);
+    return () => observer.disconnect();
   }, [isVisible, rootMargin]);
 
-  // Gestion des erreurs avec Error Boundary
+  return <div ref={placeholderRef}>{isVisible ? children : null}</div>;
+}
+
+// Error boundary component
+function ErrorBoundary({ children }: { children: React.ReactNode }) {
+  const [hasError, setHasError] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const errorHandler = (event: ErrorEvent) => {
+      setHasError(true);
+      setError(new Error(event.message));
+    };
+
+    window.addEventListener('error', errorHandler);
+    return () => window.removeEventListener('error', errorHandler);
+  }, []);
+
   if (hasError) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center p-4">
-        <div className="text-red-600 text-center">
-          <p>Une erreur est survenue lors du chargement de cette section.</p>
-          <button 
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h2>
+          <p className="text-gray-700 mb-4">
+            {error?.message || 'An unexpected error occurred'}
+          </p>
+          <button
+            type="button"
             onClick={() => setHasError(false)}
-            className="mt-2 px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
-            Réessayer
+            Try again
           </button>
         </div>
       </div>
     );
   }
 
-  if (!isVisible) {
-    return <div ref={placeholderRef} aria-hidden="true" className="min-h-[50vh]" />;
-  }
-
-  return (
-    <ErrorBoundary 
-      onError={() => setHasError(true)}
-      fallback={
-        <div className="min-h-[50vh] flex items-center justify-center">
-          <div className="text-red-600">Erreur de chargement. Veuillez réessayer.</div>
-        </div>
-      }
-    >
-      <Suspense fallback={
-        <div className="min-h-[50vh] flex items-center justify-center">
-          <div className="animate-pulse text-gray-500">Chargement du contenu...</div>
-        </div>
-      }>
-        {children}
-      </Suspense>
-    </ErrorBoundary>
-  );
+  return <>{children}</>;
 }
 
-function ScrollToHash() {
+// Scroll to hash utility
+function useScrollToHash() {
+  const { hash } = useLocation();
+  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+
   useEffect(() => {
-    const hash = window.location.hash;
     if (!hash) return;
+
+    const id = hash.replace('#', '');
+    const element = document.getElementById(id);
     
-    function scrollWithDynamicOffset(hash: string): boolean {
-      const el = document.querySelector(hash);
-      console.log('[ScrollToHash] scrollWithDynamicOffset', { hash, el });
-      if (!el) return false;
-      let offset = -64;
-      if (hash === '#contact') offset = -160;
-      const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      return true;
+    if (element) {
+      // Small delay to ensure the component is rendered
+      const timer = setTimeout(() => {
+        const headerOffset = id === 'contact' ? 32 : 24;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        setIsScrolling(true);
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Set focus for accessibility
+        element.setAttribute('tabindex', '-1');
+        element.focus({ preventScroll: true });
+        
+        // Reset scrolling state
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+        scrollTimeoutRef.current = setTimeout(() => {
+          setIsScrolling(false);
+        }, 1000);
+        
+      }, 100);
+      
+      return () => clearTimeout(timer);
     }
-    // 1) Tentative immédiate
-    const tryScrollNow = () => {
-      const found = scrollWithDynamicOffset(hash);
-      if (found) {
-        console.log('[ScrollToHash] Immediate scroll succeeded', hash);
-        return true;
-      }
-      return false;
-    };
-    if (tryScrollNow()) return;
-    // 2) Observe l'apparition de l'élément (lazy loading)
-    let observer: MutationObserver | null = null;
-    let timeoutId: number;
-    const stop = () => {
-      if (observer) {
-        observer.disconnect();
-        observer = null;
-      }
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
-      }
-    };
-    observer = new MutationObserver(() => {
-      if (tryScrollNow()) {
-        console.log('[ScrollToHash] MutationObserver: section appeared, scroll done', hash);
-        stop();
-      }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-    // 3) Sécurité: arrête après 3s même si non trouvé
-    timeoutId = window.setTimeout(() => {
-      stop();
-      // dernier essai au cas où
-      if (tryScrollNow()) {
-        console.log('[ScrollToHash] Timeout: last scroll attempt succeeded', hash);
-      } else {
-        console.warn('[ScrollToHash] Timeout: section not found for hash', hash);
-      }
-    }, 3000);
-    return () => stop();
-  }, []);
-  return null;
-}
+  }, [hash]);
 
-
-// Gestion améliorée du défilement lors de la navigation
-function ScrollTopOnNavigate() {
-  const location = useLocation();
-  const initialLoad = useRef(true);
-  const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Désactiver la restauration automatique du navigateur
-  useEffect(() => {
-    try {
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }
-    } catch {}
-
-    // Nettoyer les timeouts lors du démontage
-    return () => {
-      if (scrollTimer.current) {
-        clearTimeout(scrollTimer.current);
-      }
-    };
-  }, [location.hash]);
-
-  // Gérer le défilement lors de la navigation et du rafraîchissement
-  useEffect(() => {
-    const handleScroll = () => {
-      if (location.hash) {
-        // Laisser ScrollToHash gérer le défilement pour les ancres
-        return;
-      }
-
-      // Pour le premier chargement, on scroll en haut immédiatement
-      if (initialLoad.current) {
-        window.scrollTo({ top: 0, behavior: 'auto' });
-        initialLoad.current = false;
-        return;
-      }
-
-      // Pour les navigations suivantes, on scroll en haut avec un léger délai
-      // pour s'assurer que le contenu est bien chargé
-      scrollTimer.current = setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 50);
-    };
-
-    // Exécuter la gestion du défilement après un court délai
-    const timer = setTimeout(handleScroll, 0);
-
-    return () => {
-      clearTimeout(timer);
-      if (scrollTimer.current !== null) {
-        clearTimeout(scrollTimer.current);
-        scrollTimer.current = null;
-      }
-    };
-  }, [location.pathname, location.hash]);
-
-  return null;
+  return { isScrolling };
 }
 
 function App() {
-  // Before paint: if no hash, reset scroll to top immediately to beat browser restoration
-  useLayoutEffect(() => {
-    if (!window.location.hash) {
-      window.scrollTo(0, 0);
-      try {
-        document.documentElement.classList.remove('no-scroll');
-        if (document.body) document.body.classList.remove('no-scroll');
-      } catch {}
-    }
-  }, []);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('accueil');
+  const { isScrolling } = useScrollToHash();
+  const location = useLocation();
 
-  // Defer non-critical effects to idle time
-  useEffect(() => {
-    const schedule = (cb: () => void) => {
-      const win = window as unknown as {
-        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
-      };
-      const ric = win.requestIdleCallback;
-      if (typeof ric === 'function') ric(cb);
-      else window.setTimeout(cb, 1);
-    };
-    schedule(() => {
-      const lcpText = document.getElementById('lcp-text');
-      if (lcpText) lcpText.style.visibility = 'hidden';
-    });
-  }, []);
-
-  // Final safety guard: after first paint, if no hash and browser restored a scroll, reset to top once
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      if (!window.location.hash && window.scrollY > 0) {
-        window.scrollTo({ top: 0, behavior: 'auto' });
-      }
-      // Ensure the temporary scroll lock is released
-      try { document.documentElement.classList.remove('no-scroll'); } catch {}
-    }, 400);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  // Prefetch likely-next sections during idle time to warm cache
-  useEffect(() => {
-    const win = window as unknown as {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
-    };
-    const prefetch = () => {
-      const tasks = [
-        import('../components/sections/about/CV'),
-        import('../components/sections/projects/Productions'),
-        import('../components/sections/contact/Contact'),
-      ];
-      // Silence errors if network is blocked; this is a best-effort warmup
-      tasks.forEach((p) => p.catch(() => null));
-    };
-    const ric = win.requestIdleCallback;
-    if (typeof ric === 'function') {
-      ric(prefetch, { timeout: 3000 });
-    } else {
-      const id = window.setTimeout(prefetch, 1500);
-      return () => window.clearTimeout(id);
-    }
-  }, []);
-
-  return (
-    <Router>
-      <AppWithRouter />
-    </Router>
-  );
-}
-
-function AppWithRouter() {
-  // La variable location n'est plus utilisée car on utilise window.location directement
-
-  const scrollToHash = (hash: string, behavior: ScrollBehavior = 'smooth') => {
-    if (!hash) return;
-    
-    // Retirer le # du hash si présent
-    const id = hash.startsWith('#') ? hash.substring(1) : hash;
-    if (!id) return;
-    
-    // Trouver l'élément cible
-    const element = document.getElementById(id);
-    if (!element) return;
-    
-    // Calculer le décalage en fonction de la hauteur de la navbar
-    const headerOffset = id === 'contact' ? 160 : 64;
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-    
-    // Effectuer le défilement
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: behavior
-    });
+  // Handle mobile menu toggle
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : '';
   };
 
-  // Gestion du chargement initial avec hash dans l'URL
-  useLayoutEffect(() => {
-    if (window.location.hash) {
-      // Utiliser 'auto' pour le chargement initial pour éviter les sauts
-      scrollToHash(window.location.hash, 'auto');
-    } else {
-      // S'assurer que la page est tout en haut au chargement initial
-      window.scrollTo(0, 0);
-    }
-  }, []);
-
-  // Gestion des changements de hash pendant la navigation
+  // Close mobile menu on route change
   useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash) {
-        scrollToHash(window.location.hash);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      document.body.style.overflow = '';
+    }
+  }, [location.pathname]);
+
+  // Track active section on scroll
+  useEffect(() => {
+    if (isScrolling) return;
+
+    const handleScroll = () => {
+      const sections = ['accueil', 'cv', 'competences', 'projets', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
       }
     };
 
-    window.addEventListener('popstate', handleHashChange);
-    return () => window.removeEventListener('popstate', handleHashChange);
-  }, []);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isScrolling]);
+
+  // Handle anchor clicks
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = id === 'contact' ? 32 : 24;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // Update URL without page reload
+      window.history.pushState({}, '', `#${id}`);
+      
+      // Set focus for accessibility
+      element.setAttribute('tabindex', '-1');
+      element.focus({ preventScroll: true });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <a 
-        href="/#accueil" 
-        onClick={(e) => {
-          e.preventDefault();
-          window.history.pushState({}, '', '/#accueil');
-          scrollToHash('accueil');
-        }}
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 transition-all duration-200"
-      >
-        Aller au contenu principal
-      </a>
-      <Navbar />
-      <ScrollToHash />
-      <ScrollTopOnNavigate />
-      <main id="main-content" role="main" className="flex-grow">
-        <Suspense fallback={<div className="h-screen w-full flex justify-center items-center"><p>Chargement...</p></div>}>
-          <Routes>
-            <Route path="/" element={
-              <>
-                <Section id="accueil">
-                  <Accueil />
-                </Section>
-                <LazyWhenVisible>
-                  <Section id="cv">
-                    <CV />
-                  </Section>
-                </LazyWhenVisible>
-                <LazyWhenVisible>
-                  <Section id="ateliers">
-                    <AteliersPro />
-                  </Section>
-                </LazyWhenVisible>
-                <LazyWhenVisible>
-                  <Section id="stages">
-                    <Stages />
-                  </Section>
-                </LazyWhenVisible>
-                <LazyWhenVisible>
-                  <Section id="competences">
-                    <Competences />
-                  </Section>
-                </LazyWhenVisible>
-                <LazyWhenVisible>
-                  <Section id="productions">
-                    <Productions />
-                  </Section>
-                </LazyWhenVisible>
-                <LazyWhenVisible>
-                  <Section id="veilles">
-                    <Veilles />
-                  </Section>
-                </LazyWhenVisible>
-                <LazyWhenVisible>
-                  <Section id="contact">
-                    <Contact />
-                  </Section>
-                </LazyWhenVisible>
-              </>
-            } />
-            <Route path="/mentions-legales" element={<MentionsLegales />} />
-          </Routes>
-        </Suspense>
-        <UpdateNotification />
+      <Navbar 
+        activeSection={activeSection} 
+        onAnchorClick={handleAnchorClick} 
+        isMobileMenuOpen={isMobileMenuOpen}
+        onMobileMenuToggle={toggleMobileMenu}
+      />
+      
+      <main className="flex-grow">
+        <Section id="accueil">
+          <Accueil />
+        </Section>
+
+        <Section id="cv">
+          <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center">Chargement du CV...</div>}>
+            <LazyWhenVisible>
+              <CV />
+            </LazyWhenVisible>
+          </Suspense>
+        </Section>
+
+        <Section id="competences">
+          <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center">Chargement des compétences...</div>}>
+            <LazyWhenVisible>
+              <Competences />
+            </LazyWhenVisible>
+          </Suspense>
+        </Section>
+
+        <Section id="projets">
+          <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center">Chargement des projets...</div>}>
+            <LazyWhenVisible>
+              <AteliersPro />
+              <Stages />
+              <Productions />
+              <Veilles />
+            </LazyWhenVisible>
+          </Suspense>
+        </Section>
+
+        <Section id="contact">
+          <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center">Chargement du formulaire de contact...</div>}>
+            <LazyWhenVisible>
+              <Contact />
+            </LazyWhenVisible>
+          </Suspense>
+        </Section>
       </main>
-      <OfflineError />
+      
+      <Footer />
     </div>
   );
 }
 
-export default App;
+export default function AppWithRouter() {
+  return (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  );
+}

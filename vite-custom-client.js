@@ -1,18 +1,37 @@
 // Custom Vite client with improved WebSocket handling
 (function () {
   const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  const socketUrl = `${socketProtocol}://${location.hostname}:3000/ws`;
+  const socketUrl = `${socketProtocol}://${location.hostname}:3001/`;
   
   console.log('[Vite] Connecting to WebSocket at', socketUrl);
   
-  const socket = new WebSocket(socketUrl);
+  let socket = null;
   let isFirstConnect = true;
   let reconnectAttempts = 0;
-  const maxReconnectAttempts = 10;
+  const maxReconnectAttempts = 20;
   const baseReconnectDelay = 1000;
+  let reconnectTimeout = null;
   
+  function cleanup() {
+    if (socket) {
+      socket.onopen = null;
+      socket.onclose = null;
+      socket.onerror = null;
+      socket.onmessage = null;
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
+    }
+    if (reconnectTimeout) {
+      clearTimeout(reconnectTimeout);
+      reconnectTimeout = null;
+    }
+  }
+
   function connect() {
-    if (socket.readyState === WebSocket.OPEN) return;
+    cleanup();
+    
+    socket = new WebSocket(socketUrl);
     
     socket.onopen = () => {
       console.log('[Vite] WebSocket connected');

@@ -1,6 +1,15 @@
 // Fichier de déclaration de types pour ignorer les erreurs de Workbox
 // @ts-nocheck
 
+// Déclaration de type pour fetchpriority
+import 'react';
+
+declare module 'react' {
+  interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
+    fetchpriority?: 'high' | 'low' | 'auto';
+  }
+}
+
 // Ignorer les erreurs de type pour les modules Workbox
 declare module 'workbox-*' {
   // Type vide pour ignorer les erreurs

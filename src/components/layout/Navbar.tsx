@@ -1,7 +1,18 @@
 import { useState, useEffect, type ComponentType } from 'react';
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface NavbarProps {
+  activeSection: string;
+  onAnchorClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
+  isMobileMenuOpen: boolean;
+  onMobileMenuToggle: () => void;
+}
+
+const Navbar = ({ 
+  activeSection, 
+  onAnchorClick, 
+  isMobileMenuOpen, 
+  onMobileMenuToggle 
+}: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -53,8 +64,18 @@ const Navbar = () => {
 
   // Suppression du scrollWithOffset : la logique de scroll centralisée est maintenant dans App.tsx
 
-  const handleMenuClick = () => {
-    setIsOpen(false);
+  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    onAnchorClick(e, id);
+    onMobileMenuToggle();
+  };
+  
+  const handleMobileMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    window.location.hash = id;
+    window.dispatchEvent(new Event('hashchange'));
+    onAnchorClick(e, id);
+    onMobileMenuToggle();
   };
 
 
@@ -79,12 +100,7 @@ const Navbar = () => {
                     ? 'text-gray-900 hover:text-blue-600 hover:underline underline-offset-4' 
                     : 'text-white hover:text-blue-300 hover:underline underline-offset-4'
                 }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.hash = 'accueil';
-                  window.dispatchEvent(new Event('hashchange'));
-                  handleMenuClick();
-                }}
+                onClick={(e) => handleMenuClick(e, 'accueil')}
               >
                 Elyes Allani
               </a>
@@ -104,12 +120,7 @@ const Navbar = () => {
                       : 'text-gray-100 hover:text-white hover:bg-gray-800'
                   }`}
                   aria-label={`Aller à la section ${item.title}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.hash = item.hash.substring(1);
-                    window.dispatchEvent(new Event('hashchange'));
-                    handleMenuClick();
-                  }}
+                  onClick={(e) => handleMenuClick(e, item.hash.substring(1))}
                 >
                   {Icon ? <Icon size={18} /> : null}
                   <span>{item.title}</span>
@@ -121,21 +132,21 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
               <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={onMobileMenuToggle}
                 className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors ${
                   isScrolled
                     ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                     : 'text-gray-300 hover:text-white hover:bg-gray-700'
                 }`}
                 aria-controls="mobile-menu"
-                aria-expanded={isOpen}
+                aria-expanded={isMobileMenuOpen}
                 aria-haspopup="true"
-                aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+                aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {icons ? (
-                  isOpen ? (icons.X ? <icons.X size={24} /> : '✕') : (icons.Menu ? <icons.Menu size={24} /> : '≡')
+                  isMobileMenuOpen ? (icons.X ? <icons.X size={24} /> : '✕') : (icons.Menu ? <icons.Menu size={24} /> : '≡')
                 ) : (
-                  isOpen ? '✕' : '≡'
+                  isMobileMenuOpen ? '✕' : '≡'
                 )}
               </button>
             </div>
@@ -145,8 +156,8 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div 
           id="mobile-menu" 
-          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${isOpen ? 'max-h-[85vh] overflow-y-auto' : 'max-h-0 overflow-hidden'}`}
-          aria-hidden={!isOpen}
+          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${isMobileMenuOpen ? 'max-h-[85vh] overflow-y-auto' : 'max-h-0 overflow-hidden'}`}
+          aria-hidden={!isMobileMenuOpen}
         >
           <nav aria-label="Navigation mobile">
             <div className="px-2 pt-2 pb-3 space-y-1">
@@ -156,14 +167,13 @@ const Navbar = () => {
                   <a
                     key={item.title}
                     href={item.hash}
-                    className="flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full text-left"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.location.hash = item.hash.substring(1);
-                      window.dispatchEvent(new Event('hashchange'));
-                      handleMenuClick();
-                    }}
-                    tabIndex={isOpen ? 0 : -1}
+                    className={`flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium transition-colors w-full text-left ${
+                      activeSection === item.hash.substring(1) 
+                        ? 'text-blue-600 bg-blue-50' 
+                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    }`}
+                    onClick={(e) => handleMobileMenuClick(e, item.hash.substring(1))}
+                    tabIndex={isMobileMenuOpen ? 0 : -1}
                   >
                     {Icon ? <Icon size={18} /> : null}
                     <span>{item.title}</span>

@@ -1,4 +1,4 @@
-import { Code, Database, Smartphone } from '../../../icons/lucide';
+import { Code, Database, Smartphone } from 'lucide-react';
 
 export default function FloatingIcons() {
   return (

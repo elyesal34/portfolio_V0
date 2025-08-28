@@ -4,25 +4,46 @@
 @tailwind utilities;
 /* stylelint-enable at-rule-no-unknown */
 
-/* Optimisations critiques pour LCP */
+/* Optimisations critiques pour LCP et accessibilité */
 @layer base {
-  /* Préchargement des polices critiques */
+  /* Style de base pour les éléments HTML */
   html {
-     scroll-behavior: auto;
-     /* Empêche le navigateur d'ancrer automatiquement le scroll et de provoquer un décalage initial */
-     overflow-anchor: none;
+    /* Smooth scrolling for the entire document */
+    scroll-behavior: smooth;
+    /* Prevent automatic anchor scrolling */
+    overflow-anchor: none;
+    /* Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Adjust scroll padding for fixed header */
+    scroll-padding-top: 5rem;
+  }
+  
+  /* Focus styles for keyboard navigation */
+  :focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white rounded;
+  }
+  
+  /* Skip to main content link */
+  .skip-to-content {
+    @apply absolute -top-12 left-4 z-50 bg-white px-4 py-2 text-blue-600 font-medium rounded-b-lg transition-transform duration-200 focus:top-4;
   }
   
   body {
     font-family: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f8fafc;
-    color: #1e293b;
+    @apply bg-gray-50 text-gray-900;
     line-height: 1.6;
-    /* Optimisation critique pour éviter le FOUC */
+    /* Prevent FOUC */
     visibility: visible;
     opacity: 1;
-    /* Empêche l'ancrage automatique qui peut déplacer la vue lors du chargement */
+    /* Prevent automatic anchor scrolling */
     overflow-anchor: none;
+    /* Smooth font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent horizontal scroll */
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   /* Verrouillage temporaire du scroll durant la stabilisation initiale (retiré par scroll-restoration.js) */
@@ -33,7 +54,7 @@
   }
 }
 
-/* Animations optimisées - réduites pour les performances */
+/* Optimized animations for performance */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -42,6 +63,50 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus styles for keyboard navigation only */
+.focus-visible:focus:not(:focus-visible) {
+  @apply outline-none ring-0;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  
+  /* Hide non-essential elements in print */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Ensure links are visible in print */
+  a[href^='http']:after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #6b7280;
+  }
+  
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
   }
 }
 
@@ -663,6 +728,32 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
     padding: 1rem;
     border-radius: 0.5rem;
   }
+}
+
+/* Styles pour les sections et le défilement */
+section {
+  scroll-margin-top: 5rem; /* Espace pour la navbar fixe */
+  scroll-snap-margin-top: 5rem; /* Support pour les anciens navigateurs */
+  position: relative;
+}
+
+/* Amélioration du focus pour les éléments cibles */
+:target {
+  scroll-margin-top: 5rem;
+  scroll-snap-margin-top: 5rem;
+}
+
+/* Style pour les ancres masquées pour l'accessibilité */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Optimisations pour éviter les débordements */

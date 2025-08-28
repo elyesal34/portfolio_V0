@@ -2,29 +2,49 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 
-import { ArrowDown, Download, Mail, ExternalLink } from '../../../icons/lucide';
+import { ArrowDown, Download, Mail, ExternalLink } from 'lucide-react';
 import styles from './Accueil.module.css';
+
+// Composants chargés de manière dynamique
 const DecorativeBackground = lazy(() => import('./DecorativeBackground'));
 const FloatingIcons = lazy(() => import('./FloatingIcons'));
 
 const Accueil = () => {
   const [enhance, setEnhance] = useState(false);
+  const [useFetchPriority, setUseFetchPriority] = useState(false);
 
   useEffect(() => {
-    // Defer non-critical decorations until after first paint/idle
-    if ('requestIdleCallback' in window) {
-      const win = window as unknown as {
-        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
-      };
-      const ric = win.requestIdleCallback;
-      if (typeof ric === 'function') {
-        ric(() => setEnhance(true), { timeout: 2000 });
+    // Vérifier si le navigateur supporte fetchPriority de manière sécurisée
+    const checkFetchPrioritySupport = () => {
+      try {
+        return 'fetchPriority' in HTMLImageElement.prototype;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      setUseFetchPriority(checkFetchPrioritySupport());
+    }
+
+    // Différer les éléments non critiques jusqu'après le premier rendu
+    const handleIdle = () => {
+      if ('requestIdleCallback' in window) {
+        const win = window as unknown as {
+          requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+        };
+        const ric = win.requestIdleCallback;
+        if (typeof ric === 'function') {
+          ric(() => setEnhance(true), { timeout: 2000 });
+        } else {
+          setTimeout(() => setEnhance(true), 0);
+        }
       } else {
         setTimeout(() => setEnhance(true), 0);
       }
-    } else {
-      setTimeout(() => setEnhance(true), 0);
-    }
+    };
+
+    handleIdle();
   }, []);
 
   const scrollWithOffset = (el: HTMLElement) => {
@@ -128,7 +148,8 @@ const Accueil = () => {
                 width={800}
                 height={600}
                 loading="eager"
-                fetchPriority="high"
+                // Utilisation conditionnelle de fetchpriority basée sur la détection du navigateur
+                {...(useFetchPriority ? { 'fetchpriority': 'high' } : {})}
               />
               
               {/* Icônes flottantes - lazy après paint */}

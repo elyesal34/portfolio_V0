@@ -1,14 +1,8 @@
-// @ts-nocheck
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  plugins: [
-    react({
-      // Options spécifiques à React si nécessaire
-    })
-  ],
+  plugins: [react()],
   server: {
     host: '0.0.0.0',
     port: 3000,
@@ -16,14 +10,17 @@ export default defineConfig({
     open: true,
     cors: true,
     hmr: {
+      protocol: 'ws',
       host: 'localhost',
       port: 3000,
-      protocol: 'ws',
-      overlay: true
+      clientPort: 3000,
+      path: '/ws',
+      overlay: false
     },
     watch: {
-      usePolling: true,
-      interval: 100
+      usePolling: false,
+      useFsEvents: true,
+      followSymlinks: true
     }
   },
   build: {
@@ -45,7 +42,6 @@ export default defineConfig({
     include: ['react', 'react-dom', 'react-router-dom'],
     exclude: ['workbox-*', 'lucide-react']
   },
-  // Désactiver les vérifications de type pour les modules Workbox
   esbuild: {
     tsconfigRaw: {
       compilerOptions: {
