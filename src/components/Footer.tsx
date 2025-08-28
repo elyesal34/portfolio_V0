@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 const Footer = memo(() => {
   const currentYear = new Date().getFullYear();
@@ -14,29 +14,24 @@ const Footer = memo(() => {
             </p>
           </div>
           <div className="flex space-x-6">
-            <Link 
-              to="/mentions-legales" 
+            <a 
+              href="/mentions-legales" 
               className="text-sm text-gray-400 hover:text-white transition-colors"
             >
               Mentions légales
-            </Link>
-            <Link 
-              to="/politique-de-confidentialite" 
+            </a>
+            <a 
+              href="/politique-de-confidentialite" 
               className="text-sm text-gray-400 hover:text-white transition-colors"
             >
               Politique de confidentialité
-            </Link>
-            <a 
-              href="#contact" 
+            </a>
+            <HashLink 
+              to="/#contact" 
               className="text-sm text-gray-400 hover:text-white transition-colors"
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.hash = 'contact';
-                window.dispatchEvent(new Event('hashchange'));
-              }}
             >
               Contact
-            </a>
+            </HashLink>
           </div>
         </div>
       </div>

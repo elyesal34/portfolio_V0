@@ -77,8 +77,10 @@ const commonConfig = {
     'node_modules', 
     '**/*.d.ts', 
     '**/*.config.js',
+    '**/*.config.ts',
     'public',
-    'netlify'
+    'netlify',
+    'dev-dist'
   ],
 };
 

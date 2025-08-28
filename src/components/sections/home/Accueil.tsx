@@ -142,7 +142,7 @@ const Accueil = () => {
           <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
             <div className="relative min-h-20 aspect-[4/3]">
               <img
-                src="/images/example.jpg"
+                src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
                 alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
                 className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
                 width={800}

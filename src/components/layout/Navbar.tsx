@@ -1,8 +1,11 @@
 import { useState, useEffect, type ComponentType } from 'react';
+import { HashLink } from 'react-router-hash-link';
+
+import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from '../../icons/lucide';
 
 interface NavbarProps {
   activeSection: string;
-  onAnchorClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
+  onAnchorClick?: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
   isMobileMenuOpen: boolean;
   onMobileMenuToggle: () => void;
 }
@@ -27,31 +30,7 @@ const Navbar = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  type IconName = 'Menu' | 'X' | 'Code2' | 'BookOpen' | 'Briefcase' | 'GraduationCap' | 'Mail' | 'Home' | 'FileText' | 'Brain' | 'ChevronUp';
-  type IconsModule = Partial<Record<IconName, ComponentType<{ size?: number; color?: string; className?: string }>>>;
-  const [icons, setIcons] = useState<IconsModule | null>(null);
-
-  useEffect(() => {
-    // Charger uniquement les icônes nécessaires via un wrapper minimal
-    const load = () => import('../../icons/lucideNavbar')
-      .then((m) => setIcons(m as unknown as IconsModule))
-      .catch(() => {});
-    if ('requestIdleCallback' in window) {
-      const win = window as unknown as {
-        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
-      };
-      const ric = win.requestIdleCallback;
-      if (typeof ric === 'function') {
-        ric(load, { timeout: 2000 });
-      } else {
-        setTimeout(load, 0);
-      }
-    } else {
-      setTimeout(load, 0);
-    }
-  }, []);
-
-  const menuItems: { title: string; icon: IconName; hash: string }[] = [
+  const menuItems = [
     { title: 'Accueil', icon: 'Home', hash: '#accueil' },
     { title: 'CV', icon: 'FileText', hash: '#cv' },
     { title: 'Ateliers Pro', icon: 'Code2', hash: '#ateliers' },
@@ -62,22 +41,48 @@ const Navbar = ({
     { title: 'Contact', icon: 'Mail', hash: '#contact' },
   ];
 
-  // Suppression du scrollWithOffset : la logique de scroll centralisée est maintenant dans App.tsx
+  const scrollWithOffset = (el: HTMLElement) => {
+    const yOffset = el.id === 'contact' ? -160 : -80;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
 
   const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    onAnchorClick(e, id);
-    onMobileMenuToggle();
+    const element = document.getElementById(id);
+    if (element) {
+      scrollWithOffset(element);
+    }
+    if (onAnchorClick) {
+      onAnchorClick(e, id);
+    }
   };
   
   const handleMobileMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    window.location.hash = id;
-    window.dispatchEvent(new Event('hashchange'));
-    onAnchorClick(e, id);
+    const element = document.getElementById(id);
+    if (element) {
+      scrollWithOffset(element);
+    }
+    if (onAnchorClick) {
+      onAnchorClick(e, id);
+    }
     onMobileMenuToggle();
   };
 
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'Home': return <Home size={18} />;
+      case 'FileText': return <FileText size={18} />;
+      case 'Code2': return <Code2 size={18} />;
+      case 'Briefcase': return <Briefcase size={18} />;
+      case 'Brain': return <Brain size={18} />;
+      case 'GraduationCap': return <GraduationCap size={18} />;
+      case 'BookOpen': return <BookOpen size={18} />;
+      case 'Mail': return <Mail size={18} />;
+      default: return null;
+    }
+  };
 
   return (
     <>
@@ -93,38 +98,38 @@ const Navbar = ({
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <a
+              <HashLink
                 href="/#accueil"
+                to="/#accueil"
+                scroll={scrollWithOffset}
                 className={`text-xl font-bold transition-colors ${
                   isScrolled 
                     ? 'text-gray-900 hover:text-blue-600 hover:underline underline-offset-4' 
                     : 'text-white hover:text-blue-300 hover:underline underline-offset-4'
                 }`}
-                onClick={(e) => handleMenuClick(e, 'accueil')}
               >
                 Elyes Allani
-              </a>
+              </HashLink>
             </div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
               {menuItems.map((item) => {
-                const Icon = icons?.[item.icon];
                 return (
-                <a
+                <HashLink
                   key={item.title}
-                  href={item.hash}
+                  to={item.hash}
+                  scroll={scrollWithOffset}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isScrolled 
                       ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
                       : 'text-gray-100 hover:text-white hover:bg-gray-800'
                   }`}
                   aria-label={`Aller à la section ${item.title}`}
-                  onClick={(e) => handleMenuClick(e, item.hash.substring(1))}
                 >
-                  {Icon ? <Icon size={18} /> : null}
+                  {getIcon(item.icon)}
                   <span>{item.title}</span>
-                </a>
+                </HashLink>
                 );
               })}
             </div>
@@ -143,11 +148,7 @@ const Navbar = ({
                 aria-haspopup="true"
                 aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
-                {icons ? (
-                  isMobileMenuOpen ? (icons.X ? <icons.X size={24} /> : '✕') : (icons.Menu ? <icons.Menu size={24} /> : '≡')
-                ) : (
-                  isMobileMenuOpen ? '✕' : '≡'
-                )}
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
@@ -162,22 +163,22 @@ const Navbar = ({
           <nav aria-label="Navigation mobile">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {menuItems.map((item) => {
-                const Icon = icons?.[item.icon];
                 return (
-                  <a
+                  <HashLink
                     key={item.title}
-                    href={item.hash}
+                    to={item.hash}
+                    scroll={scrollWithOffset}
                     className={`flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium transition-colors w-full text-left ${
                       activeSection === item.hash.substring(1) 
                         ? 'text-blue-600 bg-blue-50' 
                         : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                     }`}
-                    onClick={(e) => handleMobileMenuClick(e, item.hash.substring(1))}
+                    onClick={() => onMobileMenuToggle()}
                     tabIndex={isMobileMenuOpen ? 0 : -1}
                   >
-                    {Icon ? <Icon size={18} /> : null}
+                    {getIcon(item.icon)}
                     <span>{item.title}</span>
-                  </a>
+                  </HashLink>
                 );
               })}
             </div>
@@ -187,18 +188,14 @@ const Navbar = ({
 
       {/* Back to Top Button */}
       {showBackToTop && (
-        <a
-          href="/#accueil"
+        <HashLink
+          to="/#accueil"
+          scroll={scrollWithOffset}
           className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
           aria-label="Retour en haut de la page"
-          onClick={(e) => {
-            e.preventDefault();
-            window.location.hash = 'accueil';
-            window.dispatchEvent(new Event('hashchange'));
-          }}
         >
-          {icons?.ChevronUp ? <icons.ChevronUp size={24} /> : <span aria-hidden>↑</span>}
-        </a>
+          <ChevronUp size={24} />
+        </HashLink>
       )}
     </>
   );
