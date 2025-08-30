@@ -17,7 +17,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": ["@testing-library/jest-dom"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]
