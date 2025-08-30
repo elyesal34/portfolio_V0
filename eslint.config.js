@@ -80,7 +80,29 @@ const commonConfig = {
     '**/*.config.ts',
     'public',
     'netlify',
-    'dev-dist'
+    'dev-dist',
+    // Ignore test and utility files with console statements
+    'test-*.js',
+    'test-*.ts',
+    '**/test-*/**',
+    '**/test/**',
+    '**/tests/**',
+    '**/__tests__/**',
+    '**/*.test.js',
+    '**/*.test.ts',
+    '**/*.test.jsx',
+    '**/*.test.tsx',
+    '**/*.spec.js',
+    '**/*.spec.ts',
+    '**/scripts/**',
+    '**/test-utils/**',
+    'runtime-init.js',
+    'vite-custom-client.js',
+    'test-server.js',
+    'test-node.js',
+    'test-navigation.js',
+    'test-output.txt',
+    'vite-output.txt'
   ],
 };
 

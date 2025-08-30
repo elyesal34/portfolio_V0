@@ -15,7 +15,7 @@ export async function forceUpdate(): Promise<void> {
 
     try {
       await registration.update();
-      console.log('Mise à jour du Service Worker demandée');
+      console.warn('Mise à jour du Service Worker demandée');
       
       if (registration.waiting) {
         // Demander à l'utilisateur de recharger pour appliquer les mises à jour
@@ -39,7 +39,7 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
   }
 
   if (process.env.NODE_ENV !== 'production' || isStackBlitz()) {
-    console.log('Service Worker non enregistré en mode développement ou sur StackBlitz');
+    console.warn('Service Worker non enregistré en mode développement ou sur StackBlitz');
     return;
   }
 
@@ -52,7 +52,7 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
       try {
         await registration.update();
       } catch (err) {
-        console.log('Error updating service worker:', err);
+        console.warn('Error updating service worker:', err);
       }
     }, 5 * 60 * 1000); // 5 minutes
     
@@ -78,11 +78,11 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
           }
         }
       } catch (error) {
-        console.error('Error checking for waiting service worker:', error);
+        console.warn('Error checking for waiting service worker:', error);
       }
     });
     
-    console.log('Service Worker prêt avec Vite PWA');
+    console.warn('Service Worker prêt avec Vite PWA');
     return registration;
   } catch (error) {
     console.error('Error during service worker registration:', error);
@@ -95,7 +95,7 @@ if (process.env.NODE_ENV === 'production' && !isStackBlitz() && 'serviceWorker' 
   setInterval(() => {
     navigator.serviceWorker.getRegistration()
       .then(registration => registration?.update())
-      .catch(err => console.error('Erreur lors de la vérification des mises à jour:', err));
+      .catch(err => console.warn('Erreur lors de la vérification des mises à jour:', err));
   }, 60 * 60 * 1000); // 1 heure
   
   // Also check immediately on load
