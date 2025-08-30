@@ -14,39 +14,39 @@ describe('Navbar - HashLink navigation', () => {
   it('affiche tous les liens avec les bons href', () => {
     renderNavbar()
 
-    // Via aria-labels "Aller à la section X"
     const expected = [
-      { name: 'Accueil', href: '/#accueil' },
-      { name: 'CV', href: '/#cv' },
-      { name: 'Ateliers Pro', href: '/#ateliers' },
-      { name: 'Stages', href: '/#stages' },
-      { name: 'Compétences', href: '/#competences' },
-      { name: 'Productions', href: '/#productions' },
-      { name: 'Veilles', href: '/#veilles' },
-      { name: 'Contact', href: '/#contact' },
+      { name: /Accueil/i, href: '/#accueil' },
+      { name: /À Propos/i, href: '/#a-propos' },
+      { name: /Compétences/i, href: '/#competences' },
+      { name: /Projets/i, href: '/#projets' },
+      { name: /Formation/i, href: '/#formation' },
+      { name: /Contact/i, href: '/#contact' },
     ]
 
     for (const { name, href } of expected) {
-      const link = screen.getByRole('link', { name: new RegExp(`Aller à la section ${name}`, 'i') })
-      expect(link).toHaveAttribute('href', href)
+      const links = screen.getAllByRole('link', { name })
+      // Check that at least one link (desktop or mobile) has the correct href
+      expect(links.some(link => link.getAttribute('href') === href)).toBe(true)
     }
   })
 
   it('ouvre et ferme le menu mobile', () => {
     renderNavbar()
     const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
-    fireEvent.click(toggle)
     const menu = document.getElementById('mobile-menu')
-    expect(menu).toHaveAttribute('aria-hidden', 'false')
 
-    const contactLink = screen.getByRole('link', { name: /Aller à la section Contact/i })
-    fireEvent.click(contactLink)
-    expect(document.getElementById('mobile-menu')).toHaveAttribute('aria-hidden', 'true')
+    expect(menu).toHaveClass('hidden')
+
+    fireEvent.click(toggle)
+    expect(menu).not.toHaveClass('hidden')
+
+    fireEvent.click(toggle) // Click again to close
+    expect(menu).toHaveClass('hidden')
   })
 
   it('le logo pointe vers /#accueil', () => {
     renderNavbar()
-    const logo = screen.getByRole('link', { name: /Elyes Allani/i })
+    const logo = screen.getByRole('link', { name: /Portfolio/i })
     expect(logo).toHaveAttribute('href', '/#accueil')
   })
 

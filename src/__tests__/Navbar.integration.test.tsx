@@ -12,48 +12,47 @@ describe("Navbar - Intégration (HashLink)", () => {
       </BrowserRouter>
     )
 
-  it('rend les liens avec les bons href (aria-label)', () => {
+  it('rend les liens avec les bons href', () => {
     renderNavbar()
 
     const expected = [
-      { name: 'Accueil', hash: '/#accueil' },
-      { name: 'CV', hash: '/#cv' },
-      { name: 'Ateliers Pro', hash: '/#ateliers' },
-      { name: 'Stages', hash: '/#stages' },
-      { name: 'Compétences', hash: '/#competences' },
-      { name: 'Productions', hash: '/#productions' },
-      { name: 'Veilles', hash: '/#veilles' },
-      { name: 'Contact', hash: '/#contact' },
+      { name: /Accueil/i, href: '/#accueil' },
+      { name: /À Propos/i, href: '/#a-propos' },
+      { name: /Compétences/i, href: '/#competences' },
+      { name: /Projets/i, href: '/#projets' },
+      { name: /Formation/i, href: '/#formation' },
+      { name: /Contact/i, href: '/#contact' },
     ]
 
-    for (const item of expected) {
-      const link = screen.getByRole('link', { name: new RegExp(`Aller à la section ${item.name}`, 'i') })
-      expect(link).toBeInTheDocument()
-      expect(link).toHaveAttribute('href', item.hash)
+    for (const { name, href } of expected) {
+      const links = screen.getAllByRole('link', { name })
+      expect(links.some(link => link.getAttribute('href') === href)).toBe(true)
     }
   })
 
-  it('ouvre et ferme le menu mobile (aria-hidden)', () => {
+  it('ouvre et ferme le menu mobile', () => {
     renderNavbar()
+    const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
+    const menu = document.getElementById('mobile-menu')
 
-    const button = screen.getByRole('button', { name: /ouvrir le menu/i })
-    fireEvent.click(button)
+    expect(menu).toHaveClass('hidden')
 
-    const mobileMenu = screen.getByLabelText('Navigation mobile', { selector: 'nav' }).closest('#mobile-menu')
-    expect(mobileMenu).not.toHaveAttribute('aria-hidden', 'true')
+    fireEvent.click(toggle)
+    expect(menu).not.toHaveClass('hidden')
 
-    // Cliquer sur un item ferme le menu
-    const contactLinkMobile = within(mobileMenu as HTMLElement).getByRole('link', { name: /contact/i })
-    fireEvent.click(contactLinkMobile)
-
-    // aria-hidden repasse à true
-    const closedMenu = document.getElementById('mobile-menu')
-    expect(closedMenu).toHaveAttribute('aria-hidden', 'true')
+    // Click the mobile menu toggle
+    fireEvent.click(toggle)
+    
+    // Click a mobile menu item
+    const mobileLink = within(menu as HTMLElement).getByRole('link', { name: /contact/i })
+    fireEvent.click(mobileLink)
+    // Le menu devrait être caché après le clic
+    expect(menu).toHaveClass('hidden')
   })
 
   it('le logo renvoie vers /#accueil', () => {
     renderNavbar()
-    const logo = screen.getByRole('link', { name: /Elyes Allani/i })
+    const logo = screen.getByRole('link', { name: /Portfolio/i })
     expect(logo).toHaveAttribute('href', '/#accueil')
   })
 

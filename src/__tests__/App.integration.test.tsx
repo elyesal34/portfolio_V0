@@ -9,30 +9,31 @@ describe('App - Intégration (HashLink)', () => {
   it('la navbar expose des liens HashLink corrects', () => {
     renderApp()
     const expected = [
-      { name: 'Accueil', href: '/#accueil' },
-      { name: 'CV', href: '/#cv' },
-      { name: 'Ateliers Pro', href: '/#ateliers' },
-      { name: 'Stages', href: '/#stages' },
-      { name: 'Compétences', href: '/#competences' },
-      { name: 'Productions', href: '/#productions' },
-      { name: 'Veilles', href: '/#veilles' },
-      { name: 'Contact', href: '/#contact' },
+      { name: /Accueil/i, href: '/#accueil' },
+      { name: /À Propos/i, href: '/#a-propos' },
+      { name: /Compétences/i, href: '/#competences' },
+      { name: /Projets/i, href: '/#projets' },
+      { name: /Formation/i, href: '/#formation' },
+      { name: /Contact/i, href: '/#contact' },
     ]
     for (const { name, href } of expected) {
-      const link = screen.getByRole('link', { name: new RegExp(`Aller à la section ${name}`, 'i') })
-      expect(link).toHaveAttribute('href', href)
+      const links = screen.getAllByRole('link', { name })
+      expect(links.some(link => link.getAttribute('href') === href)).toBe(true)
     }
   })
 
-  it('menu mobile: aria-hidden passe de false à true après clic sur un lien', () => {
+  it('menu mobile: la classe hidden est basculée après clic sur un lien', () => {
     renderApp()
     const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
-    fireEvent.click(toggle)
     const menu = document.getElementById('mobile-menu')
-    expect(menu).toHaveAttribute('aria-hidden', 'false')
+
+    expect(menu).toHaveClass('hidden')
+
+    fireEvent.click(toggle)
+    expect(menu).not.toHaveClass('hidden')
 
     const contactMobile = within(menu as HTMLElement).getByRole('link', { name: /contact/i })
     fireEvent.click(contactMobile)
-    expect(document.getElementById('mobile-menu')).toHaveAttribute('aria-hidden', 'true')
+    expect(menu).toHaveClass('hidden')
   })
 })

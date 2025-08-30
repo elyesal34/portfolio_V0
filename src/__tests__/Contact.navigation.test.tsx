@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, within } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { describe, it, expect } from 'vitest'
 
@@ -13,21 +13,36 @@ describe('Navigation vers Contact - HashLink', () => {
 
   it("le lien Contact existe et pointe vers /#contact", () => {
     renderNavbar()
-    const link = screen.getByRole('link', { name: /Aller à la section Contact/i })
-    expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/#contact')
+    const links = screen.getAllByRole('link', { name: /Contact/i })
+    expect(links.length).toBeGreaterThan(0)
+    expect(links.some(link => link.getAttribute('href') === '/#contact')).toBe(true)
   })
 
-  it('ouvrir puis fermer le menu mobile après clic sur Contact', () => {
+  it('ouvrir puis fermer le menu mobile après clic sur Contact', async () => {
     renderNavbar()
     const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
-    fireEvent.click(toggle)
-    const menu = document.getElementById('mobile-menu')
-    expect(menu).toHaveAttribute('aria-hidden', 'false')
+    let menu = document.getElementById('mobile-menu')
 
-    const link = screen.getByRole('link', { name: /Aller à la section Contact/i })
+    // Vérifier que le menu est initialement caché
+    expect(menu).toHaveClass('hidden')
+
+    // Ouvrir le menu
+    fireEvent.click(toggle)
+    menu = screen.getByRole('navigation').querySelector('#mobile-menu')
+    expect(menu).toHaveClass('block')
+    expect(menu).toHaveClass('md:hidden')
+
+    // Cliquer sur le lien Contact
+    const link = within(menu as HTMLElement).getByRole('link', { name: /Contact/i })
     fireEvent.click(link)
-    expect(document.getElementById('mobile-menu')).toHaveAttribute('aria-hidden', 'true')
+    
+    // Attendre que l'état soit mis à jour
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Vérifier que le menu est maintenant caché
+    const updatedMenu = document.getElementById('mobile-menu')
+    expect(updatedMenu).toHaveClass('hidden')
+    expect(updatedMenu).toHaveClass('md:hidden')
   })
 
   it('la nav principale a un aria-label explicite', () => {

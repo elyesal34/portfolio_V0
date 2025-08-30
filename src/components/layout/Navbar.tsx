@@ -151,6 +151,7 @@ const Navbar: React.FC = () => {
               aria-controls="mobile-menu"
               aria-expanded="false"
               onClick={toggleMobileMenu}
+              data-testid="mobile-menu-button"
             >
               <span className="sr-only">Ouvrir le menu principal</span>
               {isMobileMenuOpen ? (
@@ -207,7 +208,11 @@ const Navbar: React.FC = () => {
                   ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                   : 'border-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
               } block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
-              onClick={(e) => handleSmoothScroll(e, item.hash)}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSmoothScroll(e, item.hash);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <span className="mr-2" aria-hidden="true">{item.icon}</span>
               {item.title}

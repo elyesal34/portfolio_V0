@@ -20,7 +20,7 @@ describe('Navbar - Test basique', () => {
 
   it('contient tous les éléments de navigation', () => {
     renderNavbar()
-    const expectedItems = ['Accueil', 'CV', 'Ateliers Pro', 'Stages', 'Veilles', 'Compétences', 'Productions', 'Contact']
+    const expectedItems = ['Accueil', 'À Propos', 'Compétences', 'Projets', 'Formation', 'Contact']
     expectedItems.forEach(item => {
       const matches = screen.getAllByText(item)
       expect(matches.length).toBeGreaterThan(0)
