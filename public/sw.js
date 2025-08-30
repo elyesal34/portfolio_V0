@@ -1,7 +1,8 @@
 // Configuration du Service Worker
-const CACHE_NAME = 'portfolio-elyes-v5';
-const STATIC_CACHE = 'static-v5';
-const DYNAMIC_CACHE = 'dynamic-v5';
+const CACHE_VERSION = 'v7';
+const CACHE_NAME = `portfolio-elyes-${CACHE_VERSION}`;
+const STATIC_CACHE = `static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 
 // Ressources à mettre en cache immédiatement
 const STATIC_ASSETS = [
@@ -18,6 +19,9 @@ const STATIC_ASSETS = [
   '/favicons/favicon-32x32.png',
   '/favicons/favicon.ico',
   '/favicons/site.webmanifest',
+  // Images
+  '/images/background.jpg',
+  '/images/example.jpg',
   // Polices
   '/fonts/inter-v19-latin-700.woff2',
   '/fonts/inter-v19-latin-700italic.woff2',
@@ -46,16 +50,17 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   console.log('[Service Worker] Activation en cours...');
   
+  // Supprimer les anciens caches et prendre le contrôle
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
-          .filter((cacheName) => 
+          .filter(cacheName => 
             cacheName !== STATIC_CACHE && 
             cacheName !== DYNAMIC_CACHE &&
             cacheName !== CACHE_NAME
           )
-          .map((cacheName) => {
+          .map(cacheName => {
             console.log(`[Service Worker] Suppression de l'ancien cache : ${cacheName}`);
             return caches.delete(cacheName);
           })
@@ -69,6 +74,9 @@ self.addEventListener('activate', (event) => {
       console.log('[Service Worker] Prêt à gérer les requêtes');
     })
   );
+  
+  // Prendre le contrôle immédiatement
+  return self.clients.claim();
 });
 
 // Gestion des requêtes réseau
@@ -107,45 +115,42 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Stratégie pour les images (Cache First)
+// Stratégie pour les images (Cache First pour les internes, Network First pour les externes)
 async function handleImageRequest(request, event) {
-  const cache = await caches.open(DYNAMIC_CACHE);
-  const cachedResponse = await cache.match(request);
-  
-  // Si la réponse est en cache, la retourner immédiatement
-  if (cachedResponse) {
-    // Mettre à jour le cache en arrière-plan si event est disponible
-    if (event) {
-      event.waitUntil(
-        fetchAndCache(request, cache)
-          .catch(error => console.error('Erreur de mise à jour du cache :', error))
-      );
-    } else {
-      // Mise à jour du cache sans wait si pas d'event (pour rétrocompatibilité)
-      fetchAndCache(request, cache)
-        .catch(error => console.error('Erreur de mise à jour du cache :', error));
-    }
-    return cachedResponse;
-  }
-
-  // Si pas dans le cache, essayer le réseau
   try {
-    const networkResponse = await fetch(request);
-    
-    // Mettre en cache si la réponse est valide
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
+    // Vérifier si c'est une requête pour une image
+    if (request.url.match(/\.(jpe?g|png|gif|webp|svg)(\?.*)?$/i)) {
+      // Pour l'image de fond externe, on ne la met pas en cache
+      if (request.url.includes('unsplash.com')) {
+        try {
+          const networkResponse = await fetch(request);
+          return networkResponse; // Ne pas mettre en cache
+        } catch (error) {
+          console.error('[Service Worker] Erreur lors du chargement de l\'image externe:', error);
+          return new Response(null, { status: 404, statusText: 'Not Found' });
+        }
+      }
+      
+      // Pour les autres images, on utilise Cache First
+      const cachedResponse = await caches.match(request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      
+      // Si pas dans le cache, on récupère depuis le réseau
+      const networkResponse = await fetch(request);
+      if (networkResponse && networkResponse.status === 200) {
+        const cache = await caches.open(DYNAMIC_CACHE);
+        await cache.put(request, networkResponse.clone());
+      }
+      return networkResponse;
     }
     
-    return networkResponse;
+    // Si ce n'est pas une image, on laisse passer
+    return fetch(request);
   } catch (error) {
-    // En cas d'erreur, retourner une image de secours
-    return caches.match('/images/offline-image.jpg')
-      .then(response => response || new Response('Image non disponible hors ligne', { 
-        status: 404,
-        statusText: 'Not Found',
-        headers: { 'Content-Type': 'text/plain' }
-      }));
+    console.error('[Service Worker] Erreur lors de la gestion de la requête image:', error);
+    return caches.match('/offline.html');
   }
 }
 

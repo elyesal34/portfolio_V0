@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import * as React from 'react';
 import { Code, Github, ExternalLink } from '../../icons/lucide';
 import ImageWithSuspense from '../ui/ImageWithSuspense';
 
@@ -43,6 +43,14 @@ const ProjectCard = ({
     }
   };
 
+  // Ensure icon is a valid React element
+  const renderIcon = () => {
+    if (!icon || !React.isValidElement(icon)) {
+      return <Code className="w-6 h-6" />;
+    }
+    return icon;
+  };
+
   return (
     <article 
       className={`group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 focus-within:ring-4 focus-within:ring-blue-300 active:scale-95 ${
@@ -77,7 +85,7 @@ const ProjectCard = ({
       <div className="p-4 sm:p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start space-x-3">
-            <div className="text-blue-500 mt-0.5">{icon}</div>
+            <div className="text-blue-500 mt-0.5">{renderIcon()}</div>
             <div>
               <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
                 {titre}

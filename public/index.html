@@ -1,7 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio professionnel">
+  <title>Portfolio</title>
+  
+  <!-- Préchargement uniquement de la police principale utilisée au chargement -->
   <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/inter-v19-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/inter-v19-latin-700.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/inter-v19-latin-700italic.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Les autres polices sont chargées de manière asynchrone -->
+  
   <style>
     html, body {
       min-height: 100vh;
@@ -42,3 +50,9 @@
     .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
     .z-10 { z-index: 10; position: relative; }
   </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

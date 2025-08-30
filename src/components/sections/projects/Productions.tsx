@@ -1,10 +1,16 @@
 import { useState } from 'react';
 
-import { Globe, Database, Smartphone, Code, Target, CheckCircle, Layers, Zap, ArrowRight, Star, Filter } from '../../../icons/lucide';
+import { Globe, Database, Smartphone, Code, Filter, ExternalLink } from '../../../icons/lucide';
 import ProjectCard from '../../ProjectCard/ProjectCard';
 
-const Productions = () => {
-  const [activeFilter, setActiveFilter] = useState('Tous');
+const Productions: React.FC = () => {
+  // Gestion des erreurs
+  if (typeof window === 'undefined') {
+    return null; // Ne rien rendre côté serveur
+  }
+    // État pour la gestion des filtres et de la sélection
+  type ProjectType = 'Application Web' | 'Application Mobile' | 'Backend API' | 'Tous';
+  const [activeFilter, setActiveFilter] = useState<ProjectType>('Tous');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   // GA is initialized lazily globally from main.tsx
@@ -502,169 +508,7 @@ const Productions = () => {
     ? projets 
     : projets.filter(projet => projet.type === activeFilter);
 
-
-
-const ProjectModal = ({ project, onClose }: { project: typeof projets[0], onClose: () => void }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-      {/* ... (rest of the code remains the same) */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-900">{project.titre}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
-            aria-label="Fermer l'article"
-          >
-            ×
-          </button>
-        </div>
-        
-        <div className="p-6 space-y-12">
-          {/* Contexte */}
-          <section>
-            <div className="flex items-center mb-6">
-              <Target className="w-6 h-6 text-blue-500 mr-3" />
-              <h3 className="text-2xl font-bold text-gray-900">{project.article.contexte.titre}</h3>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div>
-                <p className="text-gray-600 mb-6 leading-relaxed">{project.article.contexte.description}</p>
-                <h4 className="font-semibold text-gray-800 mb-4">Objectifs du projet :</h4>
-                <ul className="space-y-2">
-                  {project.article.contexte.objectifs.map((objectif, index) => (
-                    <li key={index} className="flex items-start space-x-2">
-                      <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-600">{objectif}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <img
-                  src={project.article.contexte.image}
-                  alt="Contexte du projet"
-                  className="w-full h-64 object-cover rounded-lg shadow-lg"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Technologies */}
-          <section>
-            <div className="flex items-center mb-6">
-              <Layers className="w-6 h-6 text-purple-500 mr-3" />
-              <h3 className="text-2xl font-bold text-gray-900">{project.article.technologies.titre}</h3>
-            </div>
-            <p className="text-gray-600 mb-8">{project.article.technologies.description}</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {project.article.technologies.stack.map((tech, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl p-6">
-                  <img
-                    src={tech.image}
-                    alt={tech.nom}
-                    className="w-full h-32 object-cover rounded-lg mb-4"
-                    loading="lazy"
-                  />
-                  <h4 className="font-bold text-gray-900 mb-2">{tech.nom}</h4>
-                  <p className="text-gray-600 text-sm mb-3">{tech.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {tech.techs.map((t, tIndex) => (
-                      <span key={tIndex} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Fonctionnalités */}
-          <section>
-            <div className="flex items-center mb-6">
-              <Zap className="w-6 h-6 text-yellow-500 mr-3" />
-              <h3 className="text-2xl font-bold text-gray-900">{project.article.fonctionnalites.titre}</h3>
-            </div>
-            <p className="text-gray-600 mb-8">{project.article.fonctionnalites.description}</p>
-            <div className="space-y-8">
-              {project.article.fonctionnalites.features.map((feature, index) => (
-                <div key={index} className="border border-gray-200 rounded-xl p-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="text-xl font-bold text-gray-900 mb-3">{feature.nom}</h4>
-                      <p className="text-gray-600 mb-4">{feature.description}</p>
-                      <h5 className="font-semibold text-gray-800 mb-3">Tâches réalisées :</h5>
-                      <ul className="space-y-2">
-                        {feature.taches.map((tache, tIndex) => (
-                          <li key={tIndex} className="flex items-start space-x-2">
-                            <ArrowRight className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
-                            <span className="text-gray-600 text-sm">{tache}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <img
-                        src={feature.image}
-                        alt={feature.nom}
-                        className="w-full h-48 object-cover rounded-lg shadow-md"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Résultats */}
-          <section>
-            <div className="flex items-center mb-6">
-              <Star className="w-6 h-6 text-green-500 mr-3" />
-              <h3 className="text-2xl font-bold text-gray-900">{project.article.resultats.titre}</h3>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div>
-                <p className="text-gray-600 mb-6">{project.article.resultats.description}</p>
-                <div className="mb-6">
-                  <h4 className="font-semibold text-gray-800 mb-3">Résultats obtenus :</h4>
-                  <ul className="space-y-2">
-                    {project.article.resultats.achievements.map((achievement, index) => (
-                      <li key={index} className="flex items-start space-x-2">
-                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-3">Compétences acquises :</h4>
-                  <ul className="space-y-2">
-                    {project.article.resultats.apprentissages.map((apprentissage, index) => (
-                      <li key={index} className="flex items-start space-x-2">
-                        <ArrowRight className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
-                        <span className="text-gray-600">{apprentissage}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div>
-                <img
-                  src={project.article.resultats.image}
-                  alt="Résultats du projet"
-                  className="w-full h-64 object-cover rounded-lg shadow-lg"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </div>
-  );
-
+  // Rendu du composant
   return (
     <section id="productions" className="min-h-screen pt-16 scroll-mt-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -689,7 +533,7 @@ const ProjectModal = ({ project, onClose }: { project: typeof projets[0], onClos
             {filters.map((filter) => (
               <button
                 key={filter}
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => setActiveFilter(filter as ProjectType)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   activeFilter === filter
                     ? 'bg-blue-600 text-white shadow-lg transform scale-105'
@@ -703,61 +547,116 @@ const ProjectModal = ({ project, onClose }: { project: typeof projets[0], onClos
           </div>
         </div>
 
-        {/* Projets */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-16 px-2 sm:px-0">
-          {filteredProjets.map((projet: typeof projets[0], index: number) => (
-            <div key={index} className={projet.featured ? 'lg:col-span-2' : ''}>
+        {/* Liste des projets */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjets.map((projet, index) => (
+            <div key={index} onClick={() => setSelectedProject(index)}>
               <ProjectCard
-                image={projet.image}
                 titre={projet.titre}
                 description={projet.description}
                 technologies={projet.technologies}
+                github={projet.github}
+                demo={projet.demo}
+                image={projet.image}
                 duree={projet.duree}
                 contexte={projet.contexte}
                 statut={projet.statut}
-                github={projet.github}
-                demo={projet.demo}
-                featured={projet.featured}
-                date={projet.date}
-                icon={projet.icon}
+                date={projet.date || new Date().getFullYear().toString()}
               />
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Modal d'article */}
-        {selectedProject !== null && (
-          <ProjectModal 
-            project={projets[selectedProject]} 
-            onClose={() => setSelectedProject(null)} 
-          />
-        )}
+      {/* Modal du projet sélectionné */}
+      {selectedProject !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {filteredProjets[selectedProject].titre}
+              </h2>
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <span className="sr-only">Fermer</span>
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
 
-        {/* Statistiques */}
-        {/*
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
-          <h3 className="text-2xl font-bold mb-6 text-center">Statistiques de Production</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">12+</div>
-              <div className="text-blue-100">Projets réalisés</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">8</div>
-              <div className="text-blue-100">Technologies maîtrisées</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">500+</div>
-              <div className="text-blue-100">Commits GitHub</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">15+</div>
-              <div className="text-blue-100">Contributions open source</div>
+            <div className="space-y-6">
+              {/* Project details */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900">Description</h3>
+                <p className="mt-2 text-gray-600">{filteredProjets[selectedProject].description}</p>
+              </div>
+
+              {/* Technologies */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900">Technologies</h3>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {filteredProjets[selectedProject].technologies.map((tech: string, index: number) => (
+                    <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Project Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900">Durée</h3>
+                  <p className="mt-1 text-gray-600">{filteredProjets[selectedProject].duree}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900">Contexte</h3>
+                  <p className="mt-1 text-gray-600">{filteredProjets[selectedProject].contexte}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900">Statut</h3>
+                  <p className="mt-1 text-gray-600">{filteredProjets[selectedProject].statut}</p>
+                </div>
+                {filteredProjets[selectedProject].date && (
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">Date</h3>
+                    <p className="mt-1 text-gray-600">{filteredProjets[selectedProject].date}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Links */}
+              <div className="flex space-x-4 pt-4">
+                {filteredProjets[selectedProject].github && (
+                  <a
+                    href={filteredProjets[selectedProject].github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    <Code className="-ml-1 mr-2 h-5 w-5" />
+                    Code Source
+                  </a>
+                )}
+                {filteredProjets[selectedProject].demo && (
+                  <a
+                    href={filteredProjets[selectedProject].demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    <ExternalLink className="-ml-1 mr-2 h-5 w-5 text-gray-500" />
+                    Voir la démo
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
-        */}
-      </div>
+      )}
     </section>
   );
 };

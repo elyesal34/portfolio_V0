@@ -1,38 +1,78 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
+import type { LucideIcon } from 'lucide-react';
 
-// Importer les icônes avec gestion d'erreur
+// Define a fallback component for missing icons
+const FallbackIcon = ({ className = '' }: { className?: string }) => (
+  <span className={`inline-block w-6 h-6 bg-gray-200 rounded ${className}`} aria-hidden="true" />
+);
+
+// Define a type for valid Lucide icon names
+type LucideIconName = 
+  | 'Globe' | 'Code2' | 'Database' | 'Smartphone' | 'Shield' | 'Users'
+  | 'Mail' | 'Phone' | 'MapPin' | 'Linkedin' | 'Github' | 'Send' | 'User' 
+  | 'MessageSquare' | 'CheckCircle' | 'AlertCircle' | 'Calendar' | 'Clock' | 'Award';
+
+// Type guard to check if a string is a valid Lucide icon name
+const isValidIconName = (name: string): name is LucideIconName => {
+  const validIcons: LucideIconName[] = [
+    'Globe', 'Code2', 'Database', 'Smartphone', 'Shield', 'Users',
+    'Mail', 'Phone', 'MapPin', 'Linkedin', 'Github', 'Send', 'User',
+    'MessageSquare', 'CheckCircle', 'AlertCircle', 'Calendar', 'Clock', 'Award'
+  ];
+  return validIcons.includes(name as LucideIconName);
+};
+
+// Icon component with proper type safety and error handling
 const Icon: React.FC<{ name: string; className?: string }> = ({ name, className = '' }) => {
-  const [IconComponent, setIconComponent] = useState<React.ComponentType<{ className: string }> | null>(null);
-  const [error, setError] = useState(false);
+  const [IconComponent, setIconComponent] = useState<LucideIcon | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const loadIcon = async () => {
+      if (!isValidIconName(name)) {
+        console.warn(`Invalid icon name: ${name}`);
+        if (isMounted) {
+          setIsLoading(false);
+        }
+        return;
+      }
+
       try {
-        // Importer dynamiquement l'icône depuis lucide-react
+        // Dynamically import the icon from lucide-react
         const module = await import('lucide-react');
-        if (module && module[name as keyof typeof module]) {
-          setIconComponent(() => module[name as keyof typeof module] as React.ComponentType<{ className: string }>);
-        } else {
-          console.warn(`Icône non trouvée: ${name}`);
-          setError(true);
+        const icon = module[name] as LucideIcon;
+        
+        if (isMounted && icon) {
+          setIconComponent(() => icon);
+          setIsLoading(false);
         }
       } catch (err) {
-        console.error(`Erreur lors du chargement de l'icône ${name}:`, err);
-        setError(true);
+        console.error(`Error loading icon ${name}:`, err);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     loadIcon();
+
+    return () => {
+      isMounted = false;
+    };
   }, [name]);
 
-  if (error) {
-    return <span className={`inline-block w-6 h-6 bg-gray-200 rounded ${className}`} aria-hidden="true" />;
+  // Show loading state
+  if (isLoading) {
+    return <span className={`inline-block w-6 h-6 bg-gray-100 animate-pulse rounded ${className}`} aria-hidden="true" />;
   }
 
+  // Show the icon if loaded, otherwise show fallback
   return IconComponent ? (
     <IconComponent className={className} />
   ) : (
-    <span className={`inline-block w-6 h-6 bg-gray-100 animate-pulse rounded ${className}`} aria-hidden="true" />
+    <FallbackIcon className={className} />
   );
 };
 
@@ -210,4 +250,4 @@ const AteliersPro: React.FC = () => {
 };
 
 // Memoize the component to prevent unnecessary re-renders
-export default React.memo(AteliersPro);
+export default memo(AteliersPro);

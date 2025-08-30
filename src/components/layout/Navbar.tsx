@@ -1,5 +1,15 @@
-import { useState, useEffect, type ComponentType } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { HashLink } from 'react-router-hash-link';
+import { AriaAttributes, DOMAttributes } from 'react';
+
+// Étendre les propriétés HTML pour inclure l'attribut inert
+declare global {
+  namespace JSX {
+    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+      inert?: '' | 'true' | 'false';
+    }
+  }
+}
 
 import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from '../../icons/lucide';
 
@@ -12,12 +22,34 @@ interface NavbarProps {
 
 const Navbar = ({ 
   activeSection, 
-  onAnchorClick, 
   isMobileMenuOpen, 
   onMobileMenuToggle 
 }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Gérer l'attribut inert et la navigation au clavier
+  useEffect(() => {
+    const menuElement = mobileMenuRef.current;
+    if (!menuElement) return;
+
+    if (!isMobileMenuOpen) {
+      menuElement.setAttribute('inert', 'true');
+    } else {
+      menuElement.removeAttribute('inert');
+      
+      // Gérer la navigation au clavier
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          onMobileMenuToggle();
+        }
+      };
+      
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isMobileMenuOpen, onMobileMenuToggle]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,28 +79,6 @@ const Navbar = ({
     window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
-  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      scrollWithOffset(element);
-    }
-    if (onAnchorClick) {
-      onAnchorClick(e, id);
-    }
-  };
-  
-  const handleMobileMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      scrollWithOffset(element);
-    }
-    if (onAnchorClick) {
-      onAnchorClick(e, id);
-    }
-    onMobileMenuToggle();
-  };
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -99,7 +109,6 @@ const Navbar = ({
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <HashLink
-                href="/#accueil"
                 to="/#accueil"
                 scroll={scrollWithOffset}
                 className={`text-xl font-bold transition-colors ${
@@ -156,9 +165,16 @@ const Navbar = ({
 
         {/* Mobile Menu */}
         <div 
+          ref={mobileMenuRef}
           id="mobile-menu" 
-          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${isMobileMenuOpen ? 'max-h-[85vh] overflow-y-auto' : 'max-h-0 overflow-hidden'}`}
+          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${
+            isMobileMenuOpen 
+              ? 'max-h-[85vh] overflow-y-auto' 
+              : 'max-h-0 overflow-hidden pointer-events-none'
+          }`}
           aria-hidden={!isMobileMenuOpen}
+          aria-live="polite"
+          data-inert={!isMobileMenuOpen ? 'true' : undefined}
         >
           <nav aria-label="Navigation mobile">
             <div className="px-2 pt-2 pb-3 space-y-1">

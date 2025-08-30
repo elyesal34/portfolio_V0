@@ -1,4 +1,6 @@
-export default function DecorativeBackground() {
+import React from 'react';
+
+const DecorativeBackground: React.FC = () => {
   return (
     <div className="relative min-h-[120px]" aria-hidden="true">
       <div className="absolute inset-0 opacity-10">
@@ -9,4 +11,6 @@ export default function DecorativeBackground() {
       </div>
     </div>
   );
-}
+};
+
+export default DecorativeBackground;

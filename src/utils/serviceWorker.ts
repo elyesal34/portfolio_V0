@@ -1,83 +1,105 @@
-// Enregistrement du Service Worker
-export function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      const swUrl = '/sw.js';
-
-      if (process.env.NODE_ENV === 'production' && !isStackBlitz()) {
-        registerValidSW(swUrl);
-      } else {
-        console.log('Service Worker non enregistré en mode développement ou sur StackBlitz');
-      }
-    });
-  }
-}
-
 // Vérifier si l'application s'exécute sur StackBlitz
 function isStackBlitz(): boolean {
   return window.location.host.includes('stackblitz.io') || 
          window.location.host.includes('webcontainer') ||
-         window.location.host.includes('localhost') && process.env.NODE_ENV === 'development';
-}
-
-// Enregistrement du Service Worker avec vérification
-function registerValidSW(swUrl: string) {
-  navigator.serviceWorker
-    .register(swUrl)
-    .then((registration) => {
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        if (installingWorker == null) {
-          return;
-        }
-        
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              // Nouveau contenu disponible
-              console.log('Nouveau contenu disponible. Veuillez actualiser.');
-              // Vous pouvez ajouter ici une notification à l'utilisateur
-            } else {
-              // Le contenu est mis en cache pour une utilisation hors ligne
-              console.log('Le contenu est mis en cache pour une utilisation hors ligne.');
-            }
-          }
-        };
-      };
-    })
-    .catch((error) => {
-      console.error('Erreur lors de l\'enregistrement du Service Worker:', error);
-    });
-}
-
-// Vérification des mises à jour
-function checkForUpdates() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.update().catch((error) => {
-        console.error('Erreur lors de la vérification des mises à jour:', error);
-      });
-    });
-  }
+         (window.location.host.includes('localhost') && process.env.NODE_ENV === 'development');
 }
 
 // Fonction pour forcer la mise à jour du Service Worker
-export function forceUpdate() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistration().then((registration) => {
-      if (registration) {
-        registration.update().then(() => {
-          console.log('Mise à jour du Service Worker forcée');
-          // Recharger la page pour appliquer les mises à jour
-          window.location.reload();
-        });
+export async function forceUpdate(): Promise<void> {
+  if (!('serviceWorker' in navigator)) return;
+
+  try {
+    const registration = await navigator.serviceWorker.getRegistration();
+    if (!registration) return;
+
+    try {
+      await registration.update();
+      console.log('Mise à jour du Service Worker demandée');
+      
+      if (registration.waiting) {
+        // Demander à l'utilisateur de recharger pour appliquer les mises à jour
+        if (confirm('Une mise à jour est disponible. Voulez-vous recharger la page maintenant ?')) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
       }
-    });
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du Service Worker:', err);
+    }
+  } catch (error) {
+    console.error('Error getting service worker registration:', error);
   }
 }
 
-// Vérifier les mises à jour régulièrement
-if (process.env.NODE_ENV === 'production') {
-  // Vérifier les mises à jour toutes les heures
-  setInterval(checkForUpdates, 60 * 60 * 1000);
+// Enregistrement du Service Worker avec Vite PWA
+export async function registerServiceWorker(): Promise<ServiceWorkerRegistration | void> {
+  if (!('serviceWorker' in navigator)) {
+    console.warn('Service workers are not supported in this browser');
+    return;
+  }
+
+  if (process.env.NODE_ENV !== 'production' || isStackBlitz()) {
+    console.log('Service Worker non enregistré en mode développement ou sur StackBlitz');
+    return;
+  }
+
+  try {
+    // Vite PWA handles the actual registration, we just configure it
+    const registration = await navigator.serviceWorker.ready;
+    
+    // Check for updates every 5 minutes
+    setInterval(async () => {
+      try {
+        await registration.update();
+      } catch (err) {
+        console.log('Error updating service worker:', err);
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    // Handle service worker updates
+    let refreshing = false;
+    
+    // Detect when a new service worker is waiting
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        window.location.reload();
+        refreshing = true;
+      }
+    });
+    
+    // Check for waiting service worker on load
+    window.addEventListener('load', async () => {
+      try {
+        const reg = await navigator.serviceWorker.getRegistration();
+        if (reg?.waiting) {
+          // Ask user to reload to apply updates
+          if (confirm('Une nouvelle version est disponible. Voulez-vous recharger la page pour l\'utiliser ?')) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+        }
+      } catch (error) {
+        console.error('Error checking for waiting service worker:', error);
+      }
+    });
+    
+    console.log('Service Worker prêt avec Vite PWA');
+    return registration;
+  } catch (error) {
+    console.error('Error during service worker registration:', error);
+  }
+}
+
+// Set up update checking in production
+if (process.env.NODE_ENV === 'production' && !isStackBlitz() && 'serviceWorker' in navigator) {
+  // Check for updates every hour
+  setInterval(() => {
+    navigator.serviceWorker.getRegistration()
+      .then(registration => registration?.update())
+      .catch(err => console.error('Erreur lors de la vérification des mises à jour:', err));
+  }, 60 * 60 * 1000); // 1 heure
+  
+  // Also check immediately on load
+  window.addEventListener('load', () => {
+    forceUpdate().catch(console.error);
+  });
 }

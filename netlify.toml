@@ -45,11 +45,62 @@
     Content-Type = "application/manifest+json; charset=utf-8"
 
 
-# SPA redirects
+# SPA redirects - Handle client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
+  conditions = {Role = "any", Country = "*"}
+
+# Explicit routes for better caching and performance
+[[redirects]]
+  from = "/cv"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/competences"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/productions"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/projets"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/contact"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/stages"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ateliers-pro"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/veilles"
+  to = "/index.html"
+  status = 200
+  force = true
 
 # Redirection HTTP > HTTPS
 [[redirects]]

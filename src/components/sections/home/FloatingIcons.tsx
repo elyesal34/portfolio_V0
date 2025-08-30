@@ -1,6 +1,7 @@
+import React from 'react';
 import { Code, Database, Smartphone } from 'lucide-react';
 
-export default function FloatingIcons() {
+const FloatingIcons: React.FC = () => {
   return (
     <>
       <div className="absolute -top-6 -left-6 bg-blue-500 p-4 rounded-full shadow-lg animate-bounce" role="presentation">
@@ -14,4 +15,6 @@ export default function FloatingIcons() {
       </div>
     </>
   );
-}
+};
+
+export default FloatingIcons;

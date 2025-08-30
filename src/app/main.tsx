@@ -1,6 +1,5 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { useLocation } from 'react-router-dom';
 
 import App from './App';
 import { registerServiceWorker } from '../utils/serviceWorker';
@@ -17,47 +16,29 @@ function onFirstInteractionOnce(cb: () => void) {
   window.addEventListener('keydown', handler, { once: true });
 }
 
-
+// Initialize Google Analytics lazily
 function initAnalyticsLazily() {
   const load = () => import('../utils/analytics').then(m => m.initGA()).catch(() => {});
   // Do not schedule on idle to avoid loading GA during Lighthouse run
   onFirstInteractionOnce(load);
 }
 
-// Enregistrer le service worker en production (après le 'load' pour éviter la chaîne critique)
+// Initialize Google Analytics after user interaction in production
 if (import.meta.env.PROD) {
-  window.addEventListener('load', () => {
+  initAnalyticsLazily();
+  // Only register service worker in production
+  import('../utils/serviceWorker').then(({ registerServiceWorker }) => {
     registerServiceWorker();
   });
-  initAnalyticsLazily();
-}
-
-// Scroll to anchor with offset for fixed header
-function AnchorScroller() {
-  const { hash } = useLocation();
-  
-  useEffect(() => {
-    if (hash) {
-      const id = decodeURIComponent(hash.replace('#', ''));
-      const element = document.getElementById(id);
-      
-      if (element) {
-        // Small delay to ensure the page has rendered
-        const timer = setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          // Focus for keyboard navigation
-          element.setAttribute('tabIndex', '-1');
-          element.focus({ preventScroll: true });
-        }, 100);
-        
-        return () => clearTimeout(timer);
+} else {
+  // En mode développement, on désactive complètement le service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      for (const registration of registrations) {
+        registration.unregister();
       }
-    } else {
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }
-  }, [hash]);
-  
-  return null;
+    });
+  }
 }
 
 // Root component with offline mode and router
@@ -104,18 +85,20 @@ function Root() {
   );
 }
 
-// Register service worker in production (after 'load' to avoid critical chain)
-if (import.meta.env.PROD) {
-  window.addEventListener('load', () => {
-    registerServiceWorker();
-  });
-}
-
 // Render the app
 const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
-  root.render(<Root />);
-} else {
-  console.error('Failed to find the root element');
+if (!container) {
+  throw new Error('Failed to find the root element');
+}
+
+// Create root and render the app
+const root = createRoot(container);
+root.render(<Root />);
+
+// Register service worker in production (after initial render to avoid blocking the main thread)
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  // Small delay to ensure the app is interactive first
+  setTimeout(() => {
+    registerServiceWorker().catch(console.error);
+  }, 1000);
 }

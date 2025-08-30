@@ -17,16 +17,13 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
-    <!-- Preconnect supprimés: éviter les connexions inutiles pour des origines non utilisées au chargement -->
+    <!-- Préchargement DNS pour les domaines critiques -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     
-    <!-- DNS Prefetch pour les domaines externes -->
-    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="//www.google-analytics.com" />
-    <link rel="dns-prefetch" href="//github.com" />
-    <link rel="dns-prefetch" href="//linkedin.com" />
-    
-    <!-- Resource Hints pour optimiser le chargement -->
-    <link rel="prefetch" href="/cv-elyes-allani.pdf" as="document" />
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/inter-v19-latin-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     
     <!-- SEO Meta Tags optimisés et professionnels -->
     <title>Elyes Allani - Portfolio BTS SIO SLAM | Développeur Full-Stack Montpellier</title>
@@ -64,16 +61,9 @@
     <!-- Structured Data (JSON-LD) externalized for strict CSP compliance -->
     <script type="application/ld+json" src="/ld.json"></script>
     
-    <!-- Accessibility improvements -->
-
-    <!-- Préchargement des polices avec font-display: swap -->
-    <link rel="preload" as="font" href="/fonts/inter-v19-latin-regular.woff2" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" as="font" href="/fonts/inter-v19-latin-700.woff2" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" as="font" href="/fonts/inter-v19-latin-italic.woff2" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" as="font" href="/fonts/inter-v19-latin-700italic.woff2" type="font/woff2" crossorigin="anonymous">
-
-    <!-- Chargement des polices avec font-display: swap -->
+    <!-- Amélioration de l'accessibilité et chargement des polices -->
     <style>
+      /* Définition des polices avec font-display: swap pour une meilleure performance */
       @font-face {
         font-family: 'Inter';
         font-style: normal;

@@ -1,60 +1,56 @@
+// vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
-    react()
+    react(),
+    visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    })
   ],
-  server: {
-    host: '0.0.0.0',
-    port: 3000,
-    strictPort: true,
-    open: true,
-    cors: true,
-    hmr: {
-      host: 'localhost',
-      port: 3000,
-      protocol: 'ws',
-      overlay: false
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
     },
-    fs: {
-      strict: false,
-      allow: ['..']
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
+  },
+  server: {
+    port: 3000,
+    open: true,
+    strictPort: true
+  },
+  build: {
+    sourcemap: true,
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['lucide-react']
+        }
+      }
     }
   },
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
-      'react-dom/client',
       'react-router-dom',
-      'react-router-hash-link',
-      'lucide-react'
+      'lucide-react',
+      'react-google-recaptcha'
     ],
-    exclude: []
+    exclude: ['@babel/plugin-transform-react-jsx'],
+    force: true // Désactive le cache pour le développement
   },
-  resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: path.resolve(__dirname, 'src')
-      }
-    ]
-  },
-  build: {
-    minify: 'esbuild',
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          vendor: ['react-router-hash-link']
-        }
-      }
-    }
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(mode)
   }
-});
+}));

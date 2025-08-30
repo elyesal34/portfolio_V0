@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Worker Cleanup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Service Worker Cleanup</h1>
+    <p>Click the button below to unregister service workers and clear caches.</p>
+    
+    <button id="cleanupBtn">Clean Up Service Workers & Caches</button>
+    
+    <h2>Status:</h2>
+    <div id="status">Ready to clean up service workers and caches.</div>
+
+    <script>
+        document.getElementById('cleanupBtn').addEventListener('click', async () => {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML = 'Starting cleanup...<br>';
+            
+            // Unregister service workers
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                        statusEl.innerHTML += `Unregistered service worker: ${registration.scope}<br>`;
+                        console.log('ServiceWorker unregistered:', registration.scope);
+                    }
+                    
+                    if (registrations.length === 0) {
+                        statusEl.innerHTML += 'No service workers found to unregister.<br>';
+                    }
+                } catch (error) {
+                    statusEl.innerHTML += `Error unregistering service workers: ${error.message}<br>`;
+                    console.error('Error unregistering service workers:', error);
+                }
+            } else {
+                statusEl.innerHTML += 'Service Worker API not supported in this browser.<br>';
+            }
+
+            // Clear caches
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    for (const cacheName of cacheNames) {
+                        await caches.delete(cacheName);
+                        statusEl.innerHTML += `Deleted cache: ${cacheName}<br>`;
+                        console.log('Cache deleted:', cacheName);
+                    }
+                    
+                    if (cacheNames.length === 0) {
+                        statusEl.innerHTML += 'No caches found to delete.<br>';
+                    }
+                } catch (error) {
+                    statusEl.innerHTML += `Error deleting caches: ${error.message}<br>`;
+                    console.error('Error deleting caches:', error);
+                }
+            } else {
+                statusEl.innerHTML += 'Cache API not supported in this browser.<br>';
+            }
+
+            statusEl.innerHTML += '<br>Cleanup complete! You can now close this tab and refresh your main application.<br>';
+            statusEl.innerHTML += 'If you still experience issues, try a hard refresh (Ctrl+F5 or Cmd+Shift+R).';
+        });
+    </script>
+</body>
+</html>
