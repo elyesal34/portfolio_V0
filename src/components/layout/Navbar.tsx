@@ -1,166 +1,221 @@
-import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { HashLink } from 'react-router-hash-link';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
-interface NavbarProps {
-  activeSection: string;
-  isMobileMenuOpen: boolean;
-  onMobileMenuToggle: () => void;
+// Extend the Window interface for gtag
+declare global {
+  interface Window {
+    gtag: (command: string, action: string, params: Record<string, unknown>) => void;
+  }
 }
 
-const Navbar = ({ activeSection, isMobileMenuOpen, onMobileMenuToggle }: NavbarProps) => {
+interface MenuItem {
+  title: string;
+  hash: string;
+  icon: string;
+}
+
+const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-      setShowBackToTop(scrollTop > 300);
-    };
+  // Menu items with absolute paths for routing
+  const menuItems = useMemo<MenuItem[]>(() => [
+    { title: 'Accueil', hash: '/#accueil', icon: '🏠' },
+    { title: 'À Propos', hash: '/#a-propos', icon: '👤' },
+    { title: 'Compétences', hash: '/#competences', icon: '💻' },
+    { title: 'Projets', hash: '/#projets', icon: '📂' },
+    { title: 'Formation', hash: '/#formation', icon: '🎓' },
+    { title: 'Contact', hash: '/#contact', icon: '📧' },
+  ], []);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  // Handle smooth scrolling to sections
+  const handleSmoothScroll = useCallback((e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+    e.preventDefault();
+    const targetId = hash.startsWith('/#') ? hash.substring(1) : hash;
+    const targetElement = document.getElementById(targetId.replace('#', ''));
+
+    if (targetElement) {
+      const headerOffset = 80; // Navbar height
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
+      // Update URL without page reload
+      window.history.pushState({}, '', targetId);
+      setActiveSection(targetId);
+      setIsMobileMenuOpen(false);
+    }
   }, []);
 
-  const menuItems = [
-    { title: 'Accueil', icon: Home, hash: '#accueil' },
-    { title: 'CV', icon: FileText, hash: '#cv' },
-    { title: 'Ateliers Pro', icon: Code2, hash: '#ateliers' },
-    { title: 'Stages', icon: Briefcase, hash: '#stages' },
-    { title: 'Compétences', icon: Brain, hash: '#competences' },
-    { title: 'Productions', icon: GraduationCap, hash: '#productions' },
-    { title: 'Veilles', icon: BookOpen, hash: '#veilles' },
-    { title: 'Contact', icon: Mail, hash: '#contact' },
-  ];
+  // Toggle mobile menu
+  const toggleMobileMenu = useCallback((e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
 
-  const scrollWithOffset = (el: HTMLElement) => {
-    const yOffset = el.id === 'contact' ? -160 : -80;
-    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  };
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      if (mobileMenuRef.current && event.target instanceof Node && !mobileMenuRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside as EventListener);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside as EventListener);
+    };
+  }, []);
+
+  // Update active section on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+      
+      menuItems.forEach(({ hash }) => {
+        const section = document.getElementById(hash.replace('/#', ''));
+        if (section) {
+          const { offsetTop, offsetHeight } = section;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(hash);
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll as EventListener);
+    return () => window.removeEventListener('scroll', handleScroll as EventListener);
+  }, [menuItems]);
+
+  // Handle scroll event
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll as EventListener);
+    return () => window.removeEventListener('scroll', handleScroll as EventListener);
+  }, []);
 
   return (
-    <>
-      <nav 
-        className={`fixed w-full z-50 h-16 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
-            : 'bg-gray-900 border-b border-transparent'
-        }`} 
-        role="navigation" 
-        aria-label="Navigation principale"
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <HashLink
-                to="/#accueil"
-                scroll={scrollWithOffset}
-                className={`text-xl font-bold transition-colors ${
-                  isScrolled 
-                    ? 'text-gray-900 hover:text-blue-600' 
-                    : 'text-white hover:text-blue-300'
-                }`}
-              >
-                Elyes Allani
-              </HashLink>
-            </div>
+    <nav 
+      className={`fixed w-full z-50 h-16 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
+          : 'bg-transparent border-b border-transparent'
+      }`} 
+      role="navigation" 
+      aria-label="Navigation principale"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <a 
+              href="/#accueil" 
+              className="flex-shrink-0 flex items-center"
+              onClick={(e) => handleSmoothScroll(e, '/#accueil')}
+            >
+              <span className="text-xl font-bold text-gray-900">Portfolio</span>
+            </a>
+          </div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-1">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <HashLink
-                    key={item.title}
-                    to={`/${item.hash}`}
-                    scroll={scrollWithOffset}
-                    className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      activeSection === item.hash.substring(1)
-                        ? isScrolled 
-                          ? 'text-blue-600 bg-blue-50' 
-                          : 'text-blue-300 bg-gray-800'
-                        : isScrolled 
-                          ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
-                          : 'text-gray-100 hover:text-white hover:bg-gray-800'
-                    }`}
-                    aria-label={`Aller à la section ${item.title}`}
-                  >
-                    <Icon size={18} />
-                    <span>{item.title}</span>
-                  </HashLink>
-                );
-              })}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={onMobileMenuToggle}
-                className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors ${
-                  isScrolled
-                    ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
-                }`}
-                aria-controls="mobile-menu"
-                aria-expanded={isMobileMenuOpen}
-                aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          {/* Desktop Navigation */}
+          <div className="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+            {menuItems.map((item) => (
+              <a
+                key={item.hash}
+                href={item.hash}
+                className={`${
+                  activeSection === item.hash
+                    ? 'text-indigo-600'
+                    : 'text-gray-700 hover:text-indigo-600'
+                } px-3 py-2 text-sm font-medium transition-colors duration-200`}
+                onClick={(e) => handleSmoothScroll(e, item.hash)}
               >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+                <span className="mr-2" aria-hidden="true">{item.icon}</span>
+                {item.title}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="flex items-center md:hidden">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              onClick={toggleMobileMenu}
+            >
+              <span className="sr-only">Ouvrir le menu principal</span>
+              {isMobileMenuOpen ? (
+                <svg
+                  className="block h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="block h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        <div 
-          id="mobile-menu" 
-          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${
-            isMobileMenuOpen 
-              ? 'max-h-[85vh] overflow-y-auto' 
-              : 'max-h-0 overflow-hidden'
-          }`}
-          aria-hidden={!isMobileMenuOpen}
-        >
-          <nav aria-label="Navigation mobile">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <HashLink
-                    key={item.title}
-                    to={`/${item.hash}`}
-                    scroll={scrollWithOffset}
-                    className={`flex items-center space-x-2 px-3 py-3 rounded-lg text-base font-medium transition-colors w-full text-left ${
-                      activeSection === item.hash.substring(1) 
-                        ? 'text-blue-600 bg-blue-50' 
-                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-                    }`}
-                    onClick={onMobileMenuToggle}
-                  >
-                    <Icon size={18} />
-                    <span>{item.title}</span>
-                  </HashLink>
-                );
-              })}
-            </div>
-          </nav>
+      {/* Mobile menu */}
+      <div
+        className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}
+        id="mobile-menu"
+        ref={mobileMenuRef}
+      >
+        <div className="pt-2 pb-3 space-y-1 bg-white shadow-lg">
+          {menuItems.map((item) => (
+            <a
+              key={item.hash}
+              href={item.hash}
+              className={`${
+                activeSection === item.hash
+                  ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
+                  : 'border-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+              } block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
+              onClick={(e) => handleSmoothScroll(e, item.hash)}
+            >
+              <span className="mr-2" aria-hidden="true">{item.icon}</span>
+              {item.title}
+            </a>
+          ))}
         </div>
-      </nav>
-
-      {/* Back to Top Button */}
-      {showBackToTop && (
-        <HashLink
-          to="/#accueil"
-          scroll={scrollWithOffset}
-          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-40"
-          aria-label="Retour en haut de la page"
-        >
-          <ChevronUp size={24} />
-        </HashLink>
-      )}
-    </>
+      </div>
+    </nav>
   );
 };
 
