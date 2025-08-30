@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { BookOpen, TrendingUp, Lightbulb, ExternalLink, Calendar, Tag } from '../../../icons/lucide';
+import { BookOpen, TrendingUp, Lightbulb, ExternalLink, Calendar, Tag } from 'lucide-react';
 
 const Veilles = () => {
   const articles = [
@@ -71,8 +70,7 @@ const Veilles = () => {
     { nom: "JavaScript Weekly", url: "https://javascriptweekly.com", description: "Newsletter hebdomadaire sur JavaScript" }
   ];
 
-  // Pagination pour les articles de veille
-  const [visibleCount, setVisibleCount] = useState(3); // Affiche 3 articles au départ
+  const [visibleCount, setVisibleCount] = useState(2);
   const visibleArticles = articles.slice(0, visibleCount);
 
   return (
@@ -95,8 +93,8 @@ const Veilles = () => {
             </h3>
             
             <div className="space-y-8">
-              {visibleArticles.map((article) => (
-                <div key={article.titre} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
+              {visibleArticles.map((article, index) => (
+                <div key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-100">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <h4 className="text-xl font-bold text-gray-900 mb-2">{article.titre}</h4>
@@ -145,7 +143,7 @@ const Veilles = () => {
                 </div>
               ))}
             </div>
-            {/* Bouton Voir plus */}
+
             {visibleCount < articles.length && (
               <div className="flex justify-center mt-8">
                 <button
@@ -178,7 +176,7 @@ const Veilles = () => {
               ))}
             </div>
 
-            <div className="mt-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6">
+            <div className="mt-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-100">
               <h4 className="flex items-center text-lg font-semibold text-gray-900 mb-4">
                 <Lightbulb className="w-5 h-5 mr-2 text-yellow-500" />
                 Méthodologie de veille

@@ -1,86 +1,11 @@
-import { useState, useEffect, memo } from 'react';
-import type { LucideIcon } from 'lucide-react';
+import { useState, memo } from 'react';
+import { Globe, Code2, Database, Smartphone, Shield, Users } from 'lucide-react';
 
-// Define a fallback component for missing icons
-const FallbackIcon = ({ className = '' }: { className?: string }) => (
-  <span className={`inline-block w-6 h-6 bg-gray-200 rounded ${className}`} aria-hidden="true" />
-);
-
-// Define a type for valid Lucide icon names
-type LucideIconName = 
-  | 'Globe' | 'Code2' | 'Database' | 'Smartphone' | 'Shield' | 'Users'
-  | 'Mail' | 'Phone' | 'MapPin' | 'Linkedin' | 'Github' | 'Send' | 'User' 
-  | 'MessageSquare' | 'CheckCircle' | 'AlertCircle' | 'Calendar' | 'Clock' | 'Award';
-
-// Type guard to check if a string is a valid Lucide icon name
-const isValidIconName = (name: string): name is LucideIconName => {
-  const validIcons: LucideIconName[] = [
-    'Globe', 'Code2', 'Database', 'Smartphone', 'Shield', 'Users',
-    'Mail', 'Phone', 'MapPin', 'Linkedin', 'Github', 'Send', 'User',
-    'MessageSquare', 'CheckCircle', 'AlertCircle', 'Calendar', 'Clock', 'Award'
-  ];
-  return validIcons.includes(name as LucideIconName);
-};
-
-// Icon component with proper type safety and error handling
-const Icon: React.FC<{ name: string; className?: string }> = ({ name, className = '' }) => {
-  const [IconComponent, setIconComponent] = useState<LucideIcon | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-    
-    const loadIcon = async () => {
-      if (!isValidIconName(name)) {
-        console.warn(`Invalid icon name: ${name}`);
-        if (isMounted) {
-          setIsLoading(false);
-        }
-        return;
-      }
-
-      try {
-        // Dynamically import the icon from lucide-react
-        const module = await import('lucide-react');
-        const icon = module[name] as LucideIcon;
-        
-        if (isMounted && icon) {
-          setIconComponent(() => icon);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.error(`Error loading icon ${name}:`, err);
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadIcon();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [name]);
-
-  // Show loading state
-  if (isLoading) {
-    return <span className={`inline-block w-6 h-6 bg-gray-100 animate-pulse rounded ${className}`} aria-hidden="true" />;
-  }
-
-  // Show the icon if loaded, otherwise show fallback
-  return IconComponent ? (
-    <IconComponent className={className} />
-  ) : (
-    <FallbackIcon className={className} />
-  );
-};
-
-const AteliersPro: React.FC = () => {
+const AteliersPro = () => {
   const ateliers = [
     {
       title: "Développement d'applications web",
-      icon: <Icon name="Globe" className="w-8 h-8 text-blue-500" />,
+      icon: <Globe className="w-8 h-8 text-blue-500" />,
       description: "Création d'applications web modernes avec React, PHP et bases de données",
       technologies: ["React", "PHP", "MySQL", "JavaScript"],
       projets: [
@@ -91,7 +16,7 @@ const AteliersPro: React.FC = () => {
     },
     {
       title: "Programmation orientée objet",
-      icon: <Icon name="Code2" className="w-8 h-8 text-green-500" />,
+      icon: <Code2 className="w-8 h-8 text-green-500" />,
       description: "Maîtrise des concepts POO avec Java et C#",
       technologies: ["Java", "C#", "UML", "Design Patterns"],
       projets: [
@@ -102,7 +27,7 @@ const AteliersPro: React.FC = () => {
     },
     {
       title: "Base de données",
-      icon: <Icon name="Database" className="w-8 h-8 text-purple-500" />,
+      icon: <Database className="w-8 h-8 text-purple-500" />,
       description: "Conception et administration de bases de données relationnelles",
       technologies: ["MySQL", "PostgreSQL", "SQL Server", "MongoDB"],
       projets: [
@@ -113,7 +38,7 @@ const AteliersPro: React.FC = () => {
     },
     {
       title: "Développement mobile",
-      icon: <Icon name="Smartphone" className="w-8 h-8 text-orange-500" />,
+      icon: <Smartphone className="w-8 h-8 text-orange-500" />,
       description: "Création d'applications mobiles natives et hybrides",
       technologies: ["React Native", "Flutter", "Android Studio"],
       projets: [
@@ -124,7 +49,7 @@ const AteliersPro: React.FC = () => {
     },
     {
       title: "Cybersécurité",
-      icon: <Icon name="Shield" className="w-8 h-8 text-red-500" />,
+      icon: <Shield className="w-8 h-8 text-red-500" />,
       description: "Sécurisation des applications et protection des données",
       technologies: ["HTTPS", "JWT", "Cryptographie", "OWASP"],
       projets: [
@@ -135,7 +60,7 @@ const AteliersPro: React.FC = () => {
     },
     {
       title: "Travail collaboratif",
-      icon: <Icon name="Users" className="w-8 h-8 text-indigo-500" />,
+      icon: <Users className="w-8 h-8 text-indigo-500" />,
       description: "Gestion de projets en équipe avec méthodologies agiles",
       technologies: ["Git", "GitHub", "Scrum", "Jira"],
       projets: [
@@ -146,7 +71,6 @@ const AteliersPro: React.FC = () => {
     }
   ];
 
-  // Pagination : afficher 3 ateliers au départ
   const [visibleCount, setVisibleCount] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -156,7 +80,6 @@ const AteliersPro: React.FC = () => {
     if (isLoading) return;
     
     setIsLoading(true);
-    // Simuler un chargement asynchrone
     setTimeout(() => {
       setVisibleCount(prev => Math.min(prev + 3, ateliers.length));
       setIsLoading(false);
@@ -176,11 +99,11 @@ const AteliersPro: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {visibleAteliers.map((atelier) => (
-            <article key={atelier.title} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
+          {visibleAteliers.map((atelier, index) => (
+            <article key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-100">
               <div className="flex items-center mb-4">
-                <div aria-hidden="true">{atelier.icon}</div>
-                <h3 className="text-xl font-bold ml-3">{atelier.title}</h3>
+                {atelier.icon}
+                <h3 className="text-xl font-bold ml-3 text-gray-900">{atelier.title}</h3>
               </div>
               
               <p className="text-gray-600 mb-4">{atelier.description}</p>
@@ -208,7 +131,6 @@ const AteliersPro: React.FC = () => {
           ))}
         </div>
 
-        {/* Bouton Voir plus */}
         {visibleCount < ateliers.length && (
           <div className="flex justify-center mt-8">
             <button
@@ -249,5 +171,4 @@ const AteliersPro: React.FC = () => {
   );
 };
 
-// Memoize the component to prevent unnecessary re-renders
 export default memo(AteliersPro);

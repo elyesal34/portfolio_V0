@@ -1,27 +1,8 @@
 import { useState } from 'react';
-
-import { Calendar, MapPin, Building, Users, Target, Award } from '../../../icons/lucide';
+import { Calendar, MapPin, Building, Users, Target, Award } from 'lucide-react';
 
 const Stages = () => {
   const stages = [
-    {
-      entreprise: "Cyriaque Mazères",
-      poste: "Développeur Full Stack Junior",
-      duree: "5 semaines",
-      periode: "Mai - Juin 2024",
-      lieu: "Pau, France",
-      description: "Stage de première année concernant le développement web d'une application d'affichage des temps d'attente des établissements de soins",
-      missions: [
-        "Réalisation d'une application web avec React",
-        "Développement d'une interface utilisateur et d'une fonctionnalité de recherche des établissements de soins",
-      ],
-      competences: ["React", "HTML/CSS", "JavaScript", "Git"],
-      resultats: [
-        "Application web fonctionnelle",
-        "Potentiel réduction des temps d'attente des établissements de soins",
-        "Amélioration de la qualité de vie des patients"
-      ]
-    },
     {
       entreprise: "Coach Internet",
       poste: "Développeur Web Junior",
@@ -33,17 +14,38 @@ const Stages = () => {
         "Développement d'un programme en Python pour récupérer les informations des entreprises",
         "Conception et implémentation d'une API REST pour récupérer les informations des entreprises",
         "Tests unitaires et intégration continue",
-        "Utilisation d'Apify pour configurer les filtres"  
+        "Utilisation d'Apify pour configurer les filtres"
       ],
       competences: ["Python", "API Google Maps", "Apify", "Git", "REST API", "Scraping", "Sequelize"],
       resultats: [
         "Programme fonctionnel",
-        "Production d'un fichier CSV avec les informations des entreprises"
+        "Production d'un fichier CSV avec les informations des entreprises",
+        "Amélioration des compétences en développement backend"
+      ]
+    },
+    {
+      entreprise: "Cyriaque Mazères",
+      poste: "Développeur Full Stack Junior",
+      duree: "5 semaines",
+      periode: "Mai - Juin 2024",
+      lieu: "Pau, France",
+      description: "Stage de première année concernant le développement web d'une application d'affichage des temps d'attente des établissements de soins",
+      missions: [
+        "Réalisation d'une application web avec React",
+        "Développement d'une interface utilisateur et d'une fonctionnalité de recherche des établissements de soins",
+        "Intégration avec des APIs externes",
+        "Tests et débogage de l'application"
+      ],
+      competences: ["React", "HTML/CSS", "JavaScript", "Git", "API REST"],
+      resultats: [
+        "Application web fonctionnelle",
+        "Potentiel réduction des temps d'attente des établissements de soins",
+        "Amélioration de la qualité de vie des patients",
+        "Première expérience en entreprise réussie"
       ]
     }
   ];
 
-  // Pagination : afficher 1 ou 2 stages au départ (ajuste selon ton besoin)
   const [visibleCount, setVisibleCount] = useState(1);
   const visibleStages = stages.slice(0, visibleCount);
 
@@ -60,29 +62,29 @@ const Stages = () => {
         </div>
 
         <div className="space-y-12">
-          {visibleStages.map((stage) => (
-            <div key={stage.entreprise} className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {visibleStages.map((stage, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold mb-3">{stage.poste}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-100">
                       <div className="flex items-center space-x-2">
-                        <Building className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                        <Building className="w-5 h-5 flex-shrink-0" />
                         <span className="font-medium">{stage.entreprise}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Calendar className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                        <Calendar className="w-5 h-5 flex-shrink-0" />
                         <span className="font-medium">{stage.periode}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <MapPin className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                        <MapPin className="w-5 h-5 flex-shrink-0" />
                         <span className="font-medium">{stage.lieu}</span>
                       </div>
                     </div>
                   </div>
                   <div className="lg:ml-6">
-                    <div className="bg-white px-6 py-3 rounded-full shadow-lg border-2 border-white">
+                    <div className="bg-white px-6 py-3 rounded-full shadow-lg">
                       <span className="text-gray-900 font-bold text-lg">{stage.duree}</span>
                     </div>
                   </div>
@@ -142,7 +144,6 @@ const Stages = () => {
           ))}
         </div>
 
-        {/* Bouton Voir plus */}
         {visibleCount < stages.length && (
           <div className="flex justify-center mt-8">
             <button

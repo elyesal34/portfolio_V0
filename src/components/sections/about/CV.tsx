@@ -1,8 +1,6 @@
-import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from '../../../icons/lucide';
-import ImageWithSuspense from '../../ui/ImageWithSuspense';
+import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from 'lucide-react';
 
 const CV = () => {
-  // Formations
   const formations = [
     {
       diplome: "BTS SIO option SLAM",
@@ -27,59 +25,51 @@ const CV = () => {
     }
   ];
 
-  // Expériences professionnelles
   const experiences = [
     {
-      poste: "Manutentionnaire BTP",
-      entreprise: "Brault",
-      periode: "Juillet 2022",
-      type: "Interim",
+      poste: "Développeur Web Junior",
+      entreprise: "Coach Internet",
+      periode: "Janvier - Février 2025",
+      type: "Stage",
       missions: [
-        "Manœuvres sur les chantiers",
-        "Aide à la préparation des matériaux et outils",
-        "Respect des normes de sécurité sur les chantiers"
+        "Développement d'un programme en Python pour récupérer les informations des entreprises",
+        "Conception et implémentation d'une API REST",
+        "Tests unitaires et intégration continue",
+        "Utilisation d'Apify pour configurer les filtres"
       ],
-      technologies: []
+      technologies: ["Python", "API Google Maps", "Apify", "Git", "REST API"]
     },
     {
-      poste: "Employé Grandes Surfaces",
-      entreprise: "Intermarché",
-      periode: "Juin 2022",
-      type: "Emploi saisonnier",
+      poste: "Développeur Full Stack Junior",
+      entreprise: "Cyriaque Mazères",
+      periode: "Mai - Juin 2024",
+      type: "Stage",
       missions: [
-        "Réception et mise en rayon des produits",
-        "Gestion des stocks et inventaires",
-        "Accueil et conseil client"
+        "Réalisation d'une application web avec React",
+        "Développement d'une interface utilisateur",
+        "Fonctionnalité de recherche des établissements de soins"
       ],
-      technologies: []
+      technologies: ["React", "HTML/CSS", "JavaScript", "Git"]
     }
   ];
 
-  // Compétences techniques regroupées par catégories
   const competencesTechniques = [
     {
       categorie: "Langages",
       items: ["Java", "PHP", "JavaScript/TypeScript", "Python", "React", "SQL"]
     },
     {
-      categorie: "Frameworks & Bibliothèques",
-      items: ["React", "Laravel", "Node.js", "Bootstrap", "Tailwind CSS", "Angular", "AndroidStudio"]
+      categorie: "Frameworks",
+      items: ["React", "Laravel", "Node.js", "Bootstrap", "Tailwind CSS"]
     },
     {
       categorie: "Bases de données",
       items: ["MySQL", "PostgreSQL", "MongoDB"]
     },
     {
-      categorie: "Outils & Technologies",
-      items: ["Git", "Docker", "Linux", "Apache", "Nginx", "REST API"]
+      categorie: "Outils",
+      items: ["Git", "Docker", "Linux", "Apache", "REST API"]
     }
-  ];
-
-  // Langues
-  const langues = [
-    { langue: "Français", niveau: "Natif" },
-    { langue: "Anglais", niveau: "B2 - Intermédiaire avancé" },
-    { langue: "Allemand", niveau: "A2 - Notions" }
   ];
 
   return (
@@ -87,8 +77,8 @@ const CV = () => {
       <div className="max-w-6xl mx-auto px-4 py-20">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4 text-gray-900">Curriculum Vitae</h2>
-          <p className="text-xl font-medium text-gray-700">
-            Allani Elyes - Étudiant en BTS SIO option SLAM, passionné par le développement logiciel
+          <p className="text-xl text-gray-700">
+            Allani Elyes - Étudiant en BTS SIO option SLAM
           </p>
         </div>
         
@@ -97,17 +87,18 @@ const CV = () => {
           <div className="bg-gradient-to-r from-blue-600 to-purple-700 p-8 text-white">
             <div className="flex flex-col md:flex-row items-center md:items-start">
               <div className="md:w-32 md:h-32 w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-6">
-                <ImageWithSuspense 
+                <img 
                   src="/Photo_face.webp" 
                   alt="Allani Elyes" 
                   className="w-32 h-32 object-cover rounded-full" 
-                  width={128}
-                  height={128}
-                  fallbackSrc="/image.webp"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80&fm=webp";
+                  }}
                 />
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-3xl font-bold mb-2 text-white">Allani Elyes</h3>
+                <h3 className="text-3xl font-bold mb-2">Allani Elyes</h3>
                 <p className="text-xl text-blue-100 mb-4">Étudiant BTS SIO SLAM - Développeur Full-Stack</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-100">
                   <div className="flex items-center justify-center md:justify-start">
@@ -134,11 +125,11 @@ const CV = () => {
                 <Award className="w-5 h-5 mr-2 text-blue-600" />
                 Profil
               </h4>
-              <p className="text-gray-800 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Étudiant en 2ème année de BTS SIO option SLAM, passionné par le développement logiciel 
                 et les nouvelles technologies. Expérience pratique acquise à travers des stages en entreprise 
                 et des projets personnels. Recherche un stage de fin d'études pour approfondir mes compétences 
-                en développement full-stack et contribuer à des projets innovants.
+                en développement full-stack.
               </p>
             </div>
 
@@ -161,7 +152,7 @@ const CV = () => {
                       <p className="text-gray-700 text-sm mb-2">{formation.description}</p>
                       <div className="flex flex-wrap gap-1">
                         {formation.competences.map((comp, compIndex) => (
-                          <span key={compIndex} className="bg-green-200 text-green-900 px-2 py-1 rounded text-xs font-medium border border-green-300">
+                          <span key={compIndex} className="bg-green-200 text-green-900 px-2 py-1 rounded text-xs font-medium">
                             {comp}
                           </span>
                         ))}
@@ -230,21 +221,6 @@ const CV = () => {
                 ))}
               </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-              {/* Langues */}
-              <div>
-                <h4 className="text-xl font-bold text-gray-900 mb-4">Langues</h4>
-                <div className="space-y-3">
-                  {langues.map((langue, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-lg">
-                      <span className="font-medium text-gray-900">{langue.langue}</span>
-                      <span className="text-sm text-gray-800 font-medium">{langue.niveau}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -254,10 +230,10 @@ const CV = () => {
             href="/cv-elyes-allani.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-blue-600 text-white px-8 py-4 rounded-lg min-h-[48px] min-w-[48px] hover:bg-blue-700 focus:bg-blue-800 focus:ring-4 focus:ring-blue-300 transition-all font-medium shadow-lg btn-animate"
+            className="inline-flex items-center space-x-2 bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-all font-medium shadow-lg"
           >
             <FileText className="w-5 h-5" />
-            <span>Voir le CV (PDF)</span>
+            <span>Télécharger le CV (PDF)</span>
           </a>
         </div>
       </div>

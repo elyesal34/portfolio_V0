@@ -1,10 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
-
-import { Code, Database, Globe, Wrench, Users, BookOpen, Shield, Smartphone } from '../../../icons/lucide';
+import { Code, Database, Globe, Wrench, Users, BookOpen, Shield, Smartphone } from 'lucide-react';
 import ProgressBar from '../../ui/ProgressBar';
-
-
-
 
 const Competences = () => {
   const competencesTechniques = useMemo(() => ([
@@ -80,27 +76,6 @@ const Competences = () => {
     }
   ]), []);
 
-  const certifications = useMemo(() => ([
-    {
-      nom: "Oracle Certified Associate Java",
-      organisme: "Oracle",
-      date: "2023",
-      statut: "En cours"
-    },
-    {
-      nom: "AWS Cloud Practitioner",
-      organisme: "Amazon Web Services",
-      date: "2024",
-      statut: "Prévu"
-    },
-    {
-      nom: "Certification Scrum Master",
-      organisme: "Scrum Alliance",
-      date: "2024",
-      statut: "Prévu"
-    }
-  ]), []);
-
   const getNiveauColor = useCallback((niveau: number): string => {
     if (niveau >= 80) return "bg-green-500";
     if (niveau >= 60) return "bg-yellow-500";
@@ -113,7 +88,6 @@ const Competences = () => {
     return "Débutant";
   }, []);
 
-  // Gestion de la pagination
   const [visibleTechCounts, setVisibleTechCounts] = useState<number[]>(() =>
     competencesTechniques.map(cat => Math.min(4, cat.competences.length))
   );
@@ -137,7 +111,7 @@ const Competences = () => {
   }, [competencesTransversales.length]);
 
   return (
-    <section id="competences" className="min-h-screen pt-16 scroll-mt-16 bg-gray-50">
+    <section id="competences" className="min-h-screen pt-16 scroll-mt-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Compétences</h2>
@@ -153,7 +127,7 @@ const Competences = () => {
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Techniques</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {competencesTechniques.map((categorie, catIdx) => (
-              <div key={categorie.categorie} className="bg-white rounded-xl shadow-lg p-6">
+              <div key={categorie.categorie} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                 <div className="flex items-center mb-6">
                   <div className="text-blue-500 mr-3">{categorie.icon}</div>
                   <h4 className="text-xl font-bold text-gray-900">{categorie.categorie}</h4>
@@ -167,7 +141,6 @@ const Competences = () => {
                           <span className="font-medium text-gray-800">{comp.nom}</span>
                           <span 
                             className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}
-                            aria-label={`Niveau ${getNiveauText(comp.niveau).toLowerCase()}`}
                           >
                             {getNiveauText(comp.niveau)}
                           </span>
@@ -202,7 +175,7 @@ const Competences = () => {
           <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Transversales</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {competencesTransversales.slice(0, visibleTransCount).map((comp) => (
-              <div key={comp.nom} className="bg-white rounded-xl shadow-lg p-6">
+              <div key={comp.nom} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                 <div className="flex items-center mb-4">
                   {comp.icon}
                   <h4 className="text-lg font-bold text-gray-900 ml-3">{comp.nom}</h4>
@@ -235,32 +208,7 @@ const Competences = () => {
           )}
         </div>
 
-        {/* Certifications */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8">Certifications</h3>
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {certifications.map((cert, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4">
-                  <h4 className="font-bold text-gray-900 mb-2">{cert.nom}</h4>
-                  <p className="text-gray-600 mb-2">{cert.organisme}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">{cert.date}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      cert.statut === 'Obtenue' ? 'bg-green-100 text-green-800' :
-                      cert.statut === 'En cours' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-blue-100 text-blue-800'
-                    }`}>
-                      {cert.statut}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Matrice de compétences BTS SIO */}
+        {/* Référentiel BTS SIO */}
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-6">Référentiel BTS SIO - Option SLAM</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

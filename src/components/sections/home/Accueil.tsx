@@ -1,198 +1,117 @@
-/* eslint-disable import/order */
-import { lazy, Suspense, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
-
-import { ArrowDown, FileText, Mail, ExternalLink, Loader2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import styles from './Accueil.module.css';
-
-// Composants chargés de manière dynamique avec gestion d'erreur
-const DecorativeBackground = lazy(
-  () => import('./DecorativeBackground')
-    .catch(() => ({ default: () => null }))
-);
-
-const FloatingIcons = lazy(
-  () => import('./FloatingIcons')
-    .catch(() => ({ default: () => null }))
-);
-
-// Composant de chargement
-const LoadingFallback = () => (
-  <div className="flex items-center justify-center w-full h-full">
-    <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-  </div>
-);
+import { ArrowDown, FileText, Mail, ExternalLink } from 'lucide-react';
 
 const Accueil = () => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-  const [useFetchPriority, setUseFetchPriority] = useState(false);
-
-  useEffect(() => {
-    // Vérifier si le navigateur supporte fetchPriority
-    const checkFetchPrioritySupport = () => {
-      try {
-        return 'fetchPriority' in HTMLImageElement.prototype;
-      } catch (e) {
-        return false;
-      }
-    };
-
-    if (typeof window !== 'undefined') {
-      setUseFetchPriority(checkFetchPrioritySupport());
-    }
-
-    // Précharger l'image d'arrière-plan
-    const preloadImage = () => {
-      const img = new Image();
-      // Utilisation d'une URL absolue pour l'image de fond
-      img.src = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
-      img.onload = () => {
-        console.log('Background image loaded successfully');
-        setIsImageLoaded(true);
-      };
-      img.onerror = (error) => {
-        console.error('Failed to load background image:', error);
-        setImageError(true);
-        setIsImageLoaded(true);
-      };
-    };
-
-    preloadImage();
-  }, []);
-
   const scrollWithOffset = (el: HTMLElement) => {
-    const yOffset = -64;
+    const yOffset = el.id === 'contact' ? -160 : -80;
     const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
   return (
-    <section id="accueil" className={styles.heroSection}>
-      <div 
-        className={`${styles.heroBackground} ${!imageError ? styles.heroBackgroundWithImage : ''}`}
-        onLoad={() => setIsImageLoaded(true)}
-        onError={() => setImageError(true)}
-        role="img"
-        aria-label="Arrière-plan de la section d'accueil"
-      >
-        {!isImageLoaded && !imageError && (
-          <div className={styles.loadingOverlay}>
-            <div className={styles.loadingSpinner} />
-            <p>Chargement de l'image de fond...</p>
-          </div>
-        )}
-        {imageError && (
-          <div className={styles.errorOverlay}>
-            <p>Impossible de charger l'image de fond</p>
-          </div>
-        )}
+    <section id="accueil" className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce"></div>
+        <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce"></div>
       </div>
-      <div className={styles.heroContent}>
-        <Suspense fallback={<LoadingFallback />}>
-          {isImageLoaded && <FloatingIcons />}
-          <DecorativeBackground />
-        </Suspense>
 
-        <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]">
-            <div className="lg:w-1/2 space-y-8 text-center lg:text-left break-words max-w-full">
-              <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="block text-white drop-shadow-lg">Elyes Allani</span>
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                    BTS SIO SLAM
-                  </span>
-                </h1>
-                <div className="text-xl md:text-2xl lg:text-3xl font-semibold text-blue-200 drop-shadow-md">
-                  Développeur Full-Stack
-                </div>
-              </div>
-              
-              <p className="text-lg md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
-                Étudiant passionné par le développement logiciel et la création d'applications innovantes. 
-                Spécialisé dans les solutions web et mobiles modernes avec React, PHP et Node.js.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <HashLink
-                  to="/#contact"
-                  scroll={scrollWithOffset}
-                  className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
-                  aria-label="Contacter Elyes Allani"
-                >
-                  <Mail size={20} aria-hidden="true" />
-                  <span>Me contacter</span>
-                </HashLink>
-                <HashLink
-                  to="/#productions"
-                  scroll={scrollWithOffset}
-                  className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
-                  aria-label="Voir mes projets et réalisations"
-                >
-                  <ExternalLink size={20} aria-hidden="true" />
-                  <span>Voir mes projets</span>
-                </HashLink>
-                <Link
-                  to="/cv"
-                  className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
-                  aria-label="Voir mon CV complet"
-                >
-                  <FileText size={20} aria-hidden="true" />
-                  <span>Voir mon CV</span>
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-3 gap-6 pt-8">
-                <div className="text-center group">
-                  <div className="text-2xl md:text-3xl font-bold text-blue-300 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
-                  <div className="text-gray-200 text-sm md:text-base">Projets</div>
-                </div>
-                <div className="text-center group">
-                  <div className="text-2xl md:text-3xl font-bold text-purple-300 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
-                  <div className="text-gray-200 text-sm md:text-base">Stages</div>
-                </div>
-                <div className="text-center group">
-                  <div className="text-2xl md:text-3xl font-bold text-green-300 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
-                  <div className="text-gray-200 text-sm md:text-base">Technologies</div>
-                </div>
+      <div className="max-w-7xl mx-auto px-4 py-20 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between min-h-[80vh] pt-16">
+          <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                <span className="block text-white drop-shadow-lg">Elyes Allani</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                  BTS SIO SLAM
+                </span>
+              </h1>
+              <div className="text-xl md:text-2xl lg:text-3xl font-semibold text-blue-200 drop-shadow-md">
+                Développeur Full-Stack
               </div>
             </div>
+            
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
+              Étudiant passionné par le développement logiciel et la création d'applications innovantes. 
+              Spécialisé dans les solutions web et mobiles modernes avec React, PHP et Node.js.
+            </p>
 
-            <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
-              <div className="relative min-h-20 aspect-[4/3]">
-                <img
-                  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
-                  alt="Espace de travail moderne avec ordinateur et code - Développeur BTS SIO SLAM"
-                  className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
-                  width={800}
-                  height={600}
-                  loading="eager"
-                  {...(useFetchPriority ? { 'fetchpriority': 'high' } : {})}
-                />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <HashLink
+                to="/#contact"
+                scroll={scrollWithOffset}
+                className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
+              >
+                <Mail size={20} />
+                <span>Me contacter</span>
+              </HashLink>
+              <HashLink
+                to="/#productions"
+                scroll={scrollWithOffset}
+                className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
+              >
+                <ExternalLink size={20} />
+                <span>Voir mes projets</span>
+              </HashLink>
+              <HashLink
+                to="/#cv"
+                scroll={scrollWithOffset}
+                className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
+              >
+                <FileText size={20} />
+                <span>Voir mon CV</span>
+              </HashLink>
+            </div>
+
+            <div className="grid grid-cols-3 gap-6 pt-8">
+              <div className="text-center group">
+                <div className="text-2xl md:text-3xl font-bold text-blue-300 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
+                <div className="text-gray-200 text-sm md:text-base">Projets</div>
+              </div>
+              <div className="text-center group">
+                <div className="text-2xl md:text-3xl font-bold text-purple-300 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
+                <div className="text-gray-200 text-sm md:text-base">Stages</div>
+              </div>
+              <div className="text-center group">
+                <div className="text-2xl md:text-3xl font-bold text-green-300 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
+                <div className="text-gray-200 text-sm md:text-base">Technologies</div>
               </div>
             </div>
           </div>
 
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <Link 
-              to="/cv"
-              className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
-              aria-label="Aller à la page CV"
-            >
-              <ArrowDown className="w-8 h-8" aria-hidden="true" />
-            </Link>
+          <div className="lg:w-1/2 mt-12 lg:mt-0 relative">
+            <div className="relative aspect-[4/3]">
+              <img
+                src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80&fm=webp"
+                alt="Espace de travail moderne avec ordinateur et code"
+                className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 w-full h-auto"
+                loading="eager"
+              />
+            </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16 fill-gray-50" aria-hidden="true">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
-          </svg>
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <HashLink 
+            to="/#cv"
+            scroll={scrollWithOffset}
+            className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
+            aria-label="Aller à la section CV"
+          >
+            <ArrowDown className="w-8 h-8" />
+          </HashLink>
         </div>
+      </div>
+
+      {/* Wave separator */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16 fill-gray-50">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+          <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
+          <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
+        </svg>
       </div>
     </section>
   );
