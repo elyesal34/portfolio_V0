@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Calendar, MapPin, Building, Users, Target, Award } from 'lucide-react';
+import { useState } from 'react';
 
 const Stages = () => {
   const stages = [

@@ -137,7 +137,7 @@ const typescriptConfig = {
             position: 'after',
           },
         ],
-        pathGroupsExcludeImportTypes: ['builtin'],
+        pathGroupsExcludedImportTypes: ['builtin'],
       },
     ],
     'import/no-unresolved': 'off', // TS handles unresolved modules
@@ -226,7 +226,7 @@ const javascriptConfig = {
             position: 'after',
           },
         ],
-        pathGroupsExcludeImportTypes: ['builtin'],
+        pathGroupsExcludedImportTypes: ['builtin'],
       },
     ],
     'react-refresh/only-export-components': [

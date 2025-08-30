@@ -1,0 +1,34 @@
+# Ignore build and node_modules directories
+/dist
+/build
+/node_modules
+
+# Ignore test and configuration files
+/*.config.*
+/*.test.*
+/*.spec.*
+
+# Ignore test files with console statements
+/test-*.js
+
+# Ignore service worker and workbox files
+**/sw.js
+**/workbox-*.js
+**/runtime-*.js
+
+# Ignore Vite cache and config files
+/.vite
+/vite-*.js
+
+# Ignore IDE specific files
+/.idea
+/.vscode
+
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

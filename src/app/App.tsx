@@ -1,15 +1,23 @@
+// External dependencies
 import { useState, useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
+
+// Layout components
 import Footer from '../components/Footer';
-import Accueil from '../components/sections/home/Accueil';
-import CV from '../components/sections/about/CV';
+import Navbar from '../components/layout/Navbar';
+// About sections
 import Competences from '../components/sections/about/Competences';
-import AteliersPro from '../components/sections/projects/AteliersPro';
-import Stages from '../components/sections/projects/Stages';
-import Productions from '../components/sections/projects/Productions';
-import Veilles from '../components/sections/content/Veilles';
+import CV from '../components/sections/about/CV';
+// Contact section
 import Contact from '../components/sections/contact/Contact';
+// Content sections
+import Veilles from '../components/sections/content/Veilles';
+// Home section
+import Accueil from '../components/sections/home/Accueil';
+// Project sections
+import AteliersPro from '../components/sections/projects/AteliersPro';
+import Productions from '../components/sections/projects/Productions';
+import Stages from '../components/sections/projects/Stages';
 
 function App() {
   const [activeSection, setActiveSection] = useState('accueil');

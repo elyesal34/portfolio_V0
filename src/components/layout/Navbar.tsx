@@ -1,6 +1,6 @@
+import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
-import { Menu, X, Code2, BookOpen, Briefcase, GraduationCap, Mail, Home, FileText, Brain, ChevronUp } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;

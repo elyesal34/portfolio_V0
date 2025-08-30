@@ -1,27 +1,36 @@
-// Désactive le service worker en développement
-if (process.env.NODE_ENV !== 'production') {
-  console.log('Service Worker running in development mode');
-  self.addEventListener('install', () => self.skipWaiting());
-  self.addEventListener('activate', () => self.clients.claim());
-  
-  // Ne pas mettre en cache en développement
-  self.addEventListener('fetch', (event) => {
-    if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-      return;
-    }
-    event.respondWith(fetch(event.request));
-  });
-} else {
-  // Configuration pour la production
+/* global workbox, __WB_MANIFEST */
+
+// Service Worker configuration
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Skip waiting for the service worker to become active
+self.addEventListener('install', () => {
+  if (!isProduction) {
+    // Skip waiting immediately in development
+    self.skipWaiting();
+  }
+});
+
+// Claim control of any open pages
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
+// Only initialize Workbox in production
+if (isProduction) {
+  // Import Workbox from CDN
+  /* global importScripts */
   importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
   
-  // Désactive la journalisation en production
+  // Disable Workbox logs in production
   workbox.setConfig({ debug: false });
   
-  // Precaching des fichiers statiques
-  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
+  // Precaching of static files
+  if (typeof __WB_MANIFEST !== 'undefined') {
+    workbox.precaching.precacheAndRoute(__WB_MANIFEST);
+  }
   
-  // Stratégie pour les fichiers statiques (CSS, JS, images)
+  // Cache strategy for static assets (CSS, JS, images)
   workbox.routing.registerRoute(
     ({ request }) =>
       request.destination === 'style' ||
@@ -31,46 +40,44 @@ if (process.env.NODE_ENV !== 'production') {
       cacheName: 'static-assets',
       plugins: [
         new workbox.cacheableResponse.CacheableResponsePlugin({
-          statuses: [0, 200],
-        }),
-      ],
+          statuses: [0, 200]
+        })
+      ]
     })
   );
 
-  // Stratégie pour les pages (HTML)
+  // Cache strategy for HTML pages
   workbox.routing.registerRoute(
     ({ request }) => request.mode === 'navigate',
     new workbox.strategies.NetworkFirst({
       cacheName: 'pages',
       plugins: [
         new workbox.cacheableResponse.CacheableResponsePlugin({
-          statuses: [0, 200],
-        }),
-      ],
+          statuses: [0, 200]
+        })
+      ]
     })
   );
 
-  // Gestion de l'installation
-  self.addEventListener('install', (event) => {
-    console.log('Service Worker installing...');
-    self.skipWaiting();
-  });
-
-  // Gestion de l'activation
+  // Clean up old caches on activation
   self.addEventListener('activate', (event) => {
-    console.log('Service Worker activated');
+    const cacheWhitelist = ['pages', 'static-assets'];
     event.waitUntil(
-      caches.keys().then((cacheNames) => {
+      self.caches.keys().then((cacheNames) => {
         return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== 'pages' && cacheName !== 'static-assets') {
-              console.log('Deleting old cache:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
+          cacheNames
+            .filter((cacheName) => !cacheWhitelist.includes(cacheName))
+            .map((cacheName) => self.caches.delete(cacheName))
         );
       })
     );
-    event.waitUntil(clients.claim());
+  });
+} else {
+  // Development mode: bypass caching
+  self.addEventListener('fetch', (event) => {
+    if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+      return;
+    }
+    event.respondWith(self.fetch(event.request));
   });
 }

@@ -1,5 +1,5 @@
-import { useState, memo } from 'react';
 import { Globe, Code2, Database, Smartphone, Shield, Users } from 'lucide-react';
+import { useState, memo } from 'react';
 
 const AteliersPro = () => {
   const ateliers = [

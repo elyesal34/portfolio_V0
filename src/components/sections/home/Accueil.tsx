@@ -1,5 +1,5 @@
-import { HashLink } from 'react-router-hash-link';
 import { ArrowDown, FileText, Mail, ExternalLink } from 'lucide-react';
+import { HashLink } from 'react-router-hash-link';
 
 const Accueil = () => {
   const scrollWithOffset = (el: HTMLElement) => {
