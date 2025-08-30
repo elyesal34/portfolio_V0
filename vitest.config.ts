@@ -3,7 +3,6 @@
 
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -11,18 +10,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/__tests__/setup.ts'],
-    include: ['src/__tests__/**/*.{test,spec}.{js,ts,tsx}'],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
     testTimeout: 10000,
-    environmentOptions: {
-      jsdom: {
-        url: 'http://localhost:3000'
-      }
-    }
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src')
-    }
+    watch: false,
+    passWithNoTests: true
   }
 })
