@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import ThemeSwitcher from '@/components/ui/ThemeSwitcher';
 
 // Extend the Window interface for gtag
 declare global {
@@ -21,12 +22,14 @@ const Navbar: React.FC = () => {
 
   // Menu items with absolute paths for routing
   const menuItems = useMemo<MenuItem[]>(() => [
-    { title: 'Accueil', hash: '/#accueil', icon: '🏠' },
-    { title: 'À Propos', hash: '/#a-propos', icon: '👤' },
+    { title: 'CV', hash: '/#cv', icon: '📄' },
+    { title: 'Ateliers', hash: '/#ateliers', icon: '🔧' },
+    { title: 'Stages', hash: '/#stages', icon: '🏢' },
     { title: 'Compétences', hash: '/#competences', icon: '💻' },
-    { title: 'Projets', hash: '/#projets', icon: '📂' },
-    { title: 'Formation', hash: '/#formation', icon: '🎓' },
+    { title: 'Productions', hash: '/#productions', icon: '📂' },
+    { title: 'Veilles', hash: '/#veilles', icon: '🔍' },
     { title: 'Contact', hash: '/#contact', icon: '📧' },
+    { title: 'Démo Thème', hash: '/theme-demo', icon: '🎨' },
   ], []);
 
   // Handle smooth scrolling to sections
@@ -77,20 +80,26 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100;
       
-      menuItems.forEach(({ hash }) => {
-        const section = document.getElementById(hash.replace('/#', ''));
-        if (section) {
-          const { offsetTop, offsetHeight } = section;
+      // Vérifier chaque section
+      const sections = ['accueil', 'cv', 'ateliers', 'stages', 'competences', 'productions', 'veilles', 'contact'];
+      
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(hash);
+            setActiveSection(`/#${sectionId}`);
+            break;
           }
         }
-      });
+      }
     };
 
     window.addEventListener('scroll', handleScroll as EventListener);
+    handleScroll(); // Appel initial
+    
     return () => window.removeEventListener('scroll', handleScroll as EventListener);
-  }, [menuItems]);
+  }, []);
 
   // Handle scroll event
   useEffect(() => {
@@ -104,23 +113,22 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed w-full z-50 h-16 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
-          : 'bg-transparent border-b border-transparent'
-      }`} 
+      ref={mobileMenuRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      } dark:border-b dark:border-gray-800`}
       role="navigation" 
       aria-label="Navigation principale"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <a 
-              href="/#accueil" 
-              className="flex-shrink-0 flex items-center"
-              onClick={(e) => handleSmoothScroll(e, '/#accueil')}
+            <a
+              href="/"
+              className="flex items-center space-x-2 text-2xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              onClick={(e) => handleSmoothScroll(e, '/')}
             >
-              <span className="text-xl font-bold text-gray-900">Portfolio</span>
+              <span className="text-xl font-bold">Portfolio</span>
             </a>
           </div>
 
@@ -128,13 +136,13 @@ const Navbar: React.FC = () => {
           <div className="hidden md:ml-6 md:flex md:items-center md:space-x-8">
             {menuItems.map((item) => (
               <a
-                key={item.hash}
+                key={item.title}
                 href={item.hash}
-                className={`${
-                  activeSection === item.hash
-                    ? 'text-indigo-600'
-                    : 'text-gray-700 hover:text-indigo-600'
-                } px-3 py-2 text-sm font-medium transition-colors duration-200`}
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
+                  activeSection === item.hash.replace('#', '')
+                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800/70'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800/50'
+                }`}
                 onClick={(e) => handleSmoothScroll(e, item.hash)}
               >
                 <span className="mr-2" aria-hidden="true">{item.icon}</span>
@@ -143,11 +151,14 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center space-x-4">
+            {/* Theme Toggle Button */}
+            <ThemeSwitcher />
+
+            {/* Mobile menu button */}
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
               aria-controls="mobile-menu"
               aria-expanded="false"
               onClick={toggleMobileMenu}

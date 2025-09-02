@@ -9,7 +9,7 @@ const Accueil = () => {
   };
 
   return (
-    <section id="accueil" className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+    <section id="accueil" className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 text-gray-900 dark:text-white relative overflow-hidden transition-colors duration-300">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
@@ -23,8 +23,8 @@ const Accueil = () => {
           <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                <span className="block text-white drop-shadow-lg">Elyes Allani</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                <span className="block text-gray-900 dark:text-white drop-shadow-lg">Elyes Allani</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
                   BTS SIO SLAM
                 </span>
               </h1>
@@ -44,7 +44,7 @@ const Accueil = () => {
                 scroll={scrollWithOffset}
                 className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
               >
-                <Mail size={20} />
+                <Mail width={20} height={20} />
                 <span>Me contacter</span>
               </HashLink>
               <HashLink
@@ -52,7 +52,7 @@ const Accueil = () => {
                 scroll={scrollWithOffset}
                 className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
               >
-                <ExternalLink size={20} />
+                <ExternalLink width={20} height={20} />
                 <span>Voir mes projets</span>
               </HashLink>
               <HashLink
@@ -60,7 +60,7 @@ const Accueil = () => {
                 scroll={scrollWithOffset}
                 className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
               >
-                <FileText size={20} />
+                <FileText width={20} height={20} />
                 <span>Voir mon CV</span>
               </HashLink>
             </div>
@@ -100,7 +100,7 @@ const Accueil = () => {
             className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
             aria-label="Aller à la section CV"
           >
-            <ArrowDown className="w-8 h-8" />
+            <ArrowDown width={32} height={32} className="w-8 h-8" />
           </HashLink>
         </div>
       </div>

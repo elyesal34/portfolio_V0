@@ -1,6 +1,7 @@
 // External dependencies
 import { useState, useEffect } from 'react';
-import { HashRouter } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
+import ThemeDemo from '../components/demo/ThemeDemo';
 
 // Layout components
 import Footer from '../components/Footer';
@@ -53,24 +54,25 @@ function App() {
 
   return (
     <HashRouter>
-      <div className="min-h-screen bg-gray-50">
-        <Navbar 
-          activeSection={activeSection}
-          isMobileMenuOpen={isMobileMenuOpen}
-          onMobileMenuToggle={toggleMobileMenu}
-        />
-        
-        <main id="main-content">
-          <Accueil />
-          <CV />
-          <AteliersPro />
-          <Stages />
-          <Competences />
-          <Productions />
-          <Veilles />
-          <Contact />
+      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+        <Navbar />
+        <main id="main-content" className="flex-grow">
+          <Routes>
+            <Route path="/theme-demo" element={<ThemeDemo />} />
+            <Route path="/*" element={
+              <>
+                <Accueil />
+                <CV />
+                <AteliersPro />
+                <Stages />
+                <Competences />
+                <Productions />
+                <Veilles />
+                <Contact />
+              </>
+            } />
+          </Routes>
         </main>
-        
         <Footer />
       </div>
     </HashRouter>

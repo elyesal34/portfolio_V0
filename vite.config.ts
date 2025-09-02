@@ -18,7 +18,7 @@ export default defineConfig({
     open: true,
     strictPort: true,
     hmr: {
-      port: 3000,
+      clientPort: 3000,
       protocol: 'ws',
       overlay: false
     }

@@ -13,7 +13,12 @@ Bienvenue sur mon portfolio personnel, développé avec React, TypeScript et Tai
 
 ```
 src/
-├── components/      # Composants réutilisables
+├── __tests__/      # Tests unitaires et d'intégration
+│   ├── components/  # Tests des composants
+│   ├── integration/ # Tests d'intégration
+│   ├── setup/       # Configuration des tests
+│   └── unit/        # Tests unitaires
+├── components/     # Composants réutilisables
 ├── sections/       # Sections principales du site
 ├── app/            # Configuration de l'application
 └── styles/         # Fichiers de style globaux
@@ -22,6 +27,12 @@ docs/
 ├── development/    # Documentation technique
 ├── testing/        # Rapports de tests
 └── security/       # Politiques de sécurité
+
+scripts/
+├── check/         # Scripts de vérification
+└── run/           # Scripts d'exécution
+
+test-utils/        # Utilitaires pour les tests
 ```
 
 ## 🛠 Installation

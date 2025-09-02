@@ -20,7 +20,16 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          # Clean npm cache and remove any existing node_modules
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+          
+          # Install dependencies with legacy peer deps to avoid conflicts
+          npm install --legacy-peer-deps
+          
+          # Clear the Vite cache
+          rm -rf node_modules/.vite
 
       - name: Lint (strict)
         run: npm run lint:strict
