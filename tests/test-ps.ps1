@@ -1,6 +1,0 @@
-Write-Output "Test PowerShell"
-Write-Output "=============="
-Write-Output "Date: $(Get-Date)"
-Write-Output "Current directory: $(Get-Location)"
-Write-Output "Node.js version: $(node --version 2>&1 | Out-String)"
-Write-Output "npm version: $(npm --version 2>&1 | Out-String)"

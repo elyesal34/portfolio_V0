@@ -1,9 +1,0 @@
-
-[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/portfolio/portfolio_V0[39m
-
-[31mNo test files found, exiting with code 1
-[39m
-[2mfilter: [22m[33msimple-vitest-test.js[39m
-[2minclude: [22m[33msrc/__tests__/unit/**/*.test.{ts,tsx}[39m
-[2mexclude:  [22m[33m**/node_modules/**[2m, [22m**/dist/**[2m, [22m**/.{idea,git,cache,output,temp}/**[2m, [22m**/*.config.*[2m, [22m**/__tests__/setup/**[39m
-
