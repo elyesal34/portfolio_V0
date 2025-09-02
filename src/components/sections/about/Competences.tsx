@@ -78,9 +78,9 @@ const Competences = () => {
   ]), []);
 
   const getNiveauColor = useCallback((niveau: number): string => {
-    if (niveau >= 80) return "bg-green-500";
-    if (niveau >= 60) return "bg-yellow-500";
-    return "bg-red-500";
+    if (niveau >= 80) return "bg-green-500 dark:bg-green-400";
+    if (niveau >= 60) return "bg-yellow-500 dark:bg-yellow-400";
+    return "bg-red-500 dark:bg-red-400";
   }, []);
 
   const getNiveauText = useCallback((niveau: number): string => {
@@ -112,11 +112,12 @@ const Competences = () => {
   }, [competencesTransversales.length]);
 
   return (
-    <section id="competences" className="min-h-screen pt-16 scroll-mt-16 bg-white">
+    <section id="competences" className="min-h-screen pt-16 scroll-mt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Compétences</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Compétences</h2>
+          <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Panorama des compétences techniques et transversales acquises 
             durant la formation BTS SIO et développées à travers les projets 
             et stages en entreprise.
@@ -125,13 +126,13 @@ const Competences = () => {
 
         {/* Compétences techniques */}
         <div className="mb-16">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Techniques</h3>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Compétences Techniques</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {competencesTechniques.map((categorie, catIdx) => (
-              <div key={categorie.categorie} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+              <div key={categorie.categorie} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
                 <div className="flex items-center mb-6">
-                  <div className="text-blue-500 mr-3">{categorie.icon}</div>
-                  <h4 className="text-xl font-bold text-gray-900">{categorie.categorie}</h4>
+                  <div className="text-blue-500 dark:text-blue-400 mr-3">{categorie.icon}</div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">{categorie.categorie}</h4>
                 </div>
                 <div className="space-y-4">
                   {categorie.competences
@@ -139,7 +140,7 @@ const Competences = () => {
                     .map((comp) => (
                       <div key={comp.nom}>
                         <div className="flex justify-between items-center mb-2">
-                          <span className="font-medium text-gray-800">{comp.nom}</span>
+                          <span className="font-medium text-gray-800 dark:text-gray-200">{comp.nom}</span>
                           <span 
                             className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}
                           >
@@ -152,14 +153,14 @@ const Competences = () => {
                           label={comp.nom}
                           className="mb-1"
                         />
-                        <p className="text-sm text-gray-600">{comp.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{comp.description}</p>
                       </div>
                   ))}
                   {visibleTechCounts[catIdx] < categorie.competences.length && (
                     <div className="flex justify-center mt-4">
                       <button
                         onClick={() => showMoreTech(catIdx)}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                        className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                       >
                         Voir plus
                       </button>
@@ -173,15 +174,15 @@ const Competences = () => {
 
         {/* Compétences transversales */}
         <div className="mb-16">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8">Compétences Transversales</h3>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Compétences Transversales</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {competencesTransversales.slice(0, visibleTransCount).map((comp) => (
-              <div key={comp.nom} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+              <div key={comp.nom} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
                 <div className="flex items-center mb-4">
                   {comp.icon}
-                  <h4 className="text-lg font-bold text-gray-900 ml-3">{comp.nom}</h4>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white ml-3">{comp.nom}</h4>
                 </div>
-                <p className="text-gray-600 mb-4">{comp.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{comp.description}</p>
                 <ProgressBar 
                   level={comp.niveau}
                   levelColor={getNiveauColor(comp.niveau)}
@@ -189,7 +190,7 @@ const Competences = () => {
                   className="h-2.5"
                 />
                 <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm text-gray-500">Niveau</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Niveau</span>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getNiveauColor(comp.niveau)}`}>
                     {getNiveauText(comp.niveau)}
                   </span>
@@ -201,7 +202,7 @@ const Competences = () => {
             <div className="flex justify-center mt-4">
               <button
                 onClick={showMoreTrans}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
               >
                 Voir plus
               </button>
@@ -210,12 +211,12 @@ const Competences = () => {
         </div>
 
         {/* Référentiel BTS SIO */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-6">Référentiel BTS SIO - Option SLAM</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h4 className="text-lg font-semibold mb-4">Compétences du référentiel</h4>
-              <ul className="space-y-2 text-blue-100">
+              <ul className="space-y-2 text-blue-100 dark:text-blue-200">
                 <li>• Concevoir et développer une solution applicative</li>
                 <li>• Assurer la maintenance corrective ou évolutive</li>
                 <li>• Gérer les données de l'information</li>
@@ -225,7 +226,7 @@ const Competences = () => {
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Processus métier couverts</h4>
-              <ul className="space-y-2 text-blue-100">
+              <ul className="space-y-2 text-blue-100 dark:text-blue-200">
                 <li>• P1 : Support et mise à disposition de services informatiques</li>
                 <li>• P2 : Conception et développement d'applications</li>
                 <li>• P3 : Maintenance des applications</li>

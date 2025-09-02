@@ -11,11 +11,11 @@ const Accueil = () => {
   return (
     <section id="accueil" className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 text-gray-900 dark:text-white relative overflow-hidden transition-colors duration-300">
       {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-20 h-20 border border-white rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-bounce"></div>
-        <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 rounded-full animate-pulse"></div>
-        <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 rounded-full animate-bounce"></div>
+      <div className="absolute inset-0 opacity-10 dark:opacity-5">
+        <div className="absolute top-20 left-10 w-20 h-20 border border-blue-400 dark:border-blue-300 rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-16 h-16 bg-purple-400 dark:bg-purple-300 rounded-full animate-bounce"></div>
+        <div className="absolute bottom-40 left-20 w-12 h-12 bg-blue-400 dark:bg-blue-300 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-20 right-40 w-24 h-24 border border-purple-400 dark:border-purple-300 rounded-full animate-bounce"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-20 relative z-10">
@@ -28,12 +28,12 @@ const Accueil = () => {
                   BTS SIO SLAM
                 </span>
               </h1>
-              <div className="text-xl md:text-2xl lg:text-3xl font-semibold text-blue-200 drop-shadow-md">
+              <div className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-700 dark:text-gray-300 drop-shadow-md">
                 Développeur Full-Stack
               </div>
             </div>
             
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl drop-shadow-sm">
               Étudiant passionné par le développement logiciel et la création d'applications innovantes. 
               Spécialisé dans les solutions web et mobiles modernes avec React, PHP et Node.js.
             </p>
@@ -42,41 +42,41 @@ const Accueil = () => {
               <HashLink
                 to="/#contact"
                 scroll={scrollWithOffset}
-                className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
+                className="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 dark:from-blue-600 dark:to-purple-700 dark:hover:from-blue-700 dark:hover:to-purple-800 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 text-white"
               >
-                <Mail width={20} height={20} />
+                <Mail className="w-5 h-5" />
                 <span>Me contacter</span>
               </HashLink>
               <HashLink
-                to="/#productions"
+                to="/#projets"
                 scroll={scrollWithOffset}
-                className="group border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
+                className="group border-2 border-gray-900 dark:border-white hover:bg-gray-900 dark:hover:bg-white hover:text-white dark:hover:text-gray-900 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-gray-900 dark:text-white"
               >
-                <ExternalLink width={20} height={20} />
+                <ExternalLink className="w-5 h-5" />
                 <span>Voir mes projets</span>
               </HashLink>
               <HashLink
-                to="/#cv"
+                to="/#formation"
                 scroll={scrollWithOffset}
-                className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-white"
+                className="group bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-gray-700/50 border border-white/30 dark:border-gray-600 px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 text-gray-900 dark:text-white"
               >
-                <FileText width={20} height={20} />
-                <span>Voir mon CV</span>
+                <FileText className="w-5 h-5" />
+                <span>Ma formation</span>
               </HashLink>
             </div>
 
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center group">
-                <div className="text-2xl md:text-3xl font-bold text-blue-300 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
-                <div className="text-gray-200 text-sm md:text-base">Projets</div>
+                <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform drop-shadow-md">12+</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">Projets</div>
               </div>
               <div className="text-center group">
-                <div className="text-2xl md:text-3xl font-bold text-purple-300 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
-                <div className="text-gray-200 text-sm md:text-base">Stages</div>
+                <div className="text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform drop-shadow-md">2</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">Stages</div>
               </div>
               <div className="text-center group">
-                <div className="text-2xl md:text-3xl font-bold text-green-300 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
-                <div className="text-gray-200 text-sm md:text-base">Technologies</div>
+                <div className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform drop-shadow-md">8+</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">Technologies</div>
               </div>
             </div>
           </div>
@@ -95,19 +95,19 @@ const Accueil = () => {
 
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <HashLink 
-            to="/#cv"
+            to="/#a-propos"
             scroll={scrollWithOffset}
-            className="text-white hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10"
-            aria-label="Aller à la section CV"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-white/10 dark:hover:bg-gray-800/50"
+            aria-label="Aller à la section À propos"
           >
-            <ArrowDown width={32} height={32} className="w-8 h-8" />
+            <ArrowDown className="w-8 h-8" />
           </HashLink>
         </div>
       </div>
 
       {/* Wave separator */}
       <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16 fill-gray-50">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16 fill-white dark:fill-gray-900">
           <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
           <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
           <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>

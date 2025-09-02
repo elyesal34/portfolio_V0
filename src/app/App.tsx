@@ -1,33 +1,26 @@
-// External dependencies
 import { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, Link } from 'react-router-dom';
-import ThemeDemo from '../components/demo/ThemeDemo';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
-// Layout components
+import ThemeDemo from '../components/demo/ThemeDemo';
 import Footer from '../components/Footer';
 import Navbar from '../components/layout/Navbar';
-// About sections
 import Competences from '../components/sections/about/Competences';
-import CV from '../components/sections/about/CV';
-// Contact section
+import Formation from '../components/sections/about/Formation';
+import APropos from '../components/sections/about/APropos';
 import Contact from '../components/sections/contact/Contact';
-// Content sections
 import Veilles from '../components/sections/content/Veilles';
-// Home section
 import Accueil from '../components/sections/home/Accueil';
-// Project sections
 import AteliersPro from '../components/sections/projects/AteliersPro';
-import Productions from '../components/sections/projects/Productions';
+import Projets from '../components/sections/projects/Projets';
 import Stages from '../components/sections/projects/Stages';
 
 function App() {
   const [activeSection, setActiveSection] = useState('accueil');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Gérer la section active basée sur le scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['accueil', 'cv', 'ateliers', 'stages', 'competences', 'productions', 'veilles', 'contact'];
+      const sections = ['accueil', 'a-propos', 'formation', 'ateliers', 'stages', 'competences', 'projets', 'veilles', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const sectionId of sections) {
@@ -48,10 +41,6 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   return (
     <HashRouter>
       <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -62,11 +51,12 @@ function App() {
             <Route path="/*" element={
               <>
                 <Accueil />
-                <CV />
+                <APropos />
+                <Formation />
                 <AteliersPro />
                 <Stages />
                 <Competences />
-                <Productions />
+                <Projets />
                 <Veilles />
                 <Contact />
               </>

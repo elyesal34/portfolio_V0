@@ -74,11 +74,12 @@ const Veilles = () => {
   const visibleArticles = articles.slice(0, visibleCount);
 
   return (
-    <section id="veilles" className="min-h-screen pt-16 scroll-mt-16 bg-white">
+    <section id="veilles" className="min-h-screen pt-16 scroll-mt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Veille Technologique</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Veille Technologique</h2>
+          <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             La veille technologique est essentielle dans le domaine informatique. 
             Elle permet de rester à jour sur les évolutions technologiques, 
             les nouvelles pratiques et les tendances du marché.
@@ -87,18 +88,18 @@ const Veilles = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <BookOpen className="w-6 h-6 mr-2 text-blue-500" />
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+              <BookOpen className="w-6 h-6 mr-2 text-blue-500 dark:text-blue-400" />
               Articles de veille
             </h3>
             
             <div className="space-y-8">
               {visibleArticles.map((article, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+                <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">{article.titre}</h4>
-                      <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                      <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{article.titre}</h4>
+                      <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
                         <div className="flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
                           <span>{article.date}</span>
@@ -111,11 +112,11 @@ const Veilles = () => {
                     </div>
                   </div>
                   
-                  <p className="text-gray-600 mb-4">{article.resume}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">{article.resume}</p>
                   
                   <div className="mb-4">
-                    <h5 className="font-semibold text-gray-800 mb-2">Points clés abordés :</h5>
-                    <ul className="list-disc list-inside text-gray-600 space-y-1">
+                    <h5 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Points clés abordés :</h5>
+                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
                       {article.contenu.map((point, pointIndex) => (
                         <li key={pointIndex}>{point}</li>
                       ))}
@@ -123,10 +124,10 @@ const Veilles = () => {
                   </div>
                   
                   <div className="mb-4">
-                    <h5 className="font-semibold text-gray-800 mb-2">Sources consultées :</h5>
+                    <h5 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Sources consultées :</h5>
                     <div className="flex flex-wrap gap-2">
                       {article.sources.map((source, sourceIndex) => (
-                        <span key={sourceIndex} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+                        <span key={sourceIndex} className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded text-sm border border-blue-200 dark:border-blue-700">
                           {source}
                         </span>
                       ))}
@@ -135,7 +136,7 @@ const Veilles = () => {
                   
                   <div className="flex flex-wrap gap-2">
                     {article.tags.map((tag, tagIndex) => (
-                      <span key={tagIndex} className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs">
+                      <span key={tagIndex} className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full text-xs border border-gray-300 dark:border-gray-600">
                         #{tag}
                       </span>
                     ))}
@@ -148,7 +149,7 @@ const Veilles = () => {
               <div className="flex justify-center mt-8">
                 <button
                   onClick={() => setVisibleCount(visibleCount + 2)}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+                  className="px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                 >
                   Voir plus d'articles
                 </button>
@@ -157,31 +158,31 @@ const Veilles = () => {
           </div>
 
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <TrendingUp className="w-6 h-6 mr-2 text-green-500" />
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+              <TrendingUp className="w-6 h-6 mr-2 text-green-500 dark:text-green-400" />
               Sources de veille
             </h3>
             
             <div className="space-y-4">
               {sources.map((source, index) => (
-                <div key={index} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                <div key={index} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-all duration-300">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 mb-1">{source.nom}</h4>
-                      <p className="text-sm text-gray-600 mb-2">{source.description}</p>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{source.nom}</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{source.description}</p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" />
+                    <ExternalLink className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0 ml-2" />
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-100">
-              <h4 className="flex items-center text-lg font-semibold text-gray-900 mb-4">
-                <Lightbulb className="w-5 h-5 mr-2 text-yellow-500" />
+            <div className="mt-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800">
+              <h4 className="flex items-center text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <Lightbulb className="w-5 h-5 mr-2 text-yellow-500 dark:text-yellow-400" />
                 Méthodologie de veille
               </h4>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                 <li>• Consultation quotidienne des sources fiables</li>
                 <li>• Abonnement aux newsletters spécialisées</li>
                 <li>• Participation aux communautés de développeurs</li>
@@ -193,20 +194,20 @@ const Veilles = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-4">Importance de la veille technologique</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h4 className="font-semibold mb-2">Rester compétitif</h4>
-              <p className="text-blue-100">Se tenir au courant des dernières innovations pour maintenir ses compétences à jour.</p>
+              <p className="text-blue-100 dark:text-blue-200">Se tenir au courant des dernières innovations pour maintenir ses compétences à jour.</p>
             </div>
             <div>
               <h4 className="font-semibold mb-2">Anticiper les évolutions</h4>
-              <p className="text-blue-100">Identifier les tendances émergentes pour s'adapter aux besoins futurs du marché.</p>
+              <p className="text-blue-100 dark:text-blue-200">Identifier les tendances émergentes pour s'adapter aux besoins futurs du marché.</p>
             </div>
             <div>
               <h4 className="font-semibold mb-2">Améliorer ses pratiques</h4>
-              <p className="text-blue-100">Découvrir de nouveaux outils et méthodes pour optimiser son travail.</p>
+              <p className="text-blue-100 dark:text-blue-200">Découvrir de nouveaux outils et méthodes pour optimiser son travail.</p>
             </div>
           </div>
         </div>

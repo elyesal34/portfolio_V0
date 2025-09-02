@@ -46,15 +46,16 @@ const Stages = () => {
     }
   ];
 
-  const [visibleCount, setVisibleCount] = useState(1);
+  const [visibleCount, setVisibleCount] = useState(2);
   const visibleStages = stages.slice(0, visibleCount);
 
   return (
-    <section id="stages" className="min-h-screen pt-16 scroll-mt-16 bg-gray-50">
+    <section id="stages" className="min-h-screen pt-16 scroll-mt-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Stages en Entreprise</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Stages en Entreprise</h2>
+          <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Les stages constituent une partie essentielle de la formation BTS SIO, 
             permettant de mettre en pratique les compétences acquises et de découvrir 
             le monde professionnel.
@@ -63,12 +64,12 @@ const Stages = () => {
 
         <div className="space-y-12">
           {visibleStages.map((stage, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
+            <div key={index} className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 p-6 text-white">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold mb-3">{stage.poste}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-100">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-blue-100 dark:text-blue-200">
                       <div className="flex items-center space-x-2">
                         <Building className="w-5 h-5 flex-shrink-0" />
                         <span className="font-medium">{stage.entreprise}</span>
@@ -84,40 +85,40 @@ const Stages = () => {
                     </div>
                   </div>
                   <div className="lg:ml-6">
-                    <div className="bg-white px-6 py-3 rounded-full shadow-lg">
-                      <span className="text-gray-900 font-bold text-lg">{stage.duree}</span>
+                    <div className="bg-white dark:bg-gray-800 px-6 py-3 rounded-full shadow-lg">
+                      <span className="text-gray-900 dark:text-white font-bold text-lg">{stage.duree}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="p-6">
-                <p className="text-gray-600 mb-6 text-lg leading-relaxed">{stage.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg leading-relaxed">{stage.description}</p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   <div>
-                    <h4 className="flex items-center text-lg font-semibold text-gray-800 mb-4">
-                      <Target className="w-5 h-5 mr-2 text-blue-500" />
+                    <h4 className="flex items-center text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                      <Target className="w-5 h-5 mr-2 text-blue-500 dark:text-blue-400" />
                       Missions principales
                     </h4>
                     <ul className="space-y-3">
                       {stage.missions.map((mission, missionIndex) => (
                         <li key={missionIndex} className="flex items-start">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-gray-600 leading-relaxed">{mission}</span>
+                          <span className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-gray-600 dark:text-gray-400 leading-relaxed">{mission}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <div>
-                    <h4 className="flex items-center text-lg font-semibold text-gray-800 mb-4">
-                      <Users className="w-5 h-5 mr-2 text-green-500" />
+                    <h4 className="flex items-center text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                      <Users className="w-5 h-5 mr-2 text-green-500 dark:text-green-400" />
                       Compétences utilisées
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {stage.competences.map((competence, compIndex) => (
-                        <span key={compIndex} className="bg-green-100 text-green-800 px-3 py-2 rounded-full text-sm font-medium border border-green-200">
+                        <span key={compIndex} className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-3 py-2 rounded-full text-sm font-medium border border-green-200 dark:border-green-700">
                           {competence}
                         </span>
                       ))}
@@ -125,15 +126,15 @@ const Stages = () => {
                   </div>
 
                   <div>
-                    <h4 className="flex items-center text-lg font-semibold text-gray-800 mb-4">
-                      <Award className="w-5 h-5 mr-2 text-purple-500" />
+                    <h4 className="flex items-center text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                      <Award className="w-5 h-5 mr-2 text-purple-500 dark:text-purple-400" />
                       Résultats obtenus
                     </h4>
                     <ul className="space-y-3">
                       {stage.resultats.map((resultat, resultIndex) => (
                         <li key={resultIndex} className="flex items-start">
-                          <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-gray-600 leading-relaxed">{resultat}</span>
+                          <span className="w-2 h-2 bg-purple-500 dark:bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-gray-600 dark:text-gray-400 leading-relaxed">{resultat}</span>
                         </li>
                       ))}
                     </ul>
@@ -148,19 +149,19 @@ const Stages = () => {
           <div className="flex justify-center mt-8">
             <button
               onClick={() => setVisibleCount(visibleCount + 1)}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+              className="px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
             >
               Voir plus de stages
             </button>
           </div>
         )}
 
-        <div className="mt-16 bg-white rounded-xl p-8 shadow-lg">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Bilan des stages</h3>
+        <div className="mt-16 bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Bilan des stages</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h4 className="text-lg font-semibold text-gray-800 mb-4">Apports professionnels</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Apports professionnels</h4>
+              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                 <li>• Découverte du monde de l'entreprise</li>
                 <li>• Application concrète des compétences techniques</li>
                 <li>• Développement de l'autonomie</li>
@@ -169,8 +170,8 @@ const Stages = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold text-gray-800 mb-4">Compétences développées</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Compétences développées</h4>
+              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                 <li>• Gestion de projet en environnement professionnel</li>
                 <li>• Communication avec les clients et utilisateurs</li>
                 <li>• Respect des délais et contraintes</li>

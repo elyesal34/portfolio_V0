@@ -1,54 +1,76 @@
-/* stylelint-disable at-rule-no-unknown */
 @import url('../styles/fonts.css');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* stylelint-enable at-rule-no-unknown */
+
+/* Variables CSS pour le thème */
+:root {
+  --color-primary: 59 130 246;
+  --color-primary-dark: 37 99 235;
+  --color-secondary: 139 92 246;
+  --color-secondary-dark: 124 58 237;
+  --color-success: 16 185 129;
+  --color-warning: 245 158 11;
+  --color-error: 239 68 68;
+  
+  /* Couleurs de fond */
+  --bg-primary: 255 255 255;
+  --bg-secondary: 249 250 251;
+  --bg-tertiary: 243 244 246;
+  
+  /* Couleurs de texte */
+  --text-primary: 17 24 39;
+  --text-secondary: 75 85 99;
+  --text-tertiary: 156 163 175;
+}
+
+.dark {
+  --bg-primary: 17 24 39;
+  --bg-secondary: 31 41 55;
+  --bg-tertiary: 55 65 81;
+  
+  --text-primary: 249 250 251;
+  --text-secondary: 209 213 219;
+  --text-tertiary: 156 163 175;
+}
 
 /* Optimisations critiques pour LCP et accessibilité */
 @layer base {
-  /* Style de base pour les éléments HTML */
   html {
-    /* Smooth scrolling for the entire document */
     scroll-behavior: smooth;
-    /* Prevent automatic anchor scrolling */
     overflow-anchor: none;
-    /* Improve text rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Adjust scroll padding for fixed header */
     scroll-padding-top: 5rem;
-  }
-  
-  /* Focus styles for keyboard navigation */
-  :focus-visible {
-    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white rounded;
-  }
-  
-  /* Skip to main content link */
-  .skip-to-content {
-    @apply absolute -top-12 left-4 z-50 bg-white px-4 py-2 text-blue-600 font-medium rounded-b-lg transition-transform duration-200 focus:top-4;
   }
   
   body {
     font-family: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    @apply bg-gray-50 text-gray-900;
+    background-color: rgb(var(--bg-primary));
+    color: rgb(var(--text-primary));
     line-height: 1.6;
-    /* Prevent FOUC */
     visibility: visible;
     opacity: 1;
-    /* Prevent automatic anchor scrolling */
     overflow-anchor: none;
-    /* Smooth font rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Prevent horizontal scroll */
     max-width: 100%;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Verrouillage temporaire du scroll durant la stabilisation initiale (retiré par scroll-restoration.js) */
+  /* Focus styles pour la navigation au clavier */
+  :focus-visible {
+    @apply outline-none ring-2 ring-blue-500 dark:ring-blue-400 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 rounded;
+  }
+  
+  /* Skip to main content link */
+  .skip-to-content {
+    @apply absolute -top-12 left-4 z-50 bg-white dark:bg-gray-800 px-4 py-2 text-blue-600 dark:text-blue-400 font-medium rounded-b-lg transition-transform duration-200 focus:top-4;
+  }
+
+  /* Verrouillage temporaire du scroll durant la stabilisation initiale */
   html.no-scroll,
   body.no-scroll {
     overflow: hidden !important;
@@ -56,7 +78,7 @@
   }
 }
 
-/* Optimized animations for performance */
+/* Animations optimisées pour les performances */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -65,50 +87,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* Reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Focus styles for keyboard navigation only */
-.focus-visible:focus:not(:focus-visible) {
-  @apply outline-none ring-0;
-}
-
-/* Print styles */
-@media print {
-  body {
-    background: white;
-    color: black;
-    font-size: 12pt;
-  }
-  
-  /* Hide non-essential elements in print */
-  .no-print {
-    display: none !important;
-  }
-  
-  /* Ensure links are visible in print */
-  a[href^='http']:after {
-    content: ' (' attr(href) ')';
-    font-size: 0.8em;
-    font-weight: normal;
-    color: #6b7280;
-  }
-  
-  /* Page breaks */
-  .page-break {
-    page-break-before: always;
   }
 }
 
@@ -123,9 +101,44 @@
   }
 }
 
+/* Préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Styles d'impression */
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  a[href^='http']:after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #6b7280;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+}
+
 /* Animation fade-in désactivée par défaut pour LCP */
 .animate-fade-in {
-  /* Animation désactivée pour améliorer LCP */
   animation: none;
 }
 
@@ -141,21 +154,16 @@
 
 /* Optimisations critiques pour les performances */
 @layer utilities {
-  /* Optimisation du rendu des images */
   img {
     content-visibility: auto;
     contain-intrinsic-size: 800px 600px;
   }
   
-  /* Optimisation du rendu des sections (opt-in uniquement)
-     Note: appliqué auparavant à tous les <section>, cela perturbait la navigation par ancres (#hash)
-     en retardant le rendu de la section cible. On le restreint à une classe optionnelle. */
   .lazy-section {
     content-visibility: auto;
     contain-intrinsic-size: 0 1000px;
   }
   
-  /* Optimisation des animations */
   .animate-bounce,
   .animate-pulse {
     animation-duration: 2s;
@@ -163,7 +171,7 @@
   }
 }
 
-/* Accessibility improvements */
+/* Accessibilité améliorée */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -187,126 +195,72 @@
   white-space: normal;
 }
 
-/* Focus styles optimisés */
+/* Styles de focus optimisés pour le thème sombre */
 *:focus {
-  outline: 2px solid #3B82F6;
+  outline: 2px solid rgb(var(--color-primary));
   outline-offset: 2px;
 }
 
 button:focus,
 a:focus {
-  outline: 2px solid #3B82F6;
+  outline: 2px solid rgb(var(--color-primary));
   outline-offset: 2px;
 }
 
-/* Optimisations pour les utilisateurs préférant moins d'animations */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  .animate-bounce,
-  .animate-pulse,
-  .animate-fade-in,
-  .animate-gradient {
-    animation: none !important;
-  }
-}
-
-/* High contrast mode support */
+/* Support du mode contraste élevé */
 @media (prefers-contrast: high) {
   .bg-gray-50 {
     background-color: #ffffff;
+  }
+  
+  .dark .bg-gray-50 {
+    background-color: #000000;
   }
   
   .text-gray-600 {
     color: #000000;
   }
   
+  .dark .text-gray-600 {
+    color: #ffffff;
+  }
+  
   .border-gray-200 {
     border-color: #000000;
   }
-}
-
-/* Dark mode support optimisé */
-@media (prefers-color-scheme: dark) {
-  .bg-gray-50 {
-    background-color: #1f2937;
-  }
   
-  .bg-white {
-    background-color: #374151;
-  }
-  
-  .text-gray-900 {
-    color: #f9fafb;
-  }
-  
-  .text-gray-600 {
-    color: #d1d5db;
+  .dark .border-gray-200 {
+    border-color: #ffffff;
   }
 }
 
-/* Print styles optimisés */
-@media print {
-  .fixed {
-    position: static;
-  }
-  
-  .bg-gradient-to-r,
-  .bg-gradient-to-br {
-    background: #ffffff !important;
-    color: #000000 !important;
-  }
-  
-  .shadow-lg,
-  .shadow-xl,
-  .shadow-2xl {
-    box-shadow: none !important;
-  }
-  
-  .animate-bounce,
-  .animate-pulse,
-  .animate-fade-in {
-    animation: none !important;
-  }
-}
-
-/* Custom scrollbar optimisé */
+/* Scrollbar personnalisée avec support du thème sombre */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: rgb(var(--bg-secondary));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: rgb(var(--text-tertiary));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgb(var(--text-secondary));
 }
 
-/* Selection styles */
+/* Styles de sélection avec support du thème sombre */
 ::selection {
-  background-color: #3b82f6;
-  color: white;
+  background-color: rgb(var(--color-primary) / 0.3);
+  color: rgb(var(--text-primary));
 }
 
 ::-moz-selection {
-  background-color: #3b82f6;
-  color: white;
+  background-color: rgb(var(--color-primary) / 0.3);
+  color: rgb(var(--text-primary));
 }
 
 /* Optimisations de performance critiques */
@@ -335,7 +289,7 @@ a:focus {
   }
 }
 
-/* Hover effects optimisés */
+/* Effets de survol optimisés */
 .hover-lift {
   transition: transform 0.2s ease-in-out;
 }
@@ -344,22 +298,27 @@ a:focus {
   transform: translateY(-2px);
 }
 
-/* Glass morphism effect optimisé */
+/* Effet glass morphism optimisé */
 .glass {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Gradient text optimisé */
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Texte en dégradé optimisé */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-secondary)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Card hover effects optimisés */
+/* Effets de survol des cartes optimisés */
 .card-hover {
   transition: all 0.3s ease;
 }
@@ -369,7 +328,11 @@ a:focus {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Button animations optimisées */
+.dark .card-hover:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations de boutons optimisées */
 .btn-animate {
   position: relative;
   overflow: hidden;
@@ -391,75 +354,35 @@ a:focus {
   left: 100%;
 }
 
-/* Form improvements optimisés */
+/* Améliorations des formulaires */
 input:focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgb(var(--color-primary) / 0.1);
 }
 
-/* Error states */
+/* États d'erreur */
 .error {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  border-color: rgb(var(--color-error));
+  box-shadow: 0 0 0 3px rgb(var(--color-error) / 0.1);
 }
 
-/* Success states */
+/* États de succès */
 .success {
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: rgb(var(--color-success));
+  box-shadow: 0 0 0 3px rgb(var(--color-success) / 0.1);
 }
 
-/* Typography improvements optimisées */
+/* Améliorations typographiques */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: #0f172a;
+  color: rgb(var(--text-primary));
   font-weight: 700;
   line-height: 1.2;
-  /* Optimisation critique pour le rendu */
   text-rendering: optimizeSpeed;
 }
 
-/* Text contrast improvements */
-.text-gray-600 {
-  color: #475569 !important;
-}
-
-.text-gray-700 {
-  color: #334155 !important;
-}
-
-.text-gray-800 {
-  color: #1e293b !important;
-}
-
-.text-gray-900 {
-  color: #0f172a !important;
-}
-
-/* Background contrast improvements */
-.bg-gray-50 {
-  background-color: #f8fafc !important;
-}
-
-.bg-gray-100 {
-  background-color: #f1f5f9 !important;
-}
-
-/* Drop shadow optimisé */
-.drop-shadow-sm {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-}
-
-.drop-shadow-md {
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-}
-
-.drop-shadow-lg {
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
-}
-
-/* Mobile optimizations critiques */
+/* Optimisations mobiles critiques */
 @media (max-width: 768px) {
   body {
     font-size: 16px;
@@ -480,50 +403,42 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.3;
   }
   
-  /* Optimisations critiques pour mobile */
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
   }
   
-  /* Éviter les débordements horizontaux */
   * {
     max-width: 100%;
     box-sizing: border-box;
   }
   
-  /* Optimisation des boutons pour mobile */
   button, .btn, .btn-animate, a[role="button"] {
     min-width: 48px;
     min-height: 48px;
     font-size: 1rem;
     padding: 12px 16px;
     font-weight: 600;
-    /* Éviter les débordements */
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
   
-  /* Optimisation des cartes pour mobile */
   .card, .bg-white {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     border-radius: 0.75rem;
   }
   
-  /* Optimisation des grilles pour mobile */
   .grid {
     gap: 1rem;
   }
   
-  /* Optimisation du texte pour mobile */
   p {
     line-height: 1.6;
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
   
-  /* Optimisation des images pour mobile */
   img {
     max-width: 100%;
     height: auto;
@@ -532,7 +447,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 480px) {
-  /* Optimisations pour très petits écrans */
   h1 {
     font-size: 1.75rem;
   }
@@ -545,7 +459,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.25rem;
   }
   
-  /* Réduction des espacements */
   .p-8 {
     padding: 1rem;
   }
@@ -558,92 +471,70 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.5rem;
   }
   
-  /* Optimisation des marges */
-  .m-8 {
-    margin: 1rem;
-  }
-  
-  .m-6 {
-    margin: 0.75rem;
-  }
-  
-  .m-4 {
-    margin: 0.5rem;
-  }
-  
-  /* Optimisation des flex pour mobile */
-  .flex-col {
-    gap: 0.5rem;
-  }
-  
-  /* Optimisation des formulaires pour mobile */
   input, textarea, select {
-    font-size: 16px; /* Évite le zoom sur iOS */
+    font-size: 16px;
     padding: 12px;
     border-radius: 0.5rem;
   }
 }
 
-/* Button improvements optimisées */
+/* Améliorations des boutons avec support du thème sombre */
 button, .btn, .btn-animate, a[role="button"] {
   transition: box-shadow 0.2s, background 0.2s, color 0.2s, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+  box-shadow: 0 2px 8px rgb(var(--color-primary) / 0.08);
   font-weight: 600;
-  /* Éviter les débordements de texte */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 button:hover, .btn:hover, .btn-animate:hover, a[role="button"]:hover {
-  background: #2563eb;
+  background: rgb(var(--color-primary-dark));
   color: #fff;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 16px rgba(59,130,246,0.15);
+  box-shadow: 0 4px 16px rgb(var(--color-primary) / 0.15);
 }
 
 button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
-  outline: 2px solid #3B82F6;
+  outline: 2px solid rgb(var(--color-primary));
   outline-offset: 2px;
-  background: #1d4ed8;
+  background: rgb(var(--color-primary-dark));
   color: #fff;
-  box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+  box-shadow: 0 0 0 4px rgb(var(--color-primary) / 0.15);
 }
 
-/* Card improvements optimisées */
+/* Améliorations des cartes avec support du thème sombre */
 .bg-white {
-  background-color: #ffffff !important;
-  border: 1px solid #e2e8f0;
-  /* Éviter les débordements */
+  background-color: rgb(var(--bg-primary)) !important;
+  border: 1px solid rgb(var(--text-tertiary) / 0.2);
   overflow: hidden;
   word-wrap: break-word;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Border improvements */
+/* Améliorations des bordures */
 .border-gray-200 {
-  border-color: #e2e8f0 !important;
+  border-color: rgb(var(--text-tertiary) / 0.3) !important;
 }
 
 .border-gray-300 {
-  border-color: #cbd5e1 !important;
+  border-color: rgb(var(--text-tertiary) / 0.5) !important;
 }
 
 /* Optimisations critiques pour le LCP */
 @layer base {
-  /* Préchargement critique du contenu above-the-fold */
   .critical-content {
     contain: layout style paint;
     content-visibility: visible;
   }
   
-  /* Optimisation du rendu des gradients */
   .bg-gradient-to-br {
     background-attachment: scroll;
     will-change: auto;
   }
 }
 
-/* Responsive navigation optimisée */
+/* Navigation responsive optimisée */
 @media (max-width: 768px) {
   .navbar {
     padding: 0.5rem 1rem;
@@ -660,7 +551,7 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
   }
   
   .navbar-menu-content {
-    background: white;
+    background: rgb(var(--bg-primary));
     margin: 2rem;
     border-radius: 1rem;
     padding: 2rem;
@@ -669,93 +560,16 @@ button:focus, .btn:focus, .btn-animate:focus, a[role="button"]:focus {
   }
 }
 
-/* Optimisations pour les formulaires responsive */
-@media (max-width: 768px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .form-input {
-    width: 100%;
-    font-size: 16px; /* Évite le zoom sur iOS */
-  }
-  
-  .form-button {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1rem;
-  }
-}
-
-/* Optimisations pour les sections responsive */
-@media (max-width: 768px) {
-  section {
-    padding: 2rem 1rem;
-  }
-  
-  .section-title {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .section-content {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-}
-
-/* Optimisations pour les tableaux responsive */
-@media (max-width: 768px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  
-  .table-responsive {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Optimisations pour les modales responsive */
-@media (max-width: 768px) {
-  .modal {
-    margin: 1rem;
-    max-height: calc(100vh - 2rem);
-  }
-  
-  .modal-content {
-    padding: 1rem;
-    border-radius: 0.5rem;
-  }
-}
-
 /* Styles pour les sections et le défilement */
 section {
-  scroll-margin-top: 5rem; /* Espace pour la navbar fixe */
-  scroll-snap-margin-top: 5rem; /* Support pour les anciens navigateurs */
+  scroll-margin-top: 5rem;
+  scroll-snap-margin-top: 5rem;
   position: relative;
 }
 
-/* Amélioration du focus pour les éléments cibles */
 :target {
   scroll-margin-top: 5rem;
   scroll-snap-margin-top: 5rem;
-}
-
-/* Style pour les ancres masquées pour l'accessibilité */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
 }
 
 /* Optimisations pour éviter les débordements */
@@ -765,54 +579,20 @@ section {
   hyphens: auto;
 }
 
-/* Optimisations pour les listes responsive */
-@media (max-width: 768px) {
-  .list-responsive {
-    padding-left: 1rem;
-  }
-  
-  .list-responsive li {
-    margin-bottom: 0.5rem;
-    line-height: 1.5;
-  }
+/* Ombres portées optimisées */
+.drop-shadow-sm {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* Optimisations pour les icônes responsive */
-@media (max-width: 768px) {
-  .icon-responsive {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
+.drop-shadow-md {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-/* Optimisations pour les espacements responsive */
-@media (max-width: 768px) {
-  .space-y-8 > * + * {
-    margin-top: 1.5rem;
-  }
-  
-  .space-y-6 > * + * {
-    margin-top: 1rem;
-  }
-  
-  .space-y-4 > * + * {
-    margin-top: 0.75rem;
-  }
+.drop-shadow-lg {
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
 }
 
-/* Optimisations pour les polices responsive */
-@media (max-width: 768px) {
-  .text-responsive {
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-    line-height: 1.5;
-  }
-  
-  .title-responsive {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    line-height: 1.2;
-  }
-}
-
+/* Polices avec fallback métrique pour réduire le CLS */
 @font-face {
   font-family: 'Inter';
   src: url('/fonts/inter-v19-latin-regular.woff2') format('woff2');
@@ -820,7 +600,7 @@ section {
   font-style: normal;
   font-display: optional;
 }
-/* Metric-compatible fallback to reduce font swap CLS */
+
 @font-face {
   font-family: 'Inter Fallback';
   src: local('Arial');
@@ -829,6 +609,7 @@ section {
   line-gap-override: 0%;
   size-adjust: 107%;
 }
+
 @font-face {
   font-family: 'Inter';
   src: url('/fonts/inter-v19-latin-italic.woff2') format('woff2');
@@ -836,10 +617,48 @@ section {
   font-style: italic;
   font-display: optional;
 }
-/* Inter 700 weights are deferred via /fonts-700.css */
+
+/* Optimisation du texte LCP */
 #lcp-text {
   min-height: 24px;
   font-size: 1rem;
   line-height: 1.5;
   visibility: visible;
+}
+
+/* Classes utilitaires pour le thème sombre */
+.text-primary {
+  color: rgb(var(--text-primary));
+}
+
+.text-secondary {
+  color: rgb(var(--text-secondary));
+}
+
+.text-tertiary {
+  color: rgb(var(--text-tertiary));
+}
+
+.bg-primary {
+  background-color: rgb(var(--bg-primary));
+}
+
+.bg-secondary {
+  background-color: rgb(var(--bg-secondary));
+}
+
+.bg-tertiary {
+  background-color: rgb(var(--bg-tertiary));
+}
+
+/* Transitions globales pour le changement de thème */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Désactiver les transitions pendant le changement de thème initial */
+.theme-transition-disable * {
+  transition: none !important;
 }

@@ -5,7 +5,7 @@ const AteliersPro = () => {
   const ateliers = [
     {
       title: "Développement d'applications web",
-      icon: <Globe className="w-8 h-8 text-blue-500" />,
+      icon: <Globe className="w-8 h-8 text-blue-500 dark:text-blue-400" />,
       description: "Création d'applications web modernes avec React, PHP et bases de données",
       technologies: ["React", "PHP", "MySQL", "JavaScript"],
       projets: [
@@ -16,7 +16,7 @@ const AteliersPro = () => {
     },
     {
       title: "Programmation orientée objet",
-      icon: <Code2 className="w-8 h-8 text-green-500" />,
+      icon: <Code2 className="w-8 h-8 text-green-500 dark:text-green-400" />,
       description: "Maîtrise des concepts POO avec Java et C#",
       technologies: ["Java", "C#", "UML", "Design Patterns"],
       projets: [
@@ -27,7 +27,7 @@ const AteliersPro = () => {
     },
     {
       title: "Base de données",
-      icon: <Database className="w-8 h-8 text-purple-500" />,
+      icon: <Database className="w-8 h-8 text-purple-500 dark:text-purple-400" />,
       description: "Conception et administration de bases de données relationnelles",
       technologies: ["MySQL", "PostgreSQL", "SQL Server", "MongoDB"],
       projets: [
@@ -38,7 +38,7 @@ const AteliersPro = () => {
     },
     {
       title: "Développement mobile",
-      icon: <Smartphone className="w-8 h-8 text-orange-500" />,
+      icon: <Smartphone className="w-8 h-8 text-orange-500 dark:text-orange-400" />,
       description: "Création d'applications mobiles natives et hybrides",
       technologies: ["React Native", "Flutter", "Android Studio"],
       projets: [
@@ -49,7 +49,7 @@ const AteliersPro = () => {
     },
     {
       title: "Cybersécurité",
-      icon: <Shield className="w-8 h-8 text-red-500" />,
+      icon: <Shield className="w-8 h-8 text-red-500 dark:text-red-400" />,
       description: "Sécurisation des applications et protection des données",
       technologies: ["HTTPS", "JWT", "Cryptographie", "OWASP"],
       projets: [
@@ -60,7 +60,7 @@ const AteliersPro = () => {
     },
     {
       title: "Travail collaboratif",
-      icon: <Users className="w-8 h-8 text-indigo-500" />,
+      icon: <Users className="w-8 h-8 text-indigo-500 dark:text-indigo-400" />,
       description: "Gestion de projets en équipe avec méthodologies agiles",
       technologies: ["Git", "GitHub", "Scrum", "Jira"],
       projets: [
@@ -87,11 +87,12 @@ const AteliersPro = () => {
   };
 
   return (
-    <section id="ateliers" className="min-h-screen pt-16 scroll-mt-16 bg-white">
+    <section id="ateliers" className="min-h-screen pt-16 scroll-mt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Ateliers Professionnels</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Ateliers Professionnels</h2>
+          <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Les ateliers professionnels constituent le cœur de la formation BTS SIO. 
             Ils permettent de développer des compétences techniques et méthodologiques 
             à travers des projets concrets et variés.
@@ -100,19 +101,21 @@ const AteliersPro = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleAteliers.map((atelier, index) => (
-            <article key={index} className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+            <article key={index} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 group">
               <div className="flex items-center mb-4">
                 {atelier.icon}
-                <h3 className="text-xl font-bold ml-3 text-gray-900">{atelier.title}</h3>
+                <h3 className="text-xl font-bold ml-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {atelier.title}
+                </h3>
               </div>
               
-              <p className="text-gray-600 mb-4">{atelier.description}</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">{atelier.description}</p>
               
               <div className="mb-4">
-                <h4 className="font-semibold text-gray-800 mb-2">Technologies utilisées :</h4>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Technologies utilisées :</h4>
                 <div className="flex flex-wrap gap-2">
                   {atelier.technologies.map((tech, techIndex) => (
-                    <span key={techIndex} className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-sm">
+                    <span key={techIndex} className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-md text-sm border border-blue-200 dark:border-blue-700">
                       {tech}
                     </span>
                   ))}
@@ -120,8 +123,8 @@ const AteliersPro = () => {
               </div>
               
               <div>
-                <h4 className="font-semibold text-gray-800 mb-2">Projets réalisés :</h4>
-                <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Projets réalisés :</h4>
+                <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 text-sm space-y-1">
                   {atelier.projets.map((projet, projetIndex) => (
                     <li key={projetIndex}>{projet}</li>
                   ))}
@@ -136,19 +139,19 @@ const AteliersPro = () => {
             <button
               onClick={loadMore}
               disabled={isLoading}
-              className={`px-6 py-3 bg-blue-600 text-white rounded-lg font-medium transition ${isLoading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+              className={`px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg font-medium transition-colors ${isLoading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-blue-700 dark:hover:bg-blue-600'}`}
             >
               {isLoading ? 'Chargement...' : 'Voir plus d\'ateliers'}
             </button>
           </div>
         )}
 
-        <div className="mt-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white">
+        <div className="mt-16 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-4">Compétences développées</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h4 className="font-semibold mb-2">Compétences techniques :</h4>
-              <ul className="list-disc list-inside space-y-1">
+              <ul className="list-disc list-inside space-y-1 text-blue-100 dark:text-blue-200">
                 <li>Développement d'applications web et mobiles</li>
                 <li>Conception et administration de bases de données</li>
                 <li>Programmation orientée objet</li>
@@ -157,7 +160,7 @@ const AteliersPro = () => {
             </div>
             <div>
               <h4 className="font-semibold mb-2">Compétences transversales :</h4>
-              <ul className="list-disc list-inside space-y-1">
+              <ul className="list-disc list-inside space-y-1 text-blue-100 dark:text-blue-200">
                 <li>Gestion de projet</li>
                 <li>Travail en équipe</li>
                 <li>Documentation technique</li>

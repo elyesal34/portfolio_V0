@@ -17,7 +17,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 
   return (
     <div 
-      className={`w-full bg-gray-200 rounded-full h-2 mb-1 ${className}`}
+      className={`w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-1 transition-colors duration-300 ${className}`}
       role="progressbar"
       aria-valuenow={safeLevel}
       aria-valuemin={0}

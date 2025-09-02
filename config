@@ -76,8 +76,6 @@ const commonConfig = {
     'build', 
     'node_modules', 
     '**/*.d.ts', 
-    '**/*.config.js',
-    '**/*.config.ts',
     'public',
     'netlify',
     'dev-dist',
@@ -98,11 +96,9 @@ const commonConfig = {
     '**/test-utils/**',
     'runtime-init.js',
     'vite-custom-client.js',
-    'test-server.js',
-    'test-node.js',
-    'test-navigation.js',
-    'test-output.txt',
-    'vite-output.txt'
+    'test-*.js',
+    'test-*.txt',
+    'tests/**'
   ],
 };
 
