@@ -1,6 +1,6 @@
+import { Mail, Phone, MapPin, Linkedin, Github } from 'lucide-react';
 import { memo } from 'react';
 import { HashLink } from 'react-router-hash-link';
-import { Mail, Phone, MapPin, Linkedin, Github } from 'lucide-react';
 
 const Footer = memo(() => {
   const currentYear = new Date().getFullYear();

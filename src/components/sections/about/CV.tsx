@@ -1,8 +1,6 @@
 import { FileText, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Award, Code } from 'lucide-react';
 
 const CV = () => {
-  // Fix pour les icônes Lucide
-  const iconProps = { width: 20, height: 20, className: 'inline mr-2' };
   const formations = [
     {
       diplome: "BTS SIO option SLAM",

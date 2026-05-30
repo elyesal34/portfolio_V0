@@ -1,6 +1,6 @@
+import { Menu, X } from 'lucide-react';
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HashLink } from 'react-router-hash-link';
-import { Menu, X } from 'lucide-react';
 
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher';
 

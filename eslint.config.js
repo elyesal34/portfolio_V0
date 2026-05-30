@@ -1,9 +1,9 @@
 import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
+import a11y from 'eslint-plugin-jsx-a11y';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import a11y from 'eslint-plugin-jsx-a11y';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 

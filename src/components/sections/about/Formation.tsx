@@ -1,4 +1,4 @@
-import { GraduationCap, Calendar, MapPin, Award, BookOpen, Target } from 'lucide-react';
+import { GraduationCap, Calendar, MapPin, Award, Target } from 'lucide-react';
 
 const Formation = () => {
   const formations = [

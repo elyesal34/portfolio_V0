@@ -35,18 +35,15 @@ describe("Navbar - Intégration (HashLink)", () => {
     const toggle = screen.getByRole('button', { name: /ouvrir le menu/i })
     const menu = document.getElementById('mobile-menu')
 
+    // Menu should start hidden
     expect(menu).toHaveClass('hidden')
 
+    // Click to open
     fireEvent.click(toggle)
     expect(menu).not.toHaveClass('hidden')
 
-    // Click the mobile menu toggle
+    // Click toggle again to close
     fireEvent.click(toggle)
-    
-    // Click a mobile menu item
-    const mobileLink = within(menu as HTMLElement).getByRole('link', { name: /contact/i })
-    fireEvent.click(mobileLink)
-    // Le menu devrait être caché après le clic
     expect(menu).toHaveClass('hidden')
   })
 

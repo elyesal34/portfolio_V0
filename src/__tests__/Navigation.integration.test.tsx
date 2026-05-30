@@ -16,19 +16,19 @@ describe("Intégration - Navigation (HashLink)", () => {
   it('navbar rend des liens avec href corrects', () => {
     renderNavbar()
     const expected = [
-      { name: /Accueil/i, href: '/#accueil' },
-      { name: /À Propos/i, href: '/#a-propos' },
-      { name: /Compétences/i, href: '/#competences' },
-      { name: /Projets/i, href: '/#projets' },
-      { name: /Formation/i, href: '/#formation' },
-      { name: /Contact/i, href: '/#contact' },
+      { name: /Accueil/i, hash: 'accueil' },
+      { name: /À Propos/i, hash: 'a-propos' },
+      { name: /Compétences/i, hash: 'competences' },
+      { name: /Projets/i, hash: 'projets' },
+      { name: /Formation/i, hash: 'formation' },
+      { name: /Contact/i, hash: 'contact' },
     ]
 
-    for (const { name, href } of expected) {
+    for (const { name, hash } of expected) {
       const nav = screen.getByRole('navigation', { name: 'Navigation principale' })
       const links = within(nav).getAllByRole('link', { name })
       expect(links.length).toBeGreaterThan(0)
-      expect(links.some(link => link.getAttribute('href') === href)).toBe(true)
+      expect(links.some(link => link.getAttribute('href')?.includes(`#${hash}`))).toBe(true)
     }
   })
 

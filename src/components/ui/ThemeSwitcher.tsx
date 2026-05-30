@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function ThemeSwitcher() {
   const [darkMode, setDarkMode] = useState(false);
@@ -13,7 +13,7 @@ export default function ThemeSwitcher() {
       setDarkMode(savedTheme === "dark");
     } else {
       // Détection du thème système
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false;
       setDarkMode(prefersDark);
     }
   }, []);
